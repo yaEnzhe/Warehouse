@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.Enums;
 
 namespace WarehouseApp
 {
@@ -13,37 +14,9 @@ namespace WarehouseApp
         [STAThread]
         static void Main()
         {
-            using (UserContext db = new UserContext())
-            {
-                bool admin = false;
-                foreach (User user in db.Users)
-                {
-                    if (user.Role == Roles.Administrator)
-                    {
-                        admin = true;
-                        break;
-                    }
-                }
-                if (admin==false)
-                {
-                    var administrator = new User
-                    {
-                        Name = "Иванов",
-                        Surname = "Иван",
-                        Patronymic = "Иванович",
-                        Login = "admin",
-                        Role = Roles.Administrator,
-                        DateOfRegistration = DateTime.Now
-                    };
-                    string adminPassword = "admin666";
-                    administrator.SetPassword(administrator, adminPassword);
-                    db.Users.Add(administrator);
-                    db.SaveChanges();
-                }
-            }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            Application.Run(new Form1());
         }
     }
 }
