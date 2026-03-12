@@ -41,9 +41,16 @@ namespace WarehouseApp
                             DateOfRegistration = DateTime.Now
                         };
                         user1.HashPasswordBCrypt(user1, txtPassword.Text);
-                        db.Users.Add(user1);
-                        db.SaveChanges();
-                        MessageBox.Show(Properties.Resources.UserRegistered);
+                        try
+                        {
+                            db.Users.Add(user1);
+                            db.SaveChanges();
+                            MessageBox.Show(Properties.Resources.UserRegistered); 
+                        }
+                        catch
+                        {
+                            MessageBox.Show(Properties.Resources.DatabaseSavingException);
+                        }
                     }
                 }
             }

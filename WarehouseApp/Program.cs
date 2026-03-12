@@ -31,8 +31,15 @@ namespace WarehouseApp
                     };
                     string adminPassword = "admin666";
                     administrator.HashPasswordBCrypt(administrator, adminPassword);
-                    db.Users.Add(administrator);
-                    db.SaveChanges();
+                    try
+                    {
+                        db.Users.Add(administrator);
+                        db.SaveChanges(); 
+                    }
+                    catch
+                    {
+                        MessageBox.Show(Properties.Resources.DatabaseSavingException);
+                    }
                 }
             }
             Application.EnableVisualStyles();

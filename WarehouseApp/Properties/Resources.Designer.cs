@@ -61,6 +61,15 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка сохранения базы данных.
+        /// </summary>
+        internal static string DatabaseSavingException {
+            get {
+                return ResourceManager.GetString("DatabaseSavingException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Заполните все поля (отчество при наличии).
         /// </summary>
         internal static string FillTheFIelds {
