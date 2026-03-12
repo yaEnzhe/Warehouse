@@ -24,7 +24,7 @@ namespace WarehouseApp
                         break;
                     }
                 }
-                if (admin==false)
+                if (!admin)
                 {
                     var administrator = new User
                     {

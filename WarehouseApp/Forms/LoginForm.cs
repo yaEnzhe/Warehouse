@@ -25,7 +25,7 @@ namespace WarehouseApp
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            using (UserContext db = new UserContext())
+            using (var db = new UserContext())
             {
                 foreach(var user in db.Users)
                 {
@@ -38,7 +38,7 @@ namespace WarehouseApp
                     }
                     else
                     {
-                        MessageBox.Show("Неверно введен логин или пароль");
+                        MessageBox.Show(Properties.Resources.IncorrectLoginOrPassword);
                         break;
                     }
                 }

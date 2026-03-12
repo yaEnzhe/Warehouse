@@ -16,11 +16,11 @@ namespace WarehouseApp
         {
             if (string.IsNullOrWhiteSpace(txtName.Text) || string.IsNullOrWhiteSpace(txtSurname.Text) || string.IsNullOrWhiteSpace(txtLogin.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                MessageBox.Show("Заполните все поля (отчество при наличии)");
+                MessageBox.Show(Properties.Resources.FillTheFIelds);
             }
             else
             {
-                using (UserContext db = new UserContext())
+                using (var db = new UserContext())
                 {
                     var loginExists = false;
                     foreach(var user in db.Users)
@@ -31,13 +31,13 @@ namespace WarehouseApp
                             break;
                         }
                     }
-                    if(loginExists==true)
+                    if(loginExists)
                     {
-                        MessageBox.Show("Пользователь с таким логином уже есть");
+                        MessageBox.Show(Properties.Resources.UserAlreadyExists);
                     }
                     else
                     {
-                        User user1 = new User
+                        var user1 = new User
                         {
                             Name = txtName.Text,
                             Surname = txtSurname.Text,
@@ -49,7 +49,7 @@ namespace WarehouseApp
                         user1.SetPassword(user1, txtPassword.Text);
                         db.Users.Add(user1);
                         db.SaveChanges();
-                        MessageBox.Show("Вы зарегистрированы!");
+                        MessageBox.Show(Properties.Resources.UserRegistered);
                     }
                 }
             }
