@@ -47,9 +47,9 @@ namespace WarehouseApp
                             db.SaveChanges();
                             MessageBox.Show(Properties.Resources.UserRegistered); 
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            MessageBox.Show(Properties.Resources.DatabaseSavingException);
+                            MessageBox.Show(Properties.Resources.DatabaseSavingException + ex.Message);
                         }
                     }
                 }

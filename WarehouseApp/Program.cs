@@ -36,9 +36,9 @@ namespace WarehouseApp
                         db.Users.Add(administrator);
                         db.SaveChanges(); 
                     }
-                    catch
+                    catch(Exception ex) 
                     {
-                        MessageBox.Show(Properties.Resources.DatabaseSavingException);
+                        MessageBox.Show(Properties.Resources.DatabaseSavingException +ex.Message);
                     }
                 }
             }
