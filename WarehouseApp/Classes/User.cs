@@ -29,9 +29,9 @@ namespace WarehouseApp.Classes
         /// </summary>
         public string Login { get; set; }
         /// <summary>
-        /// Пароль пользователя
+        /// Хэшированный пароль пользователя
         /// </summary>
-        public string Password { get; private set; }
+        public string HashPassword { get; private set; }
         /// <summary>
         /// Роль пользователя в системе (администратор либо кладовщик)
         /// </summary>
@@ -42,13 +42,13 @@ namespace WarehouseApp.Classes
         public DateTime DateOfRegistration { get; set; }
 
         /// <summary>
-        /// Метод для хеширования и установки паролей
+        /// Метод для хэширования и установки паролей
         /// </summary>
         /// <param name="user"> пользователь </param> 
         /// <param name="text"> пароль заданный пользователем </param>
-        public void SetPassword(User user, string text)
+        public void HashPasswordBCrypt(User user, string text)
         {
-           user.Password = text;
+            user.HashPassword = BCrypt.Net.BCrypt.HashPassword(text);
         }
 
         /// <summary>
@@ -57,9 +57,9 @@ namespace WarehouseApp.Classes
         /// <param name="user"> пользователь </param>
         /// <param name="text"> пароль указанный пользователем </param>
         /// <returns></returns>
-        public bool CheckPassword(User user, string text)
+        public bool CheckPassword(User user, string password)
         {
-            return user.Password == text;
+            return BCrypt.Net.BCrypt.Verify(password, user.HashPassword);
         }
     }
 }

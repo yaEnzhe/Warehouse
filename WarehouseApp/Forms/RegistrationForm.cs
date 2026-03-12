@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using WarehouseApp.Classes;
 using WarehouseApp.Enums;
+using System.Linq;
 
 namespace WarehouseApp
 {
@@ -22,16 +23,9 @@ namespace WarehouseApp
             {
                 using (var db = new UserContext())
                 {
-                    var loginExists = false;
-                    foreach(var user in db.Users)
-                    {
-                        if(user.Login == txtLogin.Text)
-                        {
-                            loginExists = true; 
-                            break;
-                        }
-                    }
-                    if(loginExists)
+                    var query = from user in db.Users where user.Login == txtLogin.Text select user;
+                    var thisUser = query.FirstOrDefault();
+                    if (thisUser != null)
                     {
                         MessageBox.Show(Properties.Resources.UserAlreadyExists);
                     }
@@ -46,7 +40,7 @@ namespace WarehouseApp
                             Role = Roles.Storekeeper,
                             DateOfRegistration = DateTime.Now
                         };
-                        user1.SetPassword(user1, txtPassword.Text);
+                        user1.HashPasswordBCrypt(user1, txtPassword.Text);
                         db.Users.Add(user1);
                         db.SaveChanges();
                         MessageBox.Show(Properties.Resources.UserRegistered);

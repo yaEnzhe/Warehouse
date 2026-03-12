@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using WarehouseApp.Classes;
 using WarehouseApp.Enums;
+using System.Linq;
 
 namespace WarehouseApp
 {
@@ -15,16 +16,9 @@ namespace WarehouseApp
         {
             using (UserContext db = new UserContext())
             {
-                bool admin = false;
-                foreach (User user in db.Users)
-                {
-                    if (user.Role == Roles.Administrator)
-                    {
-                        admin = true;
-                        break;
-                    }
-                }
-                if (!admin)
+                var query = from user in db.Users where user.Role == Roles.Administrator select user;
+                var thisUser = query.FirstOrDefault();
+                if (thisUser == null)
                 {
                     var administrator = new User
                     {
@@ -36,7 +30,7 @@ namespace WarehouseApp
                         DateOfRegistration = DateTime.Now
                     };
                     string adminPassword = "admin666";
-                    administrator.SetPassword(administrator, adminPassword);
+                    administrator.HashPasswordBCrypt(administrator, adminPassword);
                     db.Users.Add(administrator);
                     db.SaveChanges();
                 }

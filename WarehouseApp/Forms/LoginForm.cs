@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
 using WarehouseApp.Forms;
@@ -27,20 +28,16 @@ namespace WarehouseApp
         {
             using (var db = new UserContext())
             {
-                foreach(var user in db.Users)
+                var query = from user in db.Users where user.Login == txtLogin.Text && user.CheckPassword(user, txtPassword.Text) select user;
+                var thisUser = query.FirstOrDefault();
+                if (thisUser != null)
                 {
-                    if (txtLogin.Text == user.Login && txtPassword.Text==user.Password)
-                    {
-                        var mainMenuForm = new MainMenuForm();
-
-                        mainMenuForm.ShowDialog();
-                        break;
-                    }
-                    else
-                    {
-                        MessageBox.Show(Properties.Resources.IncorrectLoginOrPassword);
-                        break;
-                    }
+                    var mainMenuForm = new MainMenuForm();
+                    mainMenuForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show(Properties.Resources.IncorrectLoginOrPassword);
                 }
             }
         }
