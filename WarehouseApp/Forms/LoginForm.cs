@@ -28,10 +28,10 @@ namespace WarehouseApp
         {
             using (var db = new UserContext())
             {
-                var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text && user.CheckPassword(user,txtPassword.Text));
-                if (thisUser != null)
+                var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
+                if (thisUser != null && thisUser.CheckPassword(thisUser, txtPassword.Text))
                 {
-                    var mainMenuForm = new MainMenuForm();
+                    var mainMenuForm = new btnExit();
                     mainMenuForm.ShowDialog();
                 }
                 else
