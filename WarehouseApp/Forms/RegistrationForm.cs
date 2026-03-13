@@ -23,8 +23,7 @@ namespace WarehouseApp
             {
                 using (var db = new UserContext())
                 {
-                    var query = from user in db.Users where user.Login == txtLogin.Text select user;
-                    var thisUser = query.FirstOrDefault();
+                    var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
                     if (thisUser != null)
                     {
                         MessageBox.Show(Properties.Resources.UserAlreadyExists);
@@ -47,9 +46,9 @@ namespace WarehouseApp
                             db.SaveChanges();
                             MessageBox.Show(Properties.Resources.UserRegistered); 
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            MessageBox.Show(Properties.Resources.DatabaseSavingException + ex.Message);
+                            MessageBox.Show(Properties.Resources.DatabaseSavingException);
                         }
                     }
                 }

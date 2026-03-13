@@ -28,8 +28,7 @@ namespace WarehouseApp
         {
             using (var db = new UserContext())
             {
-                var query = from user in db.Users where user.Login == txtLogin.Text && user.CheckPassword(user, txtPassword.Text) select user;
-                var thisUser = query.FirstOrDefault();
+                var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text && user.CheckPassword(user,txtPassword.Text));
                 if (thisUser != null)
                 {
                     var mainMenuForm = new MainMenuForm();

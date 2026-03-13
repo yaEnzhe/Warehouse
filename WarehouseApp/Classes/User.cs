@@ -11,7 +11,7 @@ namespace WarehouseApp.Classes
         /// <summary>
         /// Уникальный идентификатор пользователя
         /// </summary>
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// Имя пользователя
         /// </summary>

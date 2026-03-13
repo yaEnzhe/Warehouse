@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using WarehouseApp.Classes;
 using WarehouseApp.Enums;
 using System.Linq;
+using System.Data.Entity.Infrastructure.Interception;
 
 namespace WarehouseApp
 {
@@ -16,8 +17,7 @@ namespace WarehouseApp
         {
             using (UserContext db = new UserContext())
             {
-                var query = from user in db.Users where user.Role == Roles.Administrator select user;
-                var thisUser = query.FirstOrDefault();
+                var thisUser = db.Users.FirstOrDefault(user => user.Role == Roles.Administrator);
                 if (thisUser == null)
                 {
                     var administrator = new User
@@ -36,9 +36,10 @@ namespace WarehouseApp
                         db.Users.Add(administrator);
                         db.SaveChanges(); 
                     }
-                    catch(Exception ex) 
+                    catch
                     {
-                        MessageBox.Show(Properties.Resources.DatabaseSavingException +ex.Message);
+                        
+                        MessageBox.Show(Properties.Resources.DatabaseSavingException);
                     }
                 }
             }
