@@ -188,7 +188,6 @@
             this.Controls.Add(this.txtLogin);
             this.Controls.Add(this.txtLoginHeadline);
             this.Name = "RegistrationForm";
-            this.Text = "Регистрация";
             this.ResumeLayout(false);
             this.PerformLayout();
 

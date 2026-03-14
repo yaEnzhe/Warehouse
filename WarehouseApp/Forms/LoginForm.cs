@@ -21,7 +21,6 @@ namespace WarehouseApp
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -31,8 +30,16 @@ namespace WarehouseApp
                 var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
                 if (thisUser != null && thisUser.CheckPassword(thisUser, txtPassword.Text))
                 {
-                    var mainMenuForm = new btnExit();
-                    mainMenuForm.ShowDialog();
+                    if (thisUser.Role == Enums.Roles.Administrator)
+                    {
+                        var mainMenuAdminForm = new MainMenuAdminForm();
+                        mainMenuAdminForm.ShowDialog();
+                    }
+                    else if (thisUser.Role == Enums.Roles.Storekeeper)
+                    {
+                        var mainMenuStorekeeperForm = new MainMenuStorekeeperForm();
+                        mainMenuStorekeeperForm.ShowDialog();
+                    }
                 }
                 else
                 {
