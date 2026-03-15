@@ -68,9 +68,11 @@
             // 
             this.txtPassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtPassword.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtPassword.Location = new System.Drawing.Point(272, 337);
             this.txtPassword.Multiline = true;
             this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(257, 28);
             this.txtPassword.TabIndex = 7;
             // 
