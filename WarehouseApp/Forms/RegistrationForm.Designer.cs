@@ -79,9 +79,9 @@
             this.btnRegistration.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnRegistration.BackColor = System.Drawing.Color.OliveDrab;
             this.btnRegistration.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRegistration.Location = new System.Drawing.Point(312, 386);
+            this.btnRegistration.Location = new System.Drawing.Point(301, 386);
             this.btnRegistration.Name = "btnRegistration";
-            this.btnRegistration.Size = new System.Drawing.Size(179, 52);
+            this.btnRegistration.Size = new System.Drawing.Size(188, 52);
             this.btnRegistration.TabIndex = 8;
             this.btnRegistration.Text = "Зарегистрироваться";
             this.btnRegistration.UseVisualStyleBackColor = false;
