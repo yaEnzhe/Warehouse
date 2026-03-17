@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
 using WarehouseApp.Enums;
-using System.Linq;
 
 namespace WarehouseApp
 {
@@ -32,6 +34,7 @@ namespace WarehouseApp
                     {
                         var user1 = new User
                         {
+                            Id = Guid.NewGuid(),
                             Name = txtName.Text,
                             Surname = txtSurname.Text,
                             Patronymic = txtPatronymic.Text,
@@ -40,13 +43,17 @@ namespace WarehouseApp
                             DateOfRegistration = DateTime.Now
                         };
                         user1.HashPasswordBCrypt(user1, txtPassword.Text);
+                        if (string.IsNullOrEmpty(user1.Patronymic)) 
+                        {
+                            user1.Patronymic = null;
+                        }
                         try
                         {
                             db.Users.Add(user1);
                             db.SaveChanges();
                             MessageBox.Show(Properties.Resources.UserRegistered); 
                         }
-                        catch (Exception ex)
+                        catch (DbUpdateException ex)
                         {
                             Console.WriteLine(ex.Message);
                             MessageBox.Show(Properties.Resources.DatabaseSavingException);

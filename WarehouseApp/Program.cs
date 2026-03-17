@@ -22,6 +22,7 @@ namespace WarehouseApp
                 {
                     var administrator = new User
                     {
+                        Id = Guid.NewGuid(),
                         Name = "Иван",
                         Surname = "Иванов",
                         Patronymic = "Иванович",
