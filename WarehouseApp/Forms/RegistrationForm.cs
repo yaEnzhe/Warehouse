@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
 using WarehouseApp.Enums;
