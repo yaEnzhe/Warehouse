@@ -22,8 +22,8 @@ namespace WarehouseApp
                 {
                     var administrator = new User
                     {
-                        Name = "Иванов",
-                        Surname = "Иван",
+                        Name = "Иван",
+                        Surname = "Иванов",
                         Patronymic = "Иванович",
                         Login = "admin",
                         Role = Roles.Administrator,

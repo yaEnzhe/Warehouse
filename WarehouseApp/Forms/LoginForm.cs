@@ -30,14 +30,27 @@ namespace WarehouseApp
                 var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
                 if (thisUser != null && thisUser.CheckPassword(thisUser, txtPassword.Text))
                 {
+                    string userName = "";
+                    if (thisUser.Patronymic == null)
+                    {
+                        userName += thisUser.Name[0] + ". ";
+                        userName += thisUser.Surname;
+                    }
+                    else
+                    {
+                        userName += thisUser.Name[0] + ". ";
+                        userName += thisUser.Patronymic[0] + ". ";
+                        userName += thisUser.Surname;
+                    }
+                      
                     if (thisUser.Role == Enums.Roles.Administrator)
                     {
-                        var mainMenuAdminForm = new MainMenuAdminForm();
+                        var mainMenuAdminForm = new MainMenuAdminForm(userName);
                         mainMenuAdminForm.ShowDialog();
                     }
                     else if (thisUser.Role == Enums.Roles.Storekeeper)
                     {
-                        var mainMenuStorekeeperForm = new MainMenuStorekeeperForm();
+                        var mainMenuStorekeeperForm = new MainMenuStorekeeperForm(userName);
                         mainMenuStorekeeperForm.ShowDialog();
                     }
                 }
