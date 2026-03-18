@@ -19,10 +19,6 @@ namespace WarehouseApp
             registration.ShowDialog();
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-        }
-
         private void btnLogin_Click(object sender, EventArgs e)
         {
             using (var db = new UserContext())
@@ -42,7 +38,7 @@ namespace WarehouseApp
                         userName += thisUser.Patronymic[0] + ". ";
                         userName += thisUser.Surname;
                     }
-                      
+
                     if (thisUser.Role == Enums.Roles.Administrator)
                     {
                         var mainMenuAdminForm = new MainMenuAdminForm(userName);
