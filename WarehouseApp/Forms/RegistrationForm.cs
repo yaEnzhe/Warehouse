@@ -42,10 +42,7 @@ namespace WarehouseApp
                             DateOfRegistration = DateTime.Now
                         };
                         user1.HashPasswordBCrypt(user1, txtPassword.Text);
-                        if (string.IsNullOrEmpty(user1.Patronymic)) 
-                        {
-                            user1.Patronymic = null;
-                        }
+
                         try
                         {
                             db.Users.Add(user1);
