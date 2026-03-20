@@ -47,7 +47,8 @@ namespace WarehouseApp
                         {
                             db.Users.Add(user1);
                             db.SaveChanges();
-                            MessageBox.Show(Properties.Resources.UserRegistered); 
+                            MessageBox.Show(Properties.Resources.UserRegistered);
+                            Close();
                         }
                         catch (DbUpdateException ex)
                         {

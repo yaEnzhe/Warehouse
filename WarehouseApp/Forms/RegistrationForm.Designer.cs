@@ -189,6 +189,7 @@
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtLogin);
             this.Controls.Add(this.txtLoginHeadline);
+            this.MaximizeBox = false;
             this.Name = "RegistrationForm";
             this.ResumeLayout(false);
             this.PerformLayout();
