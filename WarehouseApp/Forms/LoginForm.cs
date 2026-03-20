@@ -41,13 +41,18 @@ namespace WarehouseApp
 
                     if (thisUser.Role == Enums.Roles.Administrator)
                     {
+                        
                         var mainMenuAdminForm = new MainMenuAdminForm(userName);
+                        Close();
                         mainMenuAdminForm.ShowDialog();
                     }
                     else if (thisUser.Role == Enums.Roles.Storekeeper)
                     {
+                        
                         var mainMenuStorekeeperForm = new MainMenuStorekeeperForm(userName);
+                        Close();
                         mainMenuStorekeeperForm.ShowDialog();
+                        
                     }
                 }
                 else
