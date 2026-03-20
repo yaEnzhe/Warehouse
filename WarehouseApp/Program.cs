@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Linq;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
+using WarehouseApp.ClassesContext;
 using WarehouseApp.Enums;
-using System.Linq;
-using System.Data.Entity.Infrastructure.Interception;
 
 namespace WarehouseApp
 {
@@ -15,7 +16,7 @@ namespace WarehouseApp
         [STAThread]
         static void Main()
         {
-            using (UserContext db = new UserContext())
+            using (WarehouseContext db = new WarehouseContext())
             {
                 var thisUser = db.Users.FirstOrDefault(user => user.Role == Roles.Administrator);
                 if (thisUser == null)
@@ -44,9 +45,16 @@ namespace WarehouseApp
                     }
                 }
             }
+            Database.SetInitializer(new CreateDatabaseIfNotExists<WarehouseContext>());
+            using (var context = new WarehouseContext())
+            {
+                context.Database.Initialize(true);
+            }
+
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+            Application.Run(new StartForm());
         }
     }
 }
