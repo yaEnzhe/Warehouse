@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-using WarehouseApp.Classes;
+using WarehouseApp.ClassesContext;
 using WarehouseApp.Forms;
 
 namespace WarehouseApp
@@ -21,7 +21,7 @@ namespace WarehouseApp
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            using (var db = new UserContext())
+            using (var db = new WarehouseContext())
             {
                 var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
                 if (thisUser != null && thisUser.CheckPassword(thisUser, txtPassword.Text))

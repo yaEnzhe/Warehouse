@@ -3,6 +3,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
+using WarehouseApp.ClassesContext;
 using WarehouseApp.Enums;
 
 namespace WarehouseApp
@@ -22,7 +23,7 @@ namespace WarehouseApp
             }
             else
             {
-                using (var db = new UserContext())
+                using (var db = new WarehouseContext())
                 {
                     var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
                     if (thisUser != null)
