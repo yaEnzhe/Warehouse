@@ -27,7 +27,7 @@ namespace WarehouseApp
                 if (thisUser != null && thisUser.CheckPassword(thisUser, txtPassword.Text))
                 {
                     string userName = "";
-                    if (thisUser.Patronymic == null)
+                    if (string.IsNullOrWhiteSpace(thisUser.Patronymic))
                     {
                         userName += thisUser.Name[0] + ". ";
                         userName += thisUser.Surname;
