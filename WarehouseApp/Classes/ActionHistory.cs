@@ -30,6 +30,9 @@ namespace WarehouseApp.Classes
         /// Уникальный идентификатор пользователя
         /// </summary>
         public Guid Id { get; set; }
+        /// <summary>
+        /// Ссылка на пользователя, совершившего действие
+        /// </summary>
         [ForeignKey("Id")]
         public User User { get; set; }
     }

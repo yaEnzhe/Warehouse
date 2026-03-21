@@ -31,6 +31,9 @@ namespace WarehouseApp.Classes
         /// Уникальный идентификатор клиента
         /// </summary>
         public Guid IdClients { get; set; }
+        /// <summary>
+        /// ссылка на клиента
+        /// </summary>
         [ForeignKey("IdClients")]
         public Clients Clients { get; set; }
     }

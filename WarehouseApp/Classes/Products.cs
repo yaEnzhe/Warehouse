@@ -34,12 +34,18 @@ namespace WarehouseApp.Classes
         /// уникальный идентификатор категории продукта
         /// </summary>
         public Guid IdCategories { get; set; }
+        /// <summary>
+        /// Ссылка на категорию
+        /// </summary>
         [ForeignKey("IdCategories")]
         public Categories Category { get; set; }
         /// <summary>
         /// уникальный идентификатор единицы измерения продукта
         /// </summary>
         public Guid IdUnitOfMeasure { get; set; }
+        /// <summary>
+        /// ссылка на единицу измерения
+        /// </summary>
         [ForeignKey("IdUnitOfMeasure")]
         public UnitOfMeasure UnitOfMeasure { get; set; }
     }

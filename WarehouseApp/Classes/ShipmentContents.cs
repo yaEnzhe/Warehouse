@@ -26,12 +26,18 @@ namespace WarehouseApp.Classes
         /// уникальный идентификатор поставки
         /// </summary>
         public Guid IdShipment { get; set; }
+        /// <summary>
+        /// ссылка на поставку
+        /// </summary>
         [ForeignKey("IdShipment")]
         public Shipment Shipment { get; set; }
         /// <summary>
         /// уникальный идентификатор продукта
         /// </summary>
         public Guid IdProducts { get; set; }
+        /// <summary>
+        /// ссылка на продукт
+        /// </summary>
         [ForeignKey("IdProducts")]
         public Products Product { get; set; }
     }
