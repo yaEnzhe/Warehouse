@@ -117,19 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DatabaseSavingException" xml:space="preserve">
-    <value>Ошибка сохранения базы данных</value>
-  </data>
-  <data name="FillTheFIelds" xml:space="preserve">
-    <value>Заполните все поля (отчество при наличии)</value>
-  </data>
-  <data name="IncorrectLoginOrPassword" xml:space="preserve">
-    <value>Неверный логин или пароль</value>
-  </data>
-  <data name="UserAlreadyExists" xml:space="preserve">
-    <value>Пользователь с таким логином уже есть</value>
-  </data>
-  <data name="UserRegistered" xml:space="preserve">
-    <value>Вы зарегистрированы!</value>
-  </data>
 </root>
