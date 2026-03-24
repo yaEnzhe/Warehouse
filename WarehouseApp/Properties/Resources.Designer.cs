@@ -104,5 +104,14 @@ namespace WarehouseApp.Properties {
                 return ResourceManager.GetString("UserRegistered", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Добро пожаловать, .
+        /// </summary>
+        internal static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
+            }
+        }
     }
 }

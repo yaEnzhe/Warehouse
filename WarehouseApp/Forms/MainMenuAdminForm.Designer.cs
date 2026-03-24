@@ -1,0 +1,188 @@
+﻿namespace WarehouseApp.Forms
+{
+    partial class MainMenuAdminForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.txtWarehouse = new System.Windows.Forms.TextBox();
+            this.txtWelcome = new System.Windows.Forms.TextBox();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.btnProducts = new System.Windows.Forms.Button();
+            this.btnShipment = new System.Windows.Forms.Button();
+            this.btnActionHistory = new System.Windows.Forms.Button();
+            this.txtYourRole = new System.Windows.Forms.TextBox();
+            this.txtRole = new System.Windows.Forms.TextBox();
+            this.txtDate = new System.Windows.Forms.TextBox();
+            this.SuspendLayout();
+            // 
+            // txtWarehouse
+            // 
+            this.txtWarehouse.BackColor = System.Drawing.Color.OliveDrab;
+            this.txtWarehouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtWarehouse.Location = new System.Drawing.Point(0, 0);
+            this.txtWarehouse.Multiline = true;
+            this.txtWarehouse.Name = "txtWarehouse";
+            this.txtWarehouse.ReadOnly = true;
+            this.txtWarehouse.Size = new System.Drawing.Size(302, 29);
+            this.txtWarehouse.TabIndex = 0;
+            this.txtWarehouse.Text = "Складской учёт канцелярии";
+            this.txtWarehouse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // txtWelcome
+            // 
+            this.txtWelcome.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtWelcome.BackColor = System.Drawing.Color.OliveDrab;
+            this.txtWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtWelcome.Location = new System.Drawing.Point(298, 0);
+            this.txtWelcome.Multiline = true;
+            this.txtWelcome.Name = "txtWelcome";
+            this.txtWelcome.ReadOnly = true;
+            this.txtWelcome.Size = new System.Drawing.Size(357, 29);
+            this.txtWelcome.TabIndex = 1;
+            this.txtWelcome.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // btnExit
+            // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.BackColor = System.Drawing.Color.Brown;
+            this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnExit.Location = new System.Drawing.Point(644, -6);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(156, 39);
+            this.btnExit.TabIndex = 2;
+            this.btnExit.Text = "Выйти";
+            this.btnExit.UseVisualStyleBackColor = false;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // btnProducts
+            // 
+            this.btnProducts.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnProducts.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnProducts.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnProducts.Location = new System.Drawing.Point(135, 120);
+            this.btnProducts.Name = "btnProducts";
+            this.btnProducts.Size = new System.Drawing.Size(167, 55);
+            this.btnProducts.TabIndex = 3;
+            this.btnProducts.Text = "ТОВАРЫ";
+            this.btnProducts.UseVisualStyleBackColor = false;
+            // 
+            // btnShipment
+            // 
+            this.btnShipment.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnShipment.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnShipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnShipment.Location = new System.Drawing.Point(488, 120);
+            this.btnShipment.Name = "btnShipment";
+            this.btnShipment.Size = new System.Drawing.Size(167, 55);
+            this.btnShipment.TabIndex = 4;
+            this.btnShipment.Text = "ОТГРУЗКИ";
+            this.btnShipment.UseVisualStyleBackColor = false;
+            // 
+            // btnActionHistory
+            // 
+            this.btnActionHistory.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnActionHistory.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnActionHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnActionHistory.Location = new System.Drawing.Point(298, 272);
+            this.btnActionHistory.Name = "btnActionHistory";
+            this.btnActionHistory.Size = new System.Drawing.Size(211, 55);
+            this.btnActionHistory.TabIndex = 5;
+            this.btnActionHistory.Text = "ИСТОРИЯ ДЕЙСТВИЙ";
+            this.btnActionHistory.UseVisualStyleBackColor = false;
+            // 
+            // txtYourRole
+            // 
+            this.txtYourRole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtYourRole.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.txtYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtYourRole.Location = new System.Drawing.Point(468, 424);
+            this.txtYourRole.Multiline = true;
+            this.txtYourRole.Name = "txtYourRole";
+            this.txtYourRole.ReadOnly = true;
+            this.txtYourRole.Size = new System.Drawing.Size(122, 30);
+            this.txtYourRole.TabIndex = 6;
+            this.txtYourRole.Text = "Ваша роль:";
+            // 
+            // txtRole
+            // 
+            this.txtRole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtRole.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.txtRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtRole.Location = new System.Drawing.Point(583, 424);
+            this.txtRole.Multiline = true;
+            this.txtRole.Name = "txtRole";
+            this.txtRole.ReadOnly = true;
+            this.txtRole.Size = new System.Drawing.Size(217, 30);
+            this.txtRole.TabIndex = 7;
+            this.txtRole.Text = "Администратор";
+            // 
+            // txtDate
+            // 
+            this.txtDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtDate.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.txtDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtDate.Location = new System.Drawing.Point(0, 424);
+            this.txtDate.Multiline = true;
+            this.txtDate.Name = "txtDate";
+            this.txtDate.ReadOnly = true;
+            this.txtDate.Size = new System.Drawing.Size(260, 30);
+            this.txtDate.TabIndex = 9;
+            // 
+            // MainMenuAdminForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txtDate);
+            this.Controls.Add(this.txtRole);
+            this.Controls.Add(this.txtYourRole);
+            this.Controls.Add(this.btnActionHistory);
+            this.Controls.Add(this.btnShipment);
+            this.Controls.Add(this.btnProducts);
+            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.txtWelcome);
+            this.Controls.Add(this.txtWarehouse);
+            this.MaximizeBox = false;
+            this.Name = "MainMenuAdminForm";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TextBox txtWarehouse;
+        private System.Windows.Forms.TextBox txtWelcome;
+        private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnProducts;
+        private System.Windows.Forms.Button btnShipment;
+        private System.Windows.Forms.Button btnActionHistory;
+        private System.Windows.Forms.TextBox txtYourRole;
+        private System.Windows.Forms.TextBox txtRole;
+        private System.Windows.Forms.TextBox txtDate;
+    }
+}

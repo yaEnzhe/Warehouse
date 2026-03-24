@@ -73,6 +73,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassesContext\WarehouseContext.cs" />
+    <Compile Include="Classes\ActionHistory.cs" />
+    <Compile Include="Classes\Categories.cs" />
+    <Compile Include="Classes\Clients.cs" />
+    <Compile Include="Classes\Products.cs" />
+    <Compile Include="Classes\Shipment.cs" />
+    <Compile Include="Classes\ShipmentContents.cs" />
+    <Compile Include="Classes\UnitOfMeasure.cs" />
+    <Compile Include="Enums\ShipmentStatus.cs" />
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +89,12 @@
     </Compile>
     <Compile Include="Classes\User.cs" />
     <Compile Include="Enums\Roles.cs" />
+    <Compile Include="Forms\MainMenuStorekeeperForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainMenuStorekeeperForm.Designer.cs">
+      <DependentUpon>MainMenuStorekeeperForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\StartForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,14 +104,8 @@
     <Compile Include="Forms\MainMenuAdminForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MainMenuForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainMenuForm.Designer.cs">
-      <DependentUpon>MainMenuForm.cs</DependentUpon>
+    <Compile Include="Forms\MainMenuAdminForm.Designer.cs">
+      <DependentUpon>MainMenuAdminForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,6 +117,12 @@
     </Compile>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainMenuAdminForm.resx">
+      <DependentUpon>MainMenuAdminForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainMenuStorekeeperForm.resx">
+      <DependentUpon>MainMenuStorekeeperForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
