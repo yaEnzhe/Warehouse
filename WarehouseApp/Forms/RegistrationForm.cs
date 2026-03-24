@@ -8,8 +8,14 @@ using WarehouseApp.Enums;
 
 namespace WarehouseApp
 {
+    /// <summary>
+    /// Класс формы регистрации
+    /// </summary>
     public partial class RegistrationForm : Form
     {
+        /// <summary>
+        /// конструктор класса формы регистрации
+        /// </summary>
         public RegistrationForm()
         {
             InitializeComponent();

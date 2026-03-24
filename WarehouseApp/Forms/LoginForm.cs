@@ -6,8 +6,14 @@ using WarehouseApp.Forms;
 
 namespace WarehouseApp
 {
+    /// <summary>
+    /// класс формы авторизации
+    /// </summary>
     public partial class LoginForm : Form
     {
+        /// <summary>
+        /// конструктор класса формы авторизации
+        /// </summary>
         public LoginForm()
         {
             InitializeComponent();

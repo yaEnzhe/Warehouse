@@ -132,4 +132,7 @@
   <data name="UserRegistered" xml:space="preserve">
     <value>Вы зарегистрированы!</value>
   </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Добро пожаловать, </value>
+  </data>
 </root>

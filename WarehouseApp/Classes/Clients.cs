@@ -17,8 +17,5 @@ namespace WarehouseApp.Classes
         /// Имя(название) клиента
         /// </summary>
         public string NameClients { get; set; }
-        /// <summary>
-        /// поставка
-        /// </summary>
     }
 }
