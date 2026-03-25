@@ -35,7 +35,7 @@
             // btnStart
             // 
             this.btnStart.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnStart.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnStart.BackColor = System.Drawing.Color.LimeGreen;
             this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnStart.ForeColor = System.Drawing.SystemColors.Window;
             this.btnStart.Location = new System.Drawing.Point(242, 209);
@@ -50,7 +50,7 @@
             // 
             this.txtStartHeadline.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtStartHeadline.BackColor = System.Drawing.Color.OliveDrab;
+            this.txtStartHeadline.BackColor = System.Drawing.Color.LimeGreen;
             this.txtStartHeadline.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtStartHeadline.ForeColor = System.Drawing.SystemColors.Window;
             this.txtStartHeadline.Location = new System.Drawing.Point(-4, -1);

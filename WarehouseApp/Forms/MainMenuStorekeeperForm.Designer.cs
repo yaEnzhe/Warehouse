@@ -50,6 +50,7 @@
             this.txtDate.ReadOnly = true;
             this.txtDate.Size = new System.Drawing.Size(260, 30);
             this.txtDate.TabIndex = 17;
+            this.txtDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtRole
             // 
@@ -79,11 +80,12 @@
             this.txtYourRole.Size = new System.Drawing.Size(122, 30);
             this.txtYourRole.TabIndex = 15;
             this.txtYourRole.Text = "Ваша роль:";
+            this.txtYourRole.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnShipment
             // 
             this.btnShipment.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnShipment.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnShipment.BackColor = System.Drawing.Color.ForestGreen;
             this.btnShipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnShipment.Location = new System.Drawing.Point(488, 121);
             this.btnShipment.Name = "btnShipment";
@@ -95,7 +97,7 @@
             // btnProducts
             // 
             this.btnProducts.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnProducts.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnProducts.BackColor = System.Drawing.Color.ForestGreen;
             this.btnProducts.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnProducts.Location = new System.Drawing.Point(135, 121);
             this.btnProducts.Name = "btnProducts";
@@ -109,9 +111,9 @@
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.BackColor = System.Drawing.Color.Brown;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnExit.Location = new System.Drawing.Point(644, -5);
+            this.btnExit.Location = new System.Drawing.Point(695, -5);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(156, 39);
+            this.btnExit.Size = new System.Drawing.Size(105, 39);
             this.btnExit.TabIndex = 11;
             this.btnExit.Text = "Выйти";
             this.btnExit.UseVisualStyleBackColor = false;
@@ -120,27 +122,27 @@
             // txtWelcome
             // 
             this.txtWelcome.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtWelcome.BackColor = System.Drawing.Color.OliveDrab;
+            this.txtWelcome.BackColor = System.Drawing.Color.LimeGreen;
             this.txtWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtWelcome.Location = new System.Drawing.Point(298, 1);
+            this.txtWelcome.Location = new System.Drawing.Point(336, 1);
             this.txtWelcome.Multiline = true;
             this.txtWelcome.Name = "txtWelcome";
             this.txtWelcome.ReadOnly = true;
-            this.txtWelcome.Size = new System.Drawing.Size(357, 29);
+            this.txtWelcome.Size = new System.Drawing.Size(364, 29);
             this.txtWelcome.TabIndex = 10;
             this.txtWelcome.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtWarehouse
             // 
-            this.txtWarehouse.BackColor = System.Drawing.Color.OliveDrab;
+            this.txtWarehouse.BackColor = System.Drawing.Color.LimeGreen;
             this.txtWarehouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtWarehouse.Location = new System.Drawing.Point(0, 1);
             this.txtWarehouse.Multiline = true;
             this.txtWarehouse.Name = "txtWarehouse";
             this.txtWarehouse.ReadOnly = true;
-            this.txtWarehouse.Size = new System.Drawing.Size(302, 29);
+            this.txtWarehouse.Size = new System.Drawing.Size(338, 29);
             this.txtWarehouse.TabIndex = 9;
-            this.txtWarehouse.Text = "Складской учёт канцелярии";
+            this.txtWarehouse.Text = "Складской учет канцелярии";
             this.txtWarehouse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainMenuStorekeeperForm

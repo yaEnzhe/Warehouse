@@ -59,30 +59,31 @@
             // 
             this.txtLogin.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtLogin.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.txtLogin.Location = new System.Drawing.Point(272, 262);
-            this.txtLogin.Multiline = true;
+            this.txtLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtLogin.Location = new System.Drawing.Point(263, 262);
             this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(257, 27);
+            this.txtLogin.Size = new System.Drawing.Size(279, 30);
             this.txtLogin.TabIndex = 5;
+            this.txtLogin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLogin_KeyPress);
             // 
             // txtPassword
             // 
             this.txtPassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtPassword.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtPassword.Location = new System.Drawing.Point(272, 337);
-            this.txtPassword.Multiline = true;
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtPassword.Location = new System.Drawing.Point(263, 337);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(257, 28);
+            this.txtPassword.Size = new System.Drawing.Size(279, 30);
             this.txtPassword.TabIndex = 7;
+            this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPassword_KeyPress);
             // 
             // btnRegistration
             // 
             this.btnRegistration.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnRegistration.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnRegistration.BackColor = System.Drawing.Color.ForestGreen;
             this.btnRegistration.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRegistration.Location = new System.Drawing.Point(291, 386);
+            this.btnRegistration.Location = new System.Drawing.Point(301, 386);
             this.btnRegistration.Name = "btnRegistration";
             this.btnRegistration.Size = new System.Drawing.Size(199, 52);
             this.btnRegistration.TabIndex = 8;
@@ -109,11 +110,12 @@
             // 
             this.txtName.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtName.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.txtName.Location = new System.Drawing.Point(272, 40);
-            this.txtName.Multiline = true;
+            this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtName.Location = new System.Drawing.Point(263, 40);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(257, 27);
+            this.txtName.Size = new System.Drawing.Size(279, 30);
             this.txtName.TabIndex = 10;
+            this.txtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // txtSurnameHeadline
             // 
@@ -132,11 +134,12 @@
             // 
             this.txtSurname.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtSurname.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.txtSurname.Location = new System.Drawing.Point(272, 116);
-            this.txtSurname.Multiline = true;
+            this.txtSurname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtSurname.Location = new System.Drawing.Point(263, 116);
             this.txtSurname.Name = "txtSurname";
-            this.txtSurname.Size = new System.Drawing.Size(257, 27);
+            this.txtSurname.Size = new System.Drawing.Size(279, 30);
             this.txtSurname.TabIndex = 12;
+            this.txtSurname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSurname_KeyPress);
             // 
             // txtPatronymicHeadline
             // 
@@ -155,11 +158,12 @@
             // 
             this.txtPatronymic.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtPatronymic.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.txtPatronymic.Location = new System.Drawing.Point(272, 190);
-            this.txtPatronymic.Multiline = true;
+            this.txtPatronymic.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtPatronymic.Location = new System.Drawing.Point(263, 190);
             this.txtPatronymic.Name = "txtPatronymic";
-            this.txtPatronymic.Size = new System.Drawing.Size(257, 27);
+            this.txtPatronymic.Size = new System.Drawing.Size(279, 30);
             this.txtPatronymic.TabIndex = 14;
+            this.txtPatronymic.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPatronymic_KeyPress);
             // 
             // txtPasswordHeadline
             // 
@@ -178,9 +182,9 @@
             // 
             this.btnBack.BackColor = System.Drawing.Color.Firebrick;
             this.btnBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnBack.Location = new System.Drawing.Point(0, 1);
+            this.btnBack.Location = new System.Drawing.Point(2, 1);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(85, 32);
+            this.btnBack.Size = new System.Drawing.Size(112, 33);
             this.btnBack.TabIndex = 16;
             this.btnBack.Text = "Назад";
             this.btnBack.UseVisualStyleBackColor = false;
