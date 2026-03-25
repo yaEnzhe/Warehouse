@@ -41,39 +41,37 @@
             // 
             this.txtLogin.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtLogin.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.txtLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtLogin.Location = new System.Drawing.Point(267, 148);
-            this.txtLogin.Multiline = true;
             this.txtLogin.Name = "txtLogin";
-            this.txtLogin.Size = new System.Drawing.Size(257, 40);
+            this.txtLogin.Size = new System.Drawing.Size(257, 38);
             this.txtLogin.TabIndex = 0;
             // 
             // txtPassword
             // 
             this.txtPassword.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtPassword.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtPassword.Location = new System.Drawing.Point(267, 248);
-            this.txtPassword.Multiline = true;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(257, 41);
+            this.txtPassword.Size = new System.Drawing.Size(257, 38);
             this.txtPassword.TabIndex = 1;
             // 
             // txtWarehouseHeadline
             // 
             this.txtWarehouseHeadline.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtWarehouseHeadline.BackColor = System.Drawing.Color.OliveDrab;
+            this.txtWarehouseHeadline.BackColor = System.Drawing.Color.LimeGreen;
             this.txtWarehouseHeadline.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtWarehouseHeadline.ForeColor = System.Drawing.SystemColors.Window;
-            this.txtWarehouseHeadline.Location = new System.Drawing.Point(70, 17);
+            this.txtWarehouseHeadline.Location = new System.Drawing.Point(96, 12);
             this.txtWarehouseHeadline.Multiline = true;
             this.txtWarehouseHeadline.Name = "txtWarehouseHeadline";
             this.txtWarehouseHeadline.ReadOnly = true;
-            this.txtWarehouseHeadline.Size = new System.Drawing.Size(660, 32);
+            this.txtWarehouseHeadline.Size = new System.Drawing.Size(595, 32);
             this.txtWarehouseHeadline.TabIndex = 2;
-            this.txtWarehouseHeadline.Text = "СКЛАДСКОЙ УЧЁТ КАНЦЕЛЯРИИ";
+            this.txtWarehouseHeadline.Text = "СКЛАДСКОЙ УЧЕТ КАНЦЕЛЯРИИ";
             this.txtWarehouseHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtLoginHeadline
@@ -103,9 +101,9 @@
             // btnLogin
             // 
             this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnLogin.BackColor = System.Drawing.Color.OliveDrab;
-            this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnLogin.Location = new System.Drawing.Point(70, 368);
+            this.btnLogin.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnLogin.Location = new System.Drawing.Point(43, 389);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(161, 40);
             this.btnLogin.TabIndex = 5;
@@ -116,9 +114,9 @@
             // btnRegistration
             // 
             this.btnRegistration.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnRegistration.BackColor = System.Drawing.Color.OliveDrab;
-            this.btnRegistration.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnRegistration.Location = new System.Drawing.Point(569, 368);
+            this.btnRegistration.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnRegistration.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnRegistration.Location = new System.Drawing.Point(604, 389);
             this.btnRegistration.Name = "btnRegistration";
             this.btnRegistration.Size = new System.Drawing.Size(161, 40);
             this.btnRegistration.TabIndex = 6;
