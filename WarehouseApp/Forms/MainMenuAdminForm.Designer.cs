@@ -92,6 +92,7 @@
             this.btnShipment.TabIndex = 4;
             this.btnShipment.Text = "ОТГРУЗКИ";
             this.btnShipment.UseVisualStyleBackColor = false;
+            this.btnShipment.Click += new System.EventHandler(this.btnShipment_Click);
             // 
             // btnActionHistory
             // 
@@ -104,6 +105,7 @@
             this.btnActionHistory.TabIndex = 5;
             this.btnActionHistory.Text = "История действий";
             this.btnActionHistory.UseVisualStyleBackColor = false;
+            this.btnActionHistory.Click += new System.EventHandler(this.btnActionHistory_Click);
             // 
             // txtDate
             // 

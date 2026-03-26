@@ -66,6 +66,7 @@
             this.btnShipment.TabIndex = 13;
             this.btnShipment.Text = "ОТГРУЗКИ";
             this.btnShipment.UseVisualStyleBackColor = false;
+            this.btnShipment.Click += new System.EventHandler(this.btnShipment_Click);
             // 
             // btnProducts
             // 
@@ -133,7 +134,7 @@
             this.labelYourRole.AutoSize = true;
             this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(571, 424);
+            this.labelYourRole.Location = new System.Drawing.Point(550, 424);
             this.labelYourRole.Name = "labelYourRole";
             this.labelYourRole.Size = new System.Drawing.Size(115, 25);
             this.labelYourRole.TabIndex = 19;
@@ -144,7 +145,7 @@
             this.labelStorekeeper.AutoSize = true;
             this.labelStorekeeper.BackColor = System.Drawing.Color.LightSeaGreen;
             this.labelStorekeeper.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelStorekeeper.Location = new System.Drawing.Point(683, 424);
+            this.labelStorekeeper.Location = new System.Drawing.Point(671, 424);
             this.labelStorekeeper.Name = "labelStorekeeper";
             this.labelStorekeeper.Size = new System.Drawing.Size(117, 25);
             this.labelStorekeeper.TabIndex = 20;

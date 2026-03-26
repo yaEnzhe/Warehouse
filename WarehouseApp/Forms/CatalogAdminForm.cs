@@ -15,6 +15,7 @@ namespace WarehouseApp.Forms
     public partial class CatalogAdminForm : Form
     {
         private BindingList<Products> _allProducts;
+        private User _currentUser;
         /// <summary>
         /// Конструктор каталога товаров админа
         /// </summary>
