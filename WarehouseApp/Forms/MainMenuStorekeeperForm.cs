@@ -28,5 +28,17 @@ namespace WarehouseApp.Forms
         {
             Close();
         }
+
+        private void btnProducts_Click(object sender, EventArgs e)
+        {
+            var catalog = new CatalogStorekeeperForm();
+            catalog.ShowDialog();
+        }
+
+        private void btnShipment_Click(object sender, EventArgs e)
+        {
+            var shipmentForm = new ShipmentFormStorekeeper();
+            shipmentForm.ShowDialog();
+        }
     }
 }

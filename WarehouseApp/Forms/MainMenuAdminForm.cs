@@ -28,6 +28,24 @@ namespace WarehouseApp.Forms
         {
             Close();
         }
+
+        private void btnProducts_Click(object sender, EventArgs e)
+        {
+            var catalog = new CatalogAdminForm();
+            catalog.ShowDialog();
+        }
+
+        private void btnShipment_Click(object sender, EventArgs e)
+        {
+            var shipmentForm = new ShipmentFormAdmin();
+            shipmentForm.ShowDialog();
+        }
+
+        private void btnActionHistory_Click(object sender, EventArgs e)
+        {
+            var changesForm = new ChangesAdmin();
+            changesForm.ShowDialog();
+        }
     }
 }
 

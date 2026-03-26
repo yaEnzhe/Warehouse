@@ -67,5 +67,20 @@ namespace WarehouseApp
                 }
             }
         }
+
+        private void txtLoginHeadline_Enter(object sender, EventArgs e)
+        {
+            txtLogin.Focus();
+        }
+
+        private void txtPasswordHeadline_Enter(object sender, EventArgs e)
+        {
+            txtPassword.Focus();
+        }
+
+        private void txtWarehouseHeadline_Enter(object sender, EventArgs e)
+        {
+            txtLogin.Focus();
+        }
     }
 }

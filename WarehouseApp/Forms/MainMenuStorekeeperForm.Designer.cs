@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             this.txtDate = new System.Windows.Forms.TextBox();
-            this.txtRole = new System.Windows.Forms.TextBox();
-            this.txtYourRole = new System.Windows.Forms.TextBox();
             this.btnShipment = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.txtWelcome = new System.Windows.Forms.TextBox();
-            this.txtWarehouse = new System.Windows.Forms.TextBox();
+            this.panelHeadline = new System.Windows.Forms.Panel();
+            this.labelHeadline = new System.Windows.Forms.Label();
+            this.labelYourRole = new System.Windows.Forms.Label();
+            this.labelStorekeeper = new System.Windows.Forms.Label();
+            this.panelHeadline.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtDate
@@ -50,37 +52,8 @@
             this.txtDate.ReadOnly = true;
             this.txtDate.Size = new System.Drawing.Size(260, 30);
             this.txtDate.TabIndex = 17;
+            this.txtDate.TabStop = false;
             this.txtDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtRole
-            // 
-            this.txtRole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtRole.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.txtRole.Cursor = System.Windows.Forms.Cursors.No;
-            this.txtRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtRole.Location = new System.Drawing.Point(583, 425);
-            this.txtRole.Multiline = true;
-            this.txtRole.Name = "txtRole";
-            this.txtRole.ReadOnly = true;
-            this.txtRole.Size = new System.Drawing.Size(217, 30);
-            this.txtRole.TabIndex = 16;
-            this.txtRole.Text = "Кладовщик";
-            this.txtRole.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // txtYourRole
-            // 
-            this.txtYourRole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtYourRole.BackColor = System.Drawing.SystemColors.ScrollBar;
-            this.txtYourRole.Cursor = System.Windows.Forms.Cursors.No;
-            this.txtYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtYourRole.Location = new System.Drawing.Point(468, 425);
-            this.txtYourRole.Multiline = true;
-            this.txtYourRole.Name = "txtYourRole";
-            this.txtYourRole.ReadOnly = true;
-            this.txtYourRole.Size = new System.Drawing.Size(122, 30);
-            this.txtYourRole.TabIndex = 15;
-            this.txtYourRole.Text = "Ваша роль:";
-            this.txtYourRole.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnShipment
             // 
@@ -93,6 +66,7 @@
             this.btnShipment.TabIndex = 13;
             this.btnShipment.Text = "ОТГРУЗКИ";
             this.btnShipment.UseVisualStyleBackColor = false;
+            this.btnShipment.Click += new System.EventHandler(this.btnShipment_Click);
             // 
             // btnProducts
             // 
@@ -105,6 +79,7 @@
             this.btnProducts.TabIndex = 12;
             this.btnProducts.Text = "ТОВАРЫ";
             this.btnProducts.UseVisualStyleBackColor = false;
+            this.btnProducts.Click += new System.EventHandler(this.btnProducts_Click);
             // 
             // btnExit
             // 
@@ -124,42 +99,75 @@
             this.txtWelcome.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.txtWelcome.BackColor = System.Drawing.Color.LimeGreen;
             this.txtWelcome.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtWelcome.Location = new System.Drawing.Point(336, 1);
+            this.txtWelcome.Location = new System.Drawing.Point(360, -5);
             this.txtWelcome.Multiline = true;
             this.txtWelcome.Name = "txtWelcome";
             this.txtWelcome.ReadOnly = true;
-            this.txtWelcome.Size = new System.Drawing.Size(364, 29);
+            this.txtWelcome.Size = new System.Drawing.Size(340, 35);
             this.txtWelcome.TabIndex = 10;
+            this.txtWelcome.TabStop = false;
             this.txtWelcome.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // txtWarehouse
+            // panelHeadline
             // 
-            this.txtWarehouse.BackColor = System.Drawing.Color.LimeGreen;
-            this.txtWarehouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtWarehouse.Location = new System.Drawing.Point(0, 1);
-            this.txtWarehouse.Multiline = true;
-            this.txtWarehouse.Name = "txtWarehouse";
-            this.txtWarehouse.ReadOnly = true;
-            this.txtWarehouse.Size = new System.Drawing.Size(338, 29);
-            this.txtWarehouse.TabIndex = 9;
-            this.txtWarehouse.Text = "Складской учет канцелярии";
-            this.txtWarehouse.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.panelHeadline.BackColor = System.Drawing.Color.LimeGreen;
+            this.panelHeadline.Controls.Add(this.labelHeadline);
+            this.panelHeadline.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panelHeadline.Location = new System.Drawing.Point(0, 1);
+            this.panelHeadline.Name = "panelHeadline";
+            this.panelHeadline.Size = new System.Drawing.Size(371, 29);
+            this.panelHeadline.TabIndex = 18;
+            // 
+            // labelHeadline
+            // 
+            this.labelHeadline.AutoSize = true;
+            this.labelHeadline.BackColor = System.Drawing.Color.LimeGreen;
+            this.labelHeadline.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelHeadline.Location = new System.Drawing.Point(62, 0);
+            this.labelHeadline.Name = "labelHeadline";
+            this.labelHeadline.Size = new System.Drawing.Size(248, 22);
+            this.labelHeadline.TabIndex = 10;
+            this.labelHeadline.Text = "Складской учет канцелярии";
+            // 
+            // labelYourRole
+            // 
+            this.labelYourRole.AutoSize = true;
+            this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelYourRole.Location = new System.Drawing.Point(550, 424);
+            this.labelYourRole.Name = "labelYourRole";
+            this.labelYourRole.Size = new System.Drawing.Size(115, 25);
+            this.labelYourRole.TabIndex = 19;
+            this.labelYourRole.Text = "Ваша роль:";
+            // 
+            // labelStorekeeper
+            // 
+            this.labelStorekeeper.AutoSize = true;
+            this.labelStorekeeper.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.labelStorekeeper.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelStorekeeper.Location = new System.Drawing.Point(671, 424);
+            this.labelStorekeeper.Name = "labelStorekeeper";
+            this.labelStorekeeper.Size = new System.Drawing.Size(117, 25);
+            this.labelStorekeeper.TabIndex = 20;
+            this.labelStorekeeper.Text = "Кладовщик";
             // 
             // MainMenuStorekeeperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelStorekeeper);
+            this.Controls.Add(this.labelYourRole);
+            this.Controls.Add(this.panelHeadline);
             this.Controls.Add(this.txtDate);
-            this.Controls.Add(this.txtRole);
-            this.Controls.Add(this.txtYourRole);
             this.Controls.Add(this.btnShipment);
             this.Controls.Add(this.btnProducts);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.txtWelcome);
-            this.Controls.Add(this.txtWarehouse);
             this.MaximizeBox = false;
             this.Name = "MainMenuStorekeeperForm";
+            this.panelHeadline.ResumeLayout(false);
+            this.panelHeadline.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,12 +176,13 @@
         #endregion
 
         private System.Windows.Forms.TextBox txtDate;
-        private System.Windows.Forms.TextBox txtRole;
-        private System.Windows.Forms.TextBox txtYourRole;
         private System.Windows.Forms.Button btnShipment;
         private System.Windows.Forms.Button btnProducts;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.TextBox txtWelcome;
-        private System.Windows.Forms.TextBox txtWarehouse;
+        private System.Windows.Forms.Panel panelHeadline;
+        private System.Windows.Forms.Label labelHeadline;
+        private System.Windows.Forms.Label labelYourRole;
+        private System.Windows.Forms.Label labelStorekeeper;
     }
 }

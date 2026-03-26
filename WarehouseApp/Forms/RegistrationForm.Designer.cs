@@ -52,8 +52,10 @@
             this.txtLoginHeadline.ReadOnly = true;
             this.txtLoginHeadline.Size = new System.Drawing.Size(209, 22);
             this.txtLoginHeadline.TabIndex = 4;
+            this.txtLoginHeadline.TabStop = false;
             this.txtLoginHeadline.Text = "Введите логин";
             this.txtLoginHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLoginHeadline.Enter += new System.EventHandler(this.txtLoginHeadline_Enter);
             // 
             // txtLogin
             // 
@@ -103,8 +105,10 @@
             this.txtNameHeadline.ReadOnly = true;
             this.txtNameHeadline.Size = new System.Drawing.Size(209, 22);
             this.txtNameHeadline.TabIndex = 9;
+            this.txtNameHeadline.TabStop = false;
             this.txtNameHeadline.Text = "Введите имя";
             this.txtNameHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtNameHeadline.Enter += new System.EventHandler(this.txtNameHeadline_Enter);
             // 
             // txtName
             // 
@@ -127,8 +131,10 @@
             this.txtSurnameHeadline.ReadOnly = true;
             this.txtSurnameHeadline.Size = new System.Drawing.Size(209, 22);
             this.txtSurnameHeadline.TabIndex = 11;
+            this.txtSurnameHeadline.TabStop = false;
             this.txtSurnameHeadline.Text = "Введите фамилию";
             this.txtSurnameHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSurnameHeadline.Enter += new System.EventHandler(this.txtSurnameHeadline_Enter);
             // 
             // txtSurname
             // 
@@ -151,8 +157,10 @@
             this.txtPatronymicHeadline.ReadOnly = true;
             this.txtPatronymicHeadline.Size = new System.Drawing.Size(209, 22);
             this.txtPatronymicHeadline.TabIndex = 13;
+            this.txtPatronymicHeadline.TabStop = false;
             this.txtPatronymicHeadline.Text = "Введите отчество";
             this.txtPatronymicHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPatronymicHeadline.Enter += new System.EventHandler(this.txtPatronymicHeadline_Enter);
             // 
             // txtPatronymic
             // 
@@ -175,8 +183,10 @@
             this.txtPasswordHeadline.ReadOnly = true;
             this.txtPasswordHeadline.Size = new System.Drawing.Size(209, 22);
             this.txtPasswordHeadline.TabIndex = 15;
+            this.txtPasswordHeadline.TabStop = false;
             this.txtPasswordHeadline.Text = "Введите пароль";
             this.txtPasswordHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPasswordHeadline.Enter += new System.EventHandler(this.txtPasswordHeadline_Enter);
             // 
             // btnBack
             // 

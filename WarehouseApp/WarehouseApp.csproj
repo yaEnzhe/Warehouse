@@ -81,6 +81,24 @@
     <Compile Include="Classes\ShipmentContents.cs" />
     <Compile Include="Classes\UnitOfMeasure.cs" />
     <Compile Include="Enums\ShipmentStatus.cs" />
+    <Compile Include="Forms\CatalogAdminForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CatalogAdminForm.Designer.cs">
+      <DependentUpon>CatalogAdminForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CatalogStorekeeperForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CatalogStorekeeperForm.Designer.cs">
+      <DependentUpon>CatalogStorekeeperForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ChangesAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChangesAdmin.Designer.cs">
+      <DependentUpon>ChangesAdmin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +113,12 @@
     <Compile Include="Forms\MainMenuStorekeeperForm.Designer.cs">
       <DependentUpon>MainMenuStorekeeperForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ShipmentFormStorekeeper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShipmentFormStorekeeper.Designer.cs">
+      <DependentUpon>ShipmentFormStorekeeper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\StartForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +131,12 @@
     <Compile Include="Forms\MainMenuAdminForm.Designer.cs">
       <DependentUpon>MainMenuAdminForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ShipmentFormAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ShipmentFormAdmin.Designer.cs">
+      <DependentUpon>ShipmentFormAdmin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\RegistrationForm.cs">
@@ -115,6 +145,25 @@
     <Compile Include="Forms\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="warehouseDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>warehouseDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="warehouseDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>warehouseDataSet1.xsd</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\CatalogAdminForm.resx">
+      <DependentUpon>CatalogAdminForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CatalogStorekeeperForm.resx">
+      <DependentUpon>CatalogStorekeeperForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChangesAdmin.resx">
+      <DependentUpon>ChangesAdmin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StartForm.resx">
       <DependentUpon>StartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShipmentFormAdmin.resx">
+      <DependentUpon>ShipmentFormAdmin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -150,6 +202,28 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="warehouseDataSet.xsc">
+      <DependentUpon>warehouseDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="warehouseDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>warehouseDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="warehouseDataSet.xss">
+      <DependentUpon>warehouseDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="warehouseDataSet1.xsc">
+      <DependentUpon>warehouseDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="warehouseDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>warehouseDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="warehouseDataSet1.xss">
+      <DependentUpon>warehouseDataSet1.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -71,8 +71,10 @@
             this.txtWarehouseHeadline.ReadOnly = true;
             this.txtWarehouseHeadline.Size = new System.Drawing.Size(595, 32);
             this.txtWarehouseHeadline.TabIndex = 2;
+            this.txtWarehouseHeadline.TabStop = false;
             this.txtWarehouseHeadline.Text = "СКЛАДСКОЙ УЧЕТ КАНЦЕЛЯРИИ";
             this.txtWarehouseHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtWarehouseHeadline.Enter += new System.EventHandler(this.txtWarehouseHeadline_Enter);
             // 
             // txtLoginHeadline
             // 
@@ -83,8 +85,10 @@
             this.txtLoginHeadline.ReadOnly = true;
             this.txtLoginHeadline.Size = new System.Drawing.Size(209, 22);
             this.txtLoginHeadline.TabIndex = 3;
+            this.txtLoginHeadline.TabStop = false;
             this.txtLoginHeadline.Text = "Введите логин";
             this.txtLoginHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtLoginHeadline.Enter += new System.EventHandler(this.txtLoginHeadline_Enter);
             // 
             // txtPasswordHeadline
             // 
@@ -95,8 +99,10 @@
             this.txtPasswordHeadline.ReadOnly = true;
             this.txtPasswordHeadline.Size = new System.Drawing.Size(209, 22);
             this.txtPasswordHeadline.TabIndex = 4;
+            this.txtPasswordHeadline.TabStop = false;
             this.txtPasswordHeadline.Text = "Введите пароль";
             this.txtPasswordHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPasswordHeadline.Enter += new System.EventHandler(this.txtPasswordHeadline_Enter);
             // 
             // btnLogin
             // 
