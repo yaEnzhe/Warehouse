@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
 using WarehouseApp.ClassesContext;
@@ -29,34 +26,23 @@ namespace WarehouseApp.Forms
         {
             using (var db = new WarehouseContext())
             {
-                // Настройка внешнего вида таблицы
                 dgv.BorderStyle = BorderStyle.None;
                 dgv.EnableHeadersVisualStyles = false;
                 dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
                 dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
                 dgv.RowTemplate.Height = 30;
                 dgv.GridColor = Color.Black;
-
-                // === ГЛАВНЫЕ НАСТРОЙКИ ДЛЯ КЛАДОВЩИКА ===
-                dgv.ReadOnly = true; // Запрещаем редактирование любых ячеек
-                dgv.AllowUserToAddRows = false; // Запрещаем пустую строку снизу
-                dgv.AllowUserToDeleteRows = false; // Запрещаем удаление кнопкой Del
-                dgv.RowHeadersVisible = false; // Можно скрыть боковой заголовок строки
-                dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect; // Выделять всю строку сразу
-                // ==========================================
-
+                dgv.ReadOnly = true; 
+                dgv.AllowUserToAddRows = false; 
+                dgv.AllowUserToDeleteRows = false; 
+                dgv.RowHeadersVisible = false;
+                dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect; 
                 dgv.AutoGenerateColumns = false;
-
-                // 1. Артикул
                 dgv.Columns.Add("Article", "Артикул");
                 dgv.Columns["Article"].DataPropertyName = "Article";
-
-                // 2. Название
                 dgv.Columns.Add("NameProduct", "Название");
                 dgv.Columns["NameProduct"].DataPropertyName = "NameProduct";
-                dgv.Columns["NameProduct"].Width = 200; // Можно задать ширину
-
-                // 3. Категория (ComboBox используется для подстановки имени вместо ID)
+                dgv.Columns["NameProduct"].Width = 200; 
                 var comboCol = new DataGridViewComboBoxColumn();
                 comboCol.Name = "Category";
                 comboCol.HeaderText = "Категория";
@@ -64,59 +50,86 @@ namespace WarehouseApp.Forms
                 comboCol.DisplayMember = "NameCategory";
                 comboCol.ValueMember = "IdCategories";
                 comboCol.DataPropertyName = "IdCategories";
-                comboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing; // Выглядит как текст, без стрелочки
+                comboCol.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing; 
                 dgv.Columns.Add(comboCol);
-
-                // 4. Ед. измерения
                 var comboUnit = new DataGridViewComboBoxColumn();
                 comboUnit.Name = "UnitOfMeasure";
                 comboUnit.HeaderText = "Ед. изм.";
                 comboUnit.DataSource = db.UnitOfMeasure.ToList();
                 comboUnit.DisplayMember = "NameUnit";
-                comboUnit.ValueMember = "IdUnit"; // ID в таблице справочника
-
-                // ! ВНИМАНИЕ: Убедись, что поле в Products называется именно так (IdUnit или IdUnitOfMeasure)
+                comboUnit.ValueMember = "IdUnit"; 
                 comboUnit.DataPropertyName = "IdUnit";
-
-                comboUnit.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing; // Выглядит как текст
+                comboUnit.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing; 
                 dgv.Columns.Add(comboUnit);
-
-                // 5. Цена (можно скрыть от кладовщика, если нужно, закомментировав эти строки)
                 dgv.Columns.Add("Price", "Цена");
                 dgv.Columns["Price"].DataPropertyName = "Price";
-
-                // 6. Остаток
                 dgv.Columns.Add("Stock", "Остаток");
                 dgv.Columns["Stock"].DataPropertyName = "Stock";
-
-                // Обработчик ошибок данных (чтобы не вылетали исключения при отрисовке ComboBox)
                 dgv.DataError += dgv_DataError;
-
                 LoadData();
             }
         }
         private void LoadData()
         {
-                try
+            try
+            {
+                using (var db = new WarehouseContext())
                 {
-                    using (var db = new WarehouseContext())
-                    {
-                        // AsNoTracking() ускоряет загрузку, так как нам не нужно отслеживать изменения для сохранения
-                        var data = db.Products
-                            .AsNoTracking()
-                            .Include("Category")
-                            .Include("UnitOfMeasure")
-                            .ToList();
+                    var data = db.Products
+                        .AsNoTracking()
+                        .Include("Category")
+                        .Include("UnitOfMeasure")
+                        .ToList();
 
-                        _allProducts = new BindingList<Products>(data);
-                    }
-                    dgv.DataSource = _allProducts;
+                    _allProducts = new BindingList<Products>(data);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ошибка при загрузке данных: " + ex.Message);
-                }
+                dgv.DataSource = _allProducts;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                MessageBox.Show("Ошибка при загрузке данных: ");
             }
 
+
         }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (_allProducts == null) return;
+
+            var searchText = textBoxSearch.Text.ToLower().Trim();
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                dgv.DataSource = _allProducts;
+            }
+            else
+            {
+                var filteredList = _allProducts.Where(p =>
+                    (p.NameProduct != null && p.NameProduct.ToLower().Contains(searchText)) ||
+                    (p.Article.ToString().ToLower().Contains(searchText)) ||
+                    (p.Category != null &&
+                     p.Category.NameCategory != null &&
+                     p.Category.NameCategory.ToLower().Contains(searchText)) ||
+                    (p.UnitOfMeasure != null &&
+                     p.UnitOfMeasure.NameUnit != null &&
+                     p.UnitOfMeasure.NameUnit.ToLower().Contains(searchText))
+                ).ToList();
+
+                dgv.DataSource = filteredList;
+            }
+        }
+
+        private void buttonForBack_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.Cancel = false;
+            e.ThrowException = false;
+        }
+    }
 }
+

@@ -72,6 +72,7 @@
             this.buttonForBack.TabIndex = 1;
             this.buttonForBack.Text = "Назад";
             this.buttonForBack.UseVisualStyleBackColor = false;
+            this.buttonForBack.Click += new System.EventHandler(this.buttonForBack_Click);
             // 
             // dgv
             // 
@@ -102,6 +103,7 @@
             this.textBoxSearch.Name = "textBoxSearch";
             this.textBoxSearch.Size = new System.Drawing.Size(384, 22);
             this.textBoxSearch.TabIndex = 1;
+            this.textBoxSearch.TextChanged += new System.EventHandler(this.textBoxSearch_TextChanged);
             // 
             // labelSearch
             // 

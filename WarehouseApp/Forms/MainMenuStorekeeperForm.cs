@@ -31,7 +31,7 @@ namespace WarehouseApp.Forms
 
         private void btnProducts_Click(object sender, EventArgs e)
         {
-            var catalog = new CatalogAdminForm();
+            var catalog = new CatalogStorekeeperForm();
             catalog.ShowDialog();
         }
     }

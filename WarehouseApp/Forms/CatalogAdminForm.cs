@@ -225,7 +225,6 @@ namespace WarehouseApp.Forms
         }
         private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
-            // Просто ничего не делаем, чтобы не показывать стандартное окно ошибки
             e.Cancel = false;
             e.ThrowException = false;
         }
