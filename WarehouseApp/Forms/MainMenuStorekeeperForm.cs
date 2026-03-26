@@ -28,5 +28,11 @@ namespace WarehouseApp.Forms
         {
             Close();
         }
+
+        private void btnProducts_Click(object sender, EventArgs e)
+        {
+            var catalog = new CatalogAdminForm();
+            catalog.ShowDialog();
+        }
     }
 }

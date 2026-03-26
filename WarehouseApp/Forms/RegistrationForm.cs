@@ -126,5 +126,30 @@ namespace WarehouseApp
                 e.Handled = true;
             }
         }
+
+        private void txtNameHeadline_Enter(object sender, EventArgs e)
+        {
+            txtName.Focus();
+        }
+
+        private void txtSurnameHeadline_Enter(object sender, EventArgs e)
+        {
+            txtSurname.Focus();
+        }
+
+        private void txtPatronymicHeadline_Enter(object sender, EventArgs e)
+        {
+            txtPatronymic.Focus();
+        }
+
+        private void txtLoginHeadline_Enter(object sender, EventArgs e)
+        {
+            txtLogin.Focus();
+        }
+
+        private void txtPasswordHeadline_Enter(object sender, EventArgs e)
+        {
+            txtPassword.Focus();
+        }
     }
 }

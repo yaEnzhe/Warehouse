@@ -22,5 +22,7 @@ namespace WarehouseApp
             var loginForm = new LoginForm();
             loginForm.Show();
         }
+
+
     }
 }
