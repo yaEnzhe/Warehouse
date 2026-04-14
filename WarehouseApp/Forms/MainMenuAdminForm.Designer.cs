@@ -31,7 +31,6 @@
             this.txtWelcome = new System.Windows.Forms.TextBox();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
-            this.btnShipment = new System.Windows.Forms.Button();
             this.btnActionHistory = new System.Windows.Forms.Button();
             this.txtDate = new System.Windows.Forms.TextBox();
             this.labelHeadline = new System.Windows.Forms.Label();
@@ -81,25 +80,12 @@
             this.btnProducts.UseVisualStyleBackColor = false;
             this.btnProducts.Click += new System.EventHandler(this.btnProducts_Click);
             // 
-            // btnShipment
-            // 
-            this.btnShipment.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnShipment.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnShipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnShipment.Location = new System.Drawing.Point(503, 120);
-            this.btnShipment.Name = "btnShipment";
-            this.btnShipment.Size = new System.Drawing.Size(162, 55);
-            this.btnShipment.TabIndex = 4;
-            this.btnShipment.Text = "ОТГРУЗКИ";
-            this.btnShipment.UseVisualStyleBackColor = false;
-            this.btnShipment.Click += new System.EventHandler(this.btnShipment_Click);
-            // 
             // btnActionHistory
             // 
             this.btnActionHistory.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnActionHistory.BackColor = System.Drawing.Color.ForestGreen;
             this.btnActionHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnActionHistory.Location = new System.Drawing.Point(270, 272);
+            this.btnActionHistory.Location = new System.Drawing.Point(453, 120);
             this.btnActionHistory.Name = "btnActionHistory";
             this.btnActionHistory.Size = new System.Drawing.Size(233, 55);
             this.btnActionHistory.TabIndex = 5;
@@ -120,6 +106,7 @@
             this.txtDate.TabIndex = 9;
             this.txtDate.TabStop = false;
             this.txtDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtDate.TextChanged += new System.EventHandler(this.txtDate_TextChanged);
             // 
             // labelHeadline
             // 
@@ -174,12 +161,12 @@
             this.Controls.Add(this.panelHeadline);
             this.Controls.Add(this.txtDate);
             this.Controls.Add(this.btnActionHistory);
-            this.Controls.Add(this.btnShipment);
             this.Controls.Add(this.btnProducts);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.txtWelcome);
             this.MaximizeBox = false;
             this.Name = "MainMenuAdminForm";
+            this.Load += new System.EventHandler(this.MainMenuAdminForm_Load);
             this.panelHeadline.ResumeLayout(false);
             this.panelHeadline.PerformLayout();
             this.ResumeLayout(false);
@@ -191,7 +178,6 @@
         private System.Windows.Forms.TextBox txtWelcome;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnProducts;
-        private System.Windows.Forms.Button btnShipment;
         private System.Windows.Forms.Button btnActionHistory;
         private System.Windows.Forms.TextBox txtDate;
         private System.Windows.Forms.Label labelHeadline;

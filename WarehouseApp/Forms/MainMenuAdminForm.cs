@@ -46,6 +46,16 @@ namespace WarehouseApp.Forms
             var changesForm = new ChangesAdmin();
             changesForm.ShowDialog();
         }
+
+        private void MainMenuAdminForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDate_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

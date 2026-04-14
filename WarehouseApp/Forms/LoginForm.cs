@@ -82,5 +82,10 @@ namespace WarehouseApp
         {
             txtLogin.Focus();
         }
+
+        private void txtWarehouseHeadline_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

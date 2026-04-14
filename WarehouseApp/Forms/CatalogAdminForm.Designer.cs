@@ -2,15 +2,8 @@
 {
     partial class CatalogAdminForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,14 +15,9 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             this.panelTop = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.labelTop = new System.Windows.Forms.Label();
             this.buttonForBack = new System.Windows.Forms.Button();
             this.buttonToAddGood = new System.Windows.Forms.Button();
@@ -39,7 +27,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
             this.labelSearch = new System.Windows.Forms.Label();
-            this.buttonSave = new System.Windows.Forms.Button();
+            this.btnAddCategory = new System.Windows.Forms.Button();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.panel1.SuspendLayout();
@@ -48,22 +36,12 @@
             // panelTop
             // 
             this.panelTop.BackColor = System.Drawing.Color.LimeGreen;
-            this.panelTop.Controls.Add(this.button1);
             this.panelTop.Controls.Add(this.labelTop);
             this.panelTop.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.panelTop.Location = new System.Drawing.Point(173, -5);
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(386, 47);
             this.panelTop.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(385, 9);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(247, 37);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // labelTop
             // 
@@ -170,24 +148,25 @@
             this.labelSearch.TabIndex = 0;
             this.labelSearch.Text = "Поиск";
             // 
-            // buttonSave
+            // btnAddCategory
             // 
-            this.buttonSave.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.buttonSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonSave.Location = new System.Drawing.Point(357, 408);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(124, 35);
-            this.buttonSave.TabIndex = 7;
-            this.buttonSave.Text = "Сохранить";
-            this.buttonSave.UseVisualStyleBackColor = false;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.btnAddCategory.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.btnAddCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnAddCategory.Location = new System.Drawing.Point(654, 48);
+            this.btnAddCategory.Name = "btnAddCategory";
+            this.btnAddCategory.Size = new System.Drawing.Size(134, 38);
+            this.btnAddCategory.TabIndex = 8;
+            this.btnAddCategory.Text = "+ Категория";
+            this.btnAddCategory.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnAddCategory.UseVisualStyleBackColor = false;
+            this.btnAddCategory.Click += new System.EventHandler(this.btnAddCategory_Click);
             // 
             // CatalogAdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.btnAddCategory);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.buttonForEdit);
             this.Controls.Add(this.buttonForDelete);
@@ -211,7 +190,6 @@
 
         private System.Windows.Forms.Panel panelTop;
         private System.Windows.Forms.Label labelTop;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonForBack;
         private System.Windows.Forms.Button buttonToAddGood;
         private System.Windows.Forms.DataGridView dgv;
@@ -220,6 +198,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelSearch;
         private System.Windows.Forms.TextBox textBoxSearch;
-        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button btnAddCategory;
     }
 }

@@ -17,7 +17,7 @@ namespace WarehouseApp.Classes
         /// <summary>
         /// артикул продукта
         /// </summary>
-        public Guid Article { get; set; }
+        public string Article { get; set; }
         /// <summary>
         /// название продукта
         /// </summary>

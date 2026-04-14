@@ -74,6 +74,7 @@
             this.txtWarehouseHeadline.TabStop = false;
             this.txtWarehouseHeadline.Text = "СКЛАДСКОЙ УЧЕТ КАНЦЕЛЯРИИ";
             this.txtWarehouseHeadline.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtWarehouseHeadline.TextChanged += new System.EventHandler(this.txtWarehouseHeadline_TextChanged);
             this.txtWarehouseHeadline.Enter += new System.EventHandler(this.txtWarehouseHeadline_Enter);
             // 
             // txtLoginHeadline

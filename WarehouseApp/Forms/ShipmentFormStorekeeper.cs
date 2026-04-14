@@ -71,6 +71,15 @@ namespace WarehouseApp.Forms
                 ReadOnly = true,
                 DefaultCellStyle = { ForeColor = Color.Gray }
             });
+            dgv.ReadOnly = true;
+            foreach (DataGridViewColumn col in dgv.Columns)
+            {
+                if (col.HeaderText == "Цена за шт.")
+                {
+                    col.ReadOnly = true;
+                    col.DefaultCellStyle.BackColor = Color.LightGray;
+                }
+            }
             SetupAutoComplete();
         }
         private void SetupAutoComplete()
@@ -88,7 +97,7 @@ namespace WarehouseApp.Forms
                     txtSearch.AutoCompleteCustomSource = source;
                 }
             }
-            catch { /* Игнорируем ошибки, если база недоступна */ }
+            catch { }
         }
         private void buttonDeleteRow_Click(object sender, EventArgs e)
         {
@@ -159,23 +168,42 @@ namespace WarehouseApp.Forms
 
         private void buttonToHold_Click(object sender, EventArgs e)
         {
+            DateTime shipmentDate = datePicker.Value;
+
+            if (shipmentDate < DateTime.Today)
+            {
+                MessageBox.Show("Дата отгрузки не может быть в прошлом!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (shipmentDate > DateTime.Today.AddYears(1))
+            {
+                MessageBox.Show("Дата отгрузки не может быть так нескоро!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (_cartList.Count == 0)
             {
                 MessageBox.Show("Список товаров пуст!");
                 return;
             }
-
             string clientName = txtCustomer.Text.Trim();
             if (string.IsNullOrEmpty(clientName))
             {
                 MessageBox.Show("Заполните поле 'Кому'!");
                 return;
             }
-
             try
             {
                 using (var db = new WarehouseContext())
                 {
+                    foreach (var item in _cartList)
+                    {
+                        var productExists = db.Products.Any(p => p.IdProducts == item.ProductId);
+                        if (!productExists)
+                        {
+                            MessageBox.Show($"Ошибка: Товар '{item.ProductName}' отсутствует в каталоге!\nОтгрузка невозможна.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
                     var client = db.Clients.FirstOrDefault(c => c.NameClients == clientName);
 
                     if (client == null)
@@ -193,24 +221,24 @@ namespace WarehouseApp.Forms
                         IdShipment = Guid.NewGuid(),
                         DateOfShipment = datePicker.Value,
                         IdClients = client.IdClients,
-
                         PriceShipment = _cartList.Sum(x => x.TotalSum),
                         Status = ShipmentStatus.Shipped
                     };
 
                     db.Shipments.Add(newShipment);
+
                     foreach (var item in _cartList)
                     {
                         var productDb = db.Products.Find(item.ProductId);
                         if (productDb != null)
                         {
                             productDb.Stock -= item.Quantity;
+
                             var content = new ShipmentContents
                             {
                                 IdShipmentContents = Guid.NewGuid(),
                                 IdShipment = newShipment.IdShipment,
                                 IdProducts = productDb.IdProducts,
-
                                 QuantityShipmentContents = item.Quantity,
                                 PriceShipmentContents = item.TotalSum
                             };
@@ -218,6 +246,7 @@ namespace WarehouseApp.Forms
                             db.ShipmentContents.Add(content);
                         }
                     }
+
                     db.SaveChanges();
                     MessageBox.Show("Отгрузка успешно проведена!");
                     _cartList.Clear();
@@ -231,8 +260,7 @@ namespace WarehouseApp.Forms
                 MessageBox.Show("Ошибка сохранения: " + msg);
             }
         }
-
-
+            
         private void buttonToDeleteShipment_Click(object sender, EventArgs e)
         {
             if (_cartList.Count > 0)

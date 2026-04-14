@@ -45,6 +45,7 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
@@ -99,6 +100,7 @@
     <Compile Include="Forms\ChangesAdmin.Designer.cs">
       <DependentUpon>ChangesAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\LoginFormManager.cs" />
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +114,12 @@
     </Compile>
     <Compile Include="Forms\MainMenuStorekeeperForm.Designer.cs">
       <DependentUpon>MainMenuStorekeeperForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InputCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InputCategoryForm.Designer.cs">
+      <DependentUpon>InputCategoryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ShipmentFormStorekeeper.cs">
       <SubType>Form</SubType>
@@ -137,6 +145,15 @@
     <Compile Include="Forms\ShipmentFormAdmin.Designer.cs">
       <DependentUpon>ShipmentFormAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202603291034238_InitialCreate.cs" />
+    <Compile Include="Migrations\202603291034238_InitialCreate.Designer.cs">
+      <DependentUpon>202603291034238_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604061655573_FixActionHistories.cs" />
+    <Compile Include="Migrations\202604061655573_FixActionHistories.Designer.cs">
+      <DependentUpon>202604061655573_FixActionHistories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\RegistrationForm.cs">
@@ -173,11 +190,20 @@
     <EmbeddedResource Include="Forms\MainMenuStorekeeperForm.resx">
       <DependentUpon>MainMenuStorekeeperForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InputCategoryForm.resx">
+      <DependentUpon>InputCategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\StartForm.resx">
       <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ShipmentFormAdmin.resx">
       <DependentUpon>ShipmentFormAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202603291034238_InitialCreate.resx">
+      <DependentUpon>202603291034238_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604061655573_FixActionHistories.resx">
+      <DependentUpon>202604061655573_FixActionHistories.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -228,7 +254,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
