@@ -92,7 +92,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnClose);
             this.Name = "InputCategoryForm";
-            this.Text = "ManageCategoriesForm";
             this.ResumeLayout(false);
             this.PerformLayout();
 

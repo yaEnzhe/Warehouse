@@ -29,6 +29,10 @@ namespace WarehouseApp.Classes
         /// </summary>
         public string Login { get; set; }
         /// <summary>
+        /// Статическое свойство для хранения текущего авторизованного пользователя
+        /// </summary>
+        public static User CurrentUser { get; set; }
+        /// <summary>
         /// Хэшированный пароль пользователя
         /// </summary>
         public string HashPassword { get; private set; }
