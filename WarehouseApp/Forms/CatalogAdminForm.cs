@@ -9,11 +9,15 @@ using WarehouseApp.ClassesContext;
 
 namespace WarehouseApp.Forms
 {
+    /// <summary>
+    /// Форма для администратора для управления каталогом товаров.
+    /// </summary>
     public partial class CatalogAdminForm : Form
     {
         private BindingList<Products> allProducts;
-        private ComboBox _currentCombo;
-
+        /// <summary>
+        /// Конструктор для формы каталога товара.
+        /// </summary>
         public CatalogAdminForm()
         {
             InitializeComponent();
@@ -86,8 +90,9 @@ namespace WarehouseApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка запуска: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.Close();
+                Logger.Error("System", "APP_STARTUP_ERROR", ex.Message);
+                MessageBox.Show(Properties.Resources.StartupError);
+                Close();
             }
         }
         private void LoadData()
@@ -105,7 +110,8 @@ namespace WarehouseApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка загрузки данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Error("System", "LOAD_DATA", ex.Message);
+                MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
         }
         private void buttonForEdit_Click(object sender, EventArgs e)
@@ -154,12 +160,14 @@ namespace WarehouseApp.Forms
                         }
                         db.SaveChanges();
                     }
-                    MessageBox.Show("Сохранено!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Logger.Info("System", "SAVE_SUCCESS", "Данные успешно сохранены");
+                    MessageBox.Show(Properties.Resources.SuccessMessage);
                     LoadData();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка сохранения: {ex.Message}\n{ex.InnerException?.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Logger.Error("System", "SAVE_ERROR", ex.Message);
+                    MessageBox.Show(Properties.Resources.SaveErrorText);
                 }
                 finally
                 {
@@ -180,7 +188,8 @@ namespace WarehouseApp.Forms
 
                     if (cat == null || unit == null)
                     {
-                        MessageBox.Show("Нет категорий или единиц измерения в базе!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Logger.Warning("System", "MISSING_CATEGORIES", "Отсутствуют категории или единицы измерения в базе");
+                        MessageBox.Show(Properties.Resources.NoCategoriesError);
                         return;
                     }
                     string newArticle = db.GenerateNextArticle();
@@ -213,7 +222,8 @@ namespace WarehouseApp.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка создания: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Error("System", "CREATE_ERROR", ex.Message);
+                MessageBox.Show(Properties.Resources.CreateErrorText);
             }
         }
         private void buttonForDelete_Click(object sender, EventArgs e)
@@ -221,9 +231,8 @@ namespace WarehouseApp.Forms
             if (dgv.CurrentRow == null) return;
             var prod = dgv.CurrentRow.DataBoundItem as Products;
             if (prod == null) return;
-
-            if (MessageBox.Show($"Удалить '{prod.NameProduct}'?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
-            {
+            Logger.Warning("System", "DELETE_CONFIRM", $"Запрос удаления: {prod.NameProduct}");
+            if (MessageBox.Show(string.Format(Properties.Resources.DeleteConfirmText, prod.NameProduct), Properties.Resources.ConfirmDeleteTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
                 try
                 {
                     using (var db = new WarehouseContext())
@@ -239,9 +248,9 @@ namespace WarehouseApp.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Ошибка удаления: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Logger.Error("System", "DELETE_ERROR", ex.Message);
+                    MessageBox.Show(Properties.Resources.DeleteErrorText);
                 }
-            }
         }
         private void dgv_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
@@ -254,7 +263,8 @@ namespace WarehouseApp.Forms
                 {
                     if (!decimal.TryParse(input, out decimal val) || val < 0)
                     {
-                        MessageBox.Show("Цена должна быть неотрицательным числом!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Logger.Warning("System", "NEGATIVE_STOCK", "Попытка ввода отрицательного значения");
+                        MessageBox.Show(Properties.Resources.NegativeStockWarning);
                         e.Cancel = true;
                     }
                 }
@@ -262,7 +272,8 @@ namespace WarehouseApp.Forms
                 {
                     if (!int.TryParse(input, out int val) || val < 0)
                     {
-                        MessageBox.Show("Остаток должен быть целым неотрицательным числом!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        Logger.Warning("System", "NEGATIVE_STOCK", "Попытка ввода нецелого значения");
+                        MessageBox.Show(Properties.Resources.NegativeStockWarning);
                         e.Cancel = true;
                     }
                 }
@@ -289,19 +300,20 @@ namespace WarehouseApp.Forms
         {
             if (!dgv.ReadOnly)
             {
-                if (MessageBox.Show("Есть несохраненные изменения. Сохранить?", "Выход", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+                Logger.Info("System", "EXIT_SAVE_PROMPT", "Запрос сохранения перед выходом");
+                if (MessageBox.Show(Properties.Resources.UnsavedChangesQuestion, Properties.Resources.ExitTitle, MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
                     buttonForEdit.PerformClick();
                     if (dgv.ReadOnly) this.Close();
                 }
-                else if (MessageBox.Show("Выйти без сохранения?", "Выход", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                else if (MessageBox.Show(Properties.Resources.ExitWithoutSavingQuestion, Properties.Resources.ExitTitle, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    this.Close();
+                    Close();
                 }
             }
             else
             {
-                this.Close();
+                Close();
             }
         }
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
@@ -359,7 +371,8 @@ namespace WarehouseApp.Forms
                             {
                                 if (db.Categories.Any(c => c.NameCategory.ToLower() == newName.ToLower()))
                                 {
-                                    MessageBox.Show("Такая категория уже существует!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    Logger.Warning("System", "CATEGORY_EXISTS", "Попытка добавления существующей категории");
+                                    MessageBox.Show(Properties.Resources.CategoryExistsWarning);
                                     return;
                                 }
                                 var newCat = new Categories
@@ -371,12 +384,14 @@ namespace WarehouseApp.Forms
                                 db.Categories.Add(newCat);
                                 db.SaveChanges();
                             }
-                            MessageBox.Show($"Категория '{newName}' успешно добавлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Logger.Info("System", "CATEGORY_ADDED", $"Добавлена категория: {newName}");
+                            MessageBox.Show(Properties.Resources.CategoryAddedSuccess);
                             RefreshCategoryComboSource();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Logger.Error("System", "ADD_CATEGORY_ERROR", ex.Message);
+                            MessageBox.Show(Properties.Resources.GenericErrorText);
                         }
                     }
                 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -40,10 +40,10 @@
       <HintPath>..\packages\BCrypt.Net-Next.4.1.0\lib\net472\BCrypt.Net-Next.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
@@ -77,10 +77,14 @@
     <Compile Include="Classes\ActionHistory.cs" />
     <Compile Include="Classes\Categories.cs" />
     <Compile Include="Classes\Clients.cs" />
+    <Compile Include="Classes\Logger.cs" />
+    <Compile Include="Classes\Password.cs" />
     <Compile Include="Classes\Products.cs" />
     <Compile Include="Classes\Shipment.cs" />
     <Compile Include="Classes\ShipmentContents.cs" />
+    <Compile Include="Classes\SystemLog.cs" />
     <Compile Include="Classes\UnitOfMeasure.cs" />
+    <Compile Include="Enums\LogLevels.cs" />
     <Compile Include="Enums\ShipmentStatus.cs" />
     <Compile Include="Forms\CatalogAdminForm.cs">
       <SubType>Form</SubType>
@@ -177,6 +181,14 @@
     <Compile Include="Migrations\202604061655573_FixActionHistories.Designer.cs">
       <DependentUpon>202604061655573_FixActionHistories.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202604181208309_AddExpirationFields.cs" />
+    <Compile Include="Migrations\202604181208309_AddExpirationFields.Designer.cs">
+      <DependentUpon>202604181208309_AddExpirationFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604201626140_AddLogsTable.cs" />
+    <Compile Include="Migrations\202604201626140_AddLogsTable.Designer.cs">
+      <DependentUpon>202604201626140_AddLogsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,6 +253,12 @@
     <EmbeddedResource Include="Migrations\202604061655573_FixActionHistories.resx">
       <DependentUpon>202604061655573_FixActionHistories.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604181208309_AddExpirationFields.resx">
+      <DependentUpon>202604181208309_AddExpirationFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604201626140_AddLogsTable.resx">
+      <DependentUpon>202604201626140_AddLogsTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -298,8 +316,8 @@
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
-  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>

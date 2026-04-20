@@ -9,17 +9,18 @@ using WarehouseApp.ClassesContext;
 
 namespace WarehouseApp.Forms
 {
+    /// <summary>
+    /// Форма кладовщика для работы с каталогом товаров склада
+    /// </summary>
     public partial class CatalogStorekeeperForm : Form
     {
         private BindingList<Products> _allProducts;
+        /// <summary>
+        /// Конструктор для формы каталога товаров
+        /// </summary>
         public CatalogStorekeeperForm()
         {
             InitializeComponent();
-        }
-
-        private void labelSearch_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void CatalogStorekeeperForm_Load(object sender, EventArgs e)
@@ -87,11 +88,9 @@ namespace WarehouseApp.Forms
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show("Ошибка при загрузке данных: ");
+                Logger.Error("System", "LOAD_DATA_ERROR", ex.Message);
+                MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
-
-
         }
 
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
@@ -123,7 +122,7 @@ namespace WarehouseApp.Forms
 
         private void buttonForBack_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
         private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {

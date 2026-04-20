@@ -3,8 +3,14 @@ using System.Windows.Forms;
 
 namespace WarehouseApp.Forms
 {
+    /// <summary>
+    /// Форма для просмотра истории поставок
+    /// </summary>
     public partial class DeliveryHistory : Form
     {
+        /// <summary>
+        ///Конструктор для истории поставок
+        /// </summary>
         public DeliveryHistory()
         {
             InitializeComponent();

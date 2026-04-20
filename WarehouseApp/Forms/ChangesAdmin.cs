@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using WarehouseApp.Classes;
 using WarehouseApp.ClassesContext;
 
 namespace WarehouseApp.Forms
 {
+    /// <summary>
+    /// Форма администратора для просмотра отчетов
+    /// </summary>
     public partial class ChangesAdmin : Form
     {
+        /// <summary>
+        /// Конструктор для отчетов
+        /// </summary>
         public ChangesAdmin()
         {
             InitializeComponent();
@@ -36,7 +43,8 @@ namespace WarehouseApp.Forms
 
             if (!ValidatePeriod(start, end, out string error))
             {
-                MessageBox.Show(error, "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Logger.Warning("System", "SHOW_WARNING", "Отображено предупреждение");
+                MessageBox.Show(Properties.Resources.ErrorTitle);
 
                 dtpTo.ValueChanged -= DatePickers_ValueChanged;
                 dtpFrom.ValueChanged -= DatePickers_ValueChanged;
@@ -98,15 +106,16 @@ namespace WarehouseApp.Forms
                         dgvHistory.Columns["Status"].HeaderText = "Статус";
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show($"Ошибка загрузки истории: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Error("System", "DATA_LOAD_ERROR", "Ошибка загрузки данных");
+                MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
         }
 
         private void buttonForBack_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

@@ -6,8 +6,14 @@ using WarehouseApp.Classes;
 
 namespace WarehouseApp.Forms
 {
+    /// <summary>
+    /// Форма для ввода новой категории товаров
+    /// </summary>
     public partial class InputCategoryForm : Form
     {
+        /// <summary>
+        /// Конструктор для добавления категорий
+        /// </summary>
         public InputCategoryForm()
         {
             InitializeComponent();
@@ -44,7 +50,8 @@ namespace WarehouseApp.Forms
                             {
                                 if (db.Categories.Any(c => c.NameCategory.ToLower() == newName.ToLower()))
                                 {
-                                    MessageBox.Show("Такая категория уже существует!", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    Logger.Error("System", "CATEGORY_EXISTS_ERROR", "Попытка добавления уже существующей категории");
+                                    MessageBox.Show(Properties.Resources.CategoryExistsWarning);
                                     return;
                                 }
                                 var newCat = new Categories
@@ -56,12 +63,14 @@ namespace WarehouseApp.Forms
                                 db.Categories.Add(newCat);
                                 db.SaveChanges();
                             }
-                            MessageBox.Show($"Категория '{newName}' добавлена!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Logger.Info("System", "CATEGORY_ADDED_SUCCESS", "Категория успешно добавлена");
+                            MessageBox.Show(Properties.Resources.CategoryAddedSuccess);
                             LoadCategoriesToList();
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Logger.Error("System", "ERROR_MESSAGE_DISPLAY", "Отображено сообщение об ошибке");
+                            MessageBox.Show(Properties.Resources.ErrorTitle);
                         }
                     }
                 }
@@ -69,7 +78,7 @@ namespace WarehouseApp.Forms
         }
         private void btnClose_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
 }

@@ -107,7 +107,6 @@
             this.buttonToBack.TabIndex = 3;
             this.buttonToBack.Text = "Назад";
             this.buttonToBack.UseVisualStyleBackColor = false;
-            this.buttonToBack.Click += new System.EventHandler(this.buttonToBack_Click);
             // 
             // labelToShipment
             // 

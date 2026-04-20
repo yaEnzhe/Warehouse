@@ -30,7 +30,7 @@ namespace WarehouseApp
                             DateOfRegistration = DateTime.Now
                         };
                         string adminPassword = "admin666";
-                        administrator.HashPasswordBCrypt(administrator, adminPassword);
+                        Password.HashPasswordBCrypt(administrator, adminPassword);
 
                         db.Users.Add(administrator);
                         db.SaveChanges();

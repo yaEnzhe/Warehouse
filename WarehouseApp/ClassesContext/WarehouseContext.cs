@@ -29,6 +29,7 @@ namespace WarehouseApp.ClassesContext
         public DbSet<Categories> Categories { get; set; }
         public DbSet<UnitOfMeasure> UnitOfMeasure { get; set; }
         public DbSet<ActionHistory> ActionHistory { get; set; }
+        public DbSet<SystemLog> Logs { get; set; }
 
         /// <summary>
         /// Генерирует следующий артикул
@@ -41,11 +42,11 @@ namespace WarehouseApp.ClassesContext
                 .ToList();
 
             int maxNumber = 0;
-            foreach (string article in articlesFromDb)
+            foreach (var article in articlesFromDb)
             {
                 if (article.Length > 3)
                 {
-                    string numberPart = article.Substring(3);
+                    var numberPart = article.Substring(3);
                     if (int.TryParse(numberPart, out int currentNum))
                     {
                         if (currentNum > maxNumber)

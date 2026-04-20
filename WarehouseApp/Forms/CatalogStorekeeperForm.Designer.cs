@@ -123,7 +123,6 @@
             this.labelSearch.Size = new System.Drawing.Size(68, 25);
             this.labelSearch.TabIndex = 0;
             this.labelSearch.Text = "Поиск";
-            this.labelSearch.Click += new System.EventHandler(this.labelSearch_Click);
             // 
             // lblCategoria
             // 
