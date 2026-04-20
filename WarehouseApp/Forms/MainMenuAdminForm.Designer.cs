@@ -31,13 +31,14 @@
             this.txtWelcome = new System.Windows.Forms.TextBox();
             this.btnExit = new System.Windows.Forms.Button();
             this.btnProducts = new System.Windows.Forms.Button();
-            this.btnShipment = new System.Windows.Forms.Button();
             this.btnActionHistory = new System.Windows.Forms.Button();
             this.txtDate = new System.Windows.Forms.TextBox();
             this.labelHeadline = new System.Windows.Forms.Label();
             this.panelHeadline = new System.Windows.Forms.Panel();
             this.labelYourRole = new System.Windows.Forms.Label();
             this.labelAdmin = new System.Windows.Forms.Label();
+            this.btnPostavki = new System.Windows.Forms.Button();
+            this.btnParametr = new System.Windows.Forms.Button();
             this.panelHeadline.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,29 +82,16 @@
             this.btnProducts.UseVisualStyleBackColor = false;
             this.btnProducts.Click += new System.EventHandler(this.btnProducts_Click);
             // 
-            // btnShipment
-            // 
-            this.btnShipment.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnShipment.BackColor = System.Drawing.Color.ForestGreen;
-            this.btnShipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnShipment.Location = new System.Drawing.Point(503, 120);
-            this.btnShipment.Name = "btnShipment";
-            this.btnShipment.Size = new System.Drawing.Size(162, 55);
-            this.btnShipment.TabIndex = 4;
-            this.btnShipment.Text = "ОТГРУЗКИ";
-            this.btnShipment.UseVisualStyleBackColor = false;
-            this.btnShipment.Click += new System.EventHandler(this.btnShipment_Click);
-            // 
             // btnActionHistory
             // 
             this.btnActionHistory.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnActionHistory.BackColor = System.Drawing.Color.ForestGreen;
             this.btnActionHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnActionHistory.Location = new System.Drawing.Point(270, 272);
+            this.btnActionHistory.Location = new System.Drawing.Point(292, 235);
             this.btnActionHistory.Name = "btnActionHistory";
-            this.btnActionHistory.Size = new System.Drawing.Size(233, 55);
+            this.btnActionHistory.Size = new System.Drawing.Size(199, 59);
             this.btnActionHistory.TabIndex = 5;
-            this.btnActionHistory.Text = "История действий";
+            this.btnActionHistory.Text = "ОТЧЁТЫ";
             this.btnActionHistory.UseVisualStyleBackColor = false;
             this.btnActionHistory.Click += new System.EventHandler(this.btnActionHistory_Click);
             // 
@@ -112,7 +100,7 @@
             this.txtDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.txtDate.BackColor = System.Drawing.Color.LightSeaGreen;
             this.txtDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtDate.Location = new System.Drawing.Point(0, 424);
+            this.txtDate.Location = new System.Drawing.Point(0, 408);
             this.txtDate.Multiline = true;
             this.txtDate.Name = "txtDate";
             this.txtDate.ReadOnly = true;
@@ -147,7 +135,7 @@
             this.labelYourRole.AutoSize = true;
             this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(516, 423);
+            this.labelYourRole.Location = new System.Drawing.Point(516, 408);
             this.labelYourRole.Name = "labelYourRole";
             this.labelYourRole.Size = new System.Drawing.Size(115, 25);
             this.labelYourRole.TabIndex = 12;
@@ -158,23 +146,47 @@
             this.labelAdmin.AutoSize = true;
             this.labelAdmin.BackColor = System.Drawing.Color.LightSeaGreen;
             this.labelAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelAdmin.Location = new System.Drawing.Point(637, 423);
+            this.labelAdmin.Location = new System.Drawing.Point(637, 408);
             this.labelAdmin.Name = "labelAdmin";
             this.labelAdmin.Size = new System.Drawing.Size(164, 25);
             this.labelAdmin.TabIndex = 13;
             this.labelAdmin.Text = "Администратор";
+            // 
+            // btnPostavki
+            // 
+            this.btnPostavki.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnPostavki.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnPostavki.Location = new System.Drawing.Point(531, 120);
+            this.btnPostavki.Name = "btnPostavki";
+            this.btnPostavki.Size = new System.Drawing.Size(182, 55);
+            this.btnPostavki.TabIndex = 14;
+            this.btnPostavki.Text = "ПОСТАВКИ";
+            this.btnPostavki.UseVisualStyleBackColor = false;
+            this.btnPostavki.Click += new System.EventHandler(this.btnPostavki_Click);
+            // 
+            // btnParametr
+            // 
+            this.btnParametr.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btnParametr.Location = new System.Drawing.Point(26, 49);
+            this.btnParametr.Name = "btnParametr";
+            this.btnParametr.Size = new System.Drawing.Size(139, 37);
+            this.btnParametr.TabIndex = 15;
+            this.btnParametr.Text = "Параметры";
+            this.btnParametr.UseVisualStyleBackColor = false;
+            this.btnParametr.Click += new System.EventHandler(this.btnParametr_Click);
             // 
             // MainMenuAdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnParametr);
+            this.Controls.Add(this.btnPostavki);
             this.Controls.Add(this.labelAdmin);
             this.Controls.Add(this.labelYourRole);
             this.Controls.Add(this.panelHeadline);
             this.Controls.Add(this.txtDate);
             this.Controls.Add(this.btnActionHistory);
-            this.Controls.Add(this.btnShipment);
             this.Controls.Add(this.btnProducts);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.txtWelcome);
@@ -191,12 +203,13 @@
         private System.Windows.Forms.TextBox txtWelcome;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.Button btnProducts;
-        private System.Windows.Forms.Button btnShipment;
         private System.Windows.Forms.Button btnActionHistory;
         private System.Windows.Forms.TextBox txtDate;
         private System.Windows.Forms.Label labelHeadline;
         private System.Windows.Forms.Panel panelHeadline;
         private System.Windows.Forms.Label labelYourRole;
         private System.Windows.Forms.Label labelAdmin;
+        private System.Windows.Forms.Button btnPostavki;
+        private System.Windows.Forms.Button btnParametr;
     }
 }

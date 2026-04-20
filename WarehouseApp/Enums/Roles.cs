@@ -6,7 +6,13 @@ namespace WarehouseApp.Enums
     /// </summary>
     public enum Roles
     {
+        /// <summary>
+        /// Администратор
+        /// </summary>
         Administrator,
+        /// <summary>
+        /// Кладовщик
+        /// </summary>
         Storekeeper
     }
 }

@@ -34,6 +34,9 @@ namespace WarehouseApp.Classes
         /// Ссылка на пользователя, совершившего действие
         /// </summary>
         [ForeignKey("Id")]
+        /// <summary>
+        /// Пользователь, совершивший действие
+        /// </summary>
         public User User { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using WarehouseApp.Classes;
+using System.Linq;
 
 namespace WarehouseApp.ClassesContext
 {
@@ -28,5 +29,36 @@ namespace WarehouseApp.ClassesContext
         public DbSet<Categories> Categories { get; set; }
         public DbSet<UnitOfMeasure> UnitOfMeasure { get; set; }
         public DbSet<ActionHistory> ActionHistory { get; set; }
+        public DbSet<SystemLog> Logs { get; set; }
+
+        /// <summary>
+        /// Генерирует следующий артикул
+        /// </summary>
+        public string GenerateNextArticle()
+        {
+            var articlesFromDb = this.Products
+                .Where(p => p.Article != null && p.Article.StartsWith("ART"))
+                .Select(p => p.Article)
+                .ToList();
+
+            int maxNumber = 0;
+            foreach (var article in articlesFromDb)
+            {
+                if (article.Length > 3)
+                {
+                    var numberPart = article.Substring(3);
+                    if (int.TryParse(numberPart, out int currentNum))
+                    {
+                        if (currentNum > maxNumber)
+                        {
+                            maxNumber = currentNum;
+                        }
+                    }
+                }
+            }
+            return $"ART{maxNumber + 1}";
+        }
     }
 }
+
+    

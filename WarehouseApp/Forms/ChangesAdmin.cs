@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using WarehouseApp.Classes;
 using WarehouseApp.ClassesContext;
 
 namespace WarehouseApp.Forms
 {
+    /// <summary>
+    /// Форма администратора для просмотра отчетов
+    /// </summary>
     public partial class ChangesAdmin : Form
     {
+        /// <summary>
+        /// Конструктор для отчетов
+        /// </summary>
         public ChangesAdmin()
         {
             InitializeComponent();
@@ -21,136 +21,101 @@ namespace WarehouseApp.Forms
 
         private void Changes_Load(object sender, EventArgs e)
         {
-            LoadData();
-            SetupDatagrid();
-            LoadHistoryData();
+            DateTime end = DateTime.Today;
+            DateTime start = end.AddDays(-30);
+
+            dtpFrom.Value = start;
+            dtpTo.Value = end;
+
+            LoadShipmentHistory(start, end);
+
+            dtpFrom.ValueChanged += DatePickers_ValueChanged;
+            dtpTo.ValueChanged += DatePickers_ValueChanged;
+
+            dgvHistory.ReadOnly = true;
+            dgvHistory.AllowUserToAddRows = false;
+            dgvHistory.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
-        private void SetupDatagrid()
+        private void DatePickers_ValueChanged(object sender, EventArgs e)
         {
-            dgvHistory
-            .AutoGenerateColumns = false;
-            dgvHistory
-            .Columns.Clear();
+            DateTime start = dtpFrom.Value;
+            DateTime end = dtpTo.Value;
 
-            dgvHistory
-            .Columns.Add("ColDate", "Дата");
-            dgvHistory
-            .Columns.Add("ColUser", "Пользователь");
-            dgvHistory
-            .Columns.Add("ColAction", "Действие");
-            dgvHistory
-            .Columns.Add("ColDetails", "Детали");
-            dgvHistory
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvHistory
-            .RowHeadersVisible = false;
-            dgvHistory
-            .EnableHeadersVisualStyles = false;
-            dgvHistory
-            .ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
-            dgvHistory
-           .ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvHistory
-            .ColumnHeadersHeight = 30; 
-            dgvHistory
-            .AllowUserToAddRows = false;
-            dgvHistory
-            .BorderStyle = BorderStyle.None;
-            dgvHistory
-            .BackgroundColor = Color.White;
-        }
-        private void LoadData()
-        {
-            try
+            if (!ValidatePeriod(start, end, out string error))
             {
-                using (var db = new WarehouseContext())
-                {
-                    var historyList = db.ActionHistory
-                                        .Include("User")
-                                        .OrderByDescending(h => h.EventData)
-                                        .ToList();
+                Logger.Warning("System", "SHOW_WARNING", "Отображено предупреждение");
+                MessageBox.Show(Properties.Resources.ErrorTitle);
 
-                    dgvHistory
-                    .Rows.Clear();
-                    foreach (var item in historyList)
-                    {
-                        string userName = "Неизвестно";
-                        if (item.User != null)
-                        {
-                            string n = string.IsNullOrEmpty(item.User.Name) ? "" : item.User.Name.Substring(0, 1) + ".";
-                            string p = string.IsNullOrEmpty(item.User.Patronymic) ? "" : item.User.Patronymic.Substring(0, 1) + ".";
-                            userName = $"{item.User.Surname} {n}{p}";
-                        }
+                dtpTo.ValueChanged -= DatePickers_ValueChanged;
+                dtpFrom.ValueChanged -= DatePickers_ValueChanged;
 
-                    dgvHistory
-                        .Rows.Add(
-                            item.EventData.ToString("dd.MM.yyyy HH:mm"),
-                            userName,
-                            item.Action,
-                            item.Details
-                        );
-                    }
+                dtpTo.Value = DateTime.Today;
+                dtpFrom.Value = DateTime.Today.AddDays(-30);
 
-                    if (historyList.Any())
-                    {
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ошибка: " + ex.Message);
+                dtpTo.ValueChanged += DatePickers_ValueChanged;
+                dtpFrom.ValueChanged += DatePickers_ValueChanged;
+
+                return;
             }
 
+            LoadShipmentHistory(start, end);
         }
-        private void LoadHistoryData()
+
+        private bool ValidatePeriod(DateTime start, DateTime end, out string errorMessage)
+        {
+            errorMessage = "";
+
+            if (start > end)
+            {
+                errorMessage = "Дата начала не может быть позже даты окончания!";
+                return false;
+            }
+
+            if (start > DateTime.Today || end > DateTime.Today)
+            {
+                errorMessage = "Нельзя выбирать будущие даты!";
+                return false;
+            }
+
+            return true;
+        }
+
+        private void LoadShipmentHistory(DateTime startDate, DateTime endDate)
         {
             try
             {
                 using (var db = new WarehouseContext())
                 {
-                    
-                    var historyList = db.ActionHistory
-                                        .Include("User")
-                                        .OrderByDescending(h => h.EventData) 
-                                        .ToList();
-                    dgvHistory.Rows.Clear();
-                    foreach (var item in historyList)
-                    {
-                        string userFIO = "Неизвестно";
-                        if (item.User != null)
-                        {
-                            string name = string.IsNullOrEmpty(item.User.Name) ? "" : item.User.Name.Substring(0, 1) + ".";
-                            string patronynic = string.IsNullOrEmpty(item.User.Patronymic) ? "" : item.User.Patronymic.Substring(0, 1) + ".";
-                            userFIO = $"{item.User.Surname} {name}{patronynic}";
-                        }
-                        dgvHistory.Rows.Add(
-                            item.EventData.ToString("dd.MM.yyyy HH:mm"), 
-                            userFIO,
-                            item.Action,
-                            item.Details
-                        );
-                    }
+                    var shipments = db.Shipments
+                        .Where(s => s.DateOfShipment >= startDate && s.DateOfShipment <= endDate)
+                        .OrderByDescending(s => s.DateOfShipment)
+                        .ToList();
 
-                    if (historyList.Count > 0)
-                    {
-                        var minDate = historyList.Min(x => x.EventData);
-                        var maxDate = historyList.Max(x => x.EventData);
+                    dgvHistory.DataSource = shipments;
 
+                    if (dgvHistory.Columns.Contains("DateOfShipment"))
+                        dgvHistory.Columns["DateOfShipment"].HeaderText = "Дата отгрузки";
 
-                        labelPeriod.Text = $"{minDate:dd.MM.yyyy} по {maxDate:dd.MM.yyyy}";
-                    }
+                    if (dgvHistory.Columns.Contains("PriceShipment"))
+                        dgvHistory.Columns["PriceShipment"].HeaderText = "Сумма";
+
+                    if (dgvHistory.Columns.Contains("IdClients"))
+                        dgvHistory.Columns["IdClients"].HeaderText = "ID Клиента";
+
+                    if (dgvHistory.Columns.Contains("Status"))
+                        dgvHistory.Columns["Status"].HeaderText = "Статус";
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Logger.Error("System", "DATA_LOAD_ERROR", "Ошибка загрузки данных");
+                MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
         }
 
         private void buttonForBack_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
     }
-
 }

@@ -40,5 +40,10 @@ namespace WarehouseApp.Forms
             var shipmentForm = new ShipmentFormStorekeeper();
             shipmentForm.ShowDialog();
         }
+        private void btnPostavki_Click(object sender, EventArgs e)
+        {
+            Supplies supplies = new Supplies();
+            supplies.Show();
+        }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -40,11 +40,12 @@
       <HintPath>..\packages\BCrypt.Net-Next.4.1.0\lib\net472\BCrypt.Net-Next.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
@@ -76,10 +77,14 @@
     <Compile Include="Classes\ActionHistory.cs" />
     <Compile Include="Classes\Categories.cs" />
     <Compile Include="Classes\Clients.cs" />
+    <Compile Include="Classes\Logger.cs" />
+    <Compile Include="Classes\Password.cs" />
     <Compile Include="Classes\Products.cs" />
     <Compile Include="Classes\Shipment.cs" />
     <Compile Include="Classes\ShipmentContents.cs" />
+    <Compile Include="Classes\SystemLog.cs" />
     <Compile Include="Classes\UnitOfMeasure.cs" />
+    <Compile Include="Enums\LogLevels.cs" />
     <Compile Include="Enums\ShipmentStatus.cs" />
     <Compile Include="Forms\CatalogAdminForm.cs">
       <SubType>Form</SubType>
@@ -99,6 +104,19 @@
     <Compile Include="Forms\ChangesAdmin.Designer.cs">
       <DependentUpon>ChangesAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\LoginFormManager.cs" />
+    <Compile Include="Forms\ContentsOfSupplies.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ContentsOfSupplies.Designer.cs">
+      <DependentUpon>ContentsOfSupplies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DeliveryHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DeliveryHistory.Designer.cs">
+      <DependentUpon>DeliveryHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +130,18 @@
     </Compile>
     <Compile Include="Forms\MainMenuStorekeeperForm.Designer.cs">
       <DependentUpon>MainMenuStorekeeperForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InputCategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InputCategoryForm.Designer.cs">
+      <DependentUpon>InputCategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Options.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Options.Designer.cs">
+      <DependentUpon>Options.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ShipmentFormStorekeeper.cs">
       <SubType>Form</SubType>
@@ -137,6 +167,29 @@
     <Compile Include="Forms\ShipmentFormAdmin.Designer.cs">
       <DependentUpon>ShipmentFormAdmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Supplies.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Supplies.Designer.cs">
+      <DependentUpon>Supplies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202603291034238_InitialCreate.cs" />
+    <Compile Include="Migrations\202603291034238_InitialCreate.Designer.cs">
+      <DependentUpon>202603291034238_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604061655573_FixActionHistories.cs" />
+    <Compile Include="Migrations\202604061655573_FixActionHistories.Designer.cs">
+      <DependentUpon>202604061655573_FixActionHistories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604181208309_AddExpirationFields.cs" />
+    <Compile Include="Migrations\202604181208309_AddExpirationFields.Designer.cs">
+      <DependentUpon>202604181208309_AddExpirationFields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604201626140_AddLogsTable.cs" />
+    <Compile Include="Migrations\202604201626140_AddLogsTable.Designer.cs">
+      <DependentUpon>202604201626140_AddLogsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\RegistrationForm.cs">
@@ -164,6 +217,12 @@
     <EmbeddedResource Include="Forms\ChangesAdmin.resx">
       <DependentUpon>ChangesAdmin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ContentsOfSupplies.resx">
+      <DependentUpon>ContentsOfSupplies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DeliveryHistory.resx">
+      <DependentUpon>DeliveryHistory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -173,11 +232,32 @@
     <EmbeddedResource Include="Forms\MainMenuStorekeeperForm.resx">
       <DependentUpon>MainMenuStorekeeperForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InputCategoryForm.resx">
+      <DependentUpon>InputCategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Options.resx">
+      <DependentUpon>Options.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\StartForm.resx">
       <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ShipmentFormAdmin.resx">
       <DependentUpon>ShipmentFormAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Supplies.resx">
+      <DependentUpon>Supplies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202603291034238_InitialCreate.resx">
+      <DependentUpon>202603291034238_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604061655573_FixActionHistories.resx">
+      <DependentUpon>202604061655573_FixActionHistories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604181208309_AddExpirationFields.resx">
+      <DependentUpon>202604181208309_AddExpirationFields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604201626140_AddLogsTable.resx">
+      <DependentUpon>202604201626140_AddLogsTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -228,14 +308,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
-  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
 </Project>

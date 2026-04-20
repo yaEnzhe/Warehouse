@@ -46,6 +46,17 @@ namespace WarehouseApp.Forms
             var changesForm = new ChangesAdmin();
             changesForm.ShowDialog();
         }
+        private void btnParametr_Click(object sender, EventArgs e)
+        {
+            Options options = new Options();
+            options.Show();
+        }
+
+        private void btnPostavki_Click(object sender, EventArgs e)
+        {
+            Supplies supplies = new Supplies();
+            supplies.Show();
+        }
     }
 }
 

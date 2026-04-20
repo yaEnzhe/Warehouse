@@ -37,6 +37,7 @@
             this.labelHeadline = new System.Windows.Forms.Label();
             this.labelYourRole = new System.Windows.Forms.Label();
             this.labelStorekeeper = new System.Windows.Forms.Label();
+            this.btnPostavki = new System.Windows.Forms.Button();
             this.panelHeadline.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +47,7 @@
             this.txtDate.BackColor = System.Drawing.Color.LightSeaGreen;
             this.txtDate.Cursor = System.Windows.Forms.Cursors.No;
             this.txtDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtDate.Location = new System.Drawing.Point(0, 425);
+            this.txtDate.Location = new System.Drawing.Point(12, 398);
             this.txtDate.Multiline = true;
             this.txtDate.Name = "txtDate";
             this.txtDate.ReadOnly = true;
@@ -60,7 +61,7 @@
             this.btnShipment.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnShipment.BackColor = System.Drawing.Color.ForestGreen;
             this.btnShipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnShipment.Location = new System.Drawing.Point(488, 121);
+            this.btnShipment.Location = new System.Drawing.Point(321, 236);
             this.btnShipment.Name = "btnShipment";
             this.btnShipment.Size = new System.Drawing.Size(167, 55);
             this.btnShipment.TabIndex = 13;
@@ -134,7 +135,7 @@
             this.labelYourRole.AutoSize = true;
             this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(550, 424);
+            this.labelYourRole.Location = new System.Drawing.Point(550, 398);
             this.labelYourRole.Name = "labelYourRole";
             this.labelYourRole.Size = new System.Drawing.Size(115, 25);
             this.labelYourRole.TabIndex = 19;
@@ -145,17 +146,30 @@
             this.labelStorekeeper.AutoSize = true;
             this.labelStorekeeper.BackColor = System.Drawing.Color.LightSeaGreen;
             this.labelStorekeeper.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelStorekeeper.Location = new System.Drawing.Point(671, 424);
+            this.labelStorekeeper.Location = new System.Drawing.Point(671, 398);
             this.labelStorekeeper.Name = "labelStorekeeper";
             this.labelStorekeeper.Size = new System.Drawing.Size(117, 25);
             this.labelStorekeeper.TabIndex = 20;
             this.labelStorekeeper.Text = "Кладовщик";
+            // 
+            // btnPostavki
+            // 
+            this.btnPostavki.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnPostavki.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnPostavki.Location = new System.Drawing.Point(528, 127);
+            this.btnPostavki.Name = "btnPostavki";
+            this.btnPostavki.Size = new System.Drawing.Size(172, 49);
+            this.btnPostavki.TabIndex = 21;
+            this.btnPostavki.Text = "ПОСТАВКИ";
+            this.btnPostavki.UseVisualStyleBackColor = false;
+            this.btnPostavki.Click += new System.EventHandler(this.btnPostavki_Click);
             // 
             // MainMenuStorekeeperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnPostavki);
             this.Controls.Add(this.labelStorekeeper);
             this.Controls.Add(this.labelYourRole);
             this.Controls.Add(this.panelHeadline);
@@ -184,5 +198,6 @@
         private System.Windows.Forms.Label labelHeadline;
         private System.Windows.Forms.Label labelYourRole;
         private System.Windows.Forms.Label labelStorekeeper;
+        private System.Windows.Forms.Button btnPostavki;
     }
 }

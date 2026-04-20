@@ -19,7 +19,7 @@ namespace WarehouseApp.Properties {
     // с помощью такого средства, как ResGen или Visual Studio.
     // Чтобы добавить или удалить член, измените файл .ResX и снова запустите ResGen
     // с параметром /str или перестройте свой проект VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,11 +61,128 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Категория добавлена.
+        /// </summary>
+        internal static string CategoryAddedSuccess {
+            get {
+                return ResourceManager.GetString("CategoryAddedSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Категория уже есть.
+        /// </summary>
+        internal static string CategoryExistsWarning {
+            get {
+                return ResourceManager.GetString("CategoryExistsWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Очистить весь список товаров.
+        /// </summary>
+        internal static string ClearListTitle {
+            get {
+                return ResourceManager.GetString("ClearListTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Подтверждение.
+        /// </summary>
+        internal static string ConfirmDeleteTitle {
+            get {
+                return ResourceManager.GetString("ConfirmDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка создания.
+        /// </summary>
+        internal static string CreateErrorText {
+            get {
+                return ResourceManager.GetString("CreateErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Ошибка сохранения базы данных.
         /// </summary>
         internal static string DatabaseSavingException {
             get {
                 return ResourceManager.GetString("DatabaseSavingException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка загрузки данных.
+        /// </summary>
+        internal static string DataLoadErrorText {
+            get {
+                return ResourceManager.GetString("DataLoadErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Удалить.
+        /// </summary>
+        internal static string DeleteConfirmText {
+            get {
+                return ResourceManager.GetString("DeleteConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка удаления.
+        /// </summary>
+        internal static string DeleteErrorText {
+            get {
+                return ResourceManager.GetString("DeleteErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Список пуст.
+        /// </summary>
+        internal static string EmptyProductList {
+            get {
+                return ResourceManager.GetString("EmptyProductList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка.
+        /// </summary>
+        internal static string ErrorTitle {
+            get {
+                return ResourceManager.GetString("ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выход.
+        /// </summary>
+        internal static string ExitTitle {
+            get {
+                return ResourceManager.GetString("ExitTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка.
+        /// </summary>
+        internal static string ExitWithoutSavingQuestion {
+            get {
+                return ResourceManager.GetString("ExitWithoutSavingQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Заполните все поля.
+        /// </summary>
+        internal static string FillAllFields {
+            get {
+                return ResourceManager.GetString("FillAllFields", resourceCulture);
             }
         }
         
@@ -79,11 +196,146 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка.
+        /// </summary>
+        internal static string GenericErrorText {
+            get {
+                return ResourceManager.GetString("GenericErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Неверный логин или пароль.
         /// </summary>
         internal static string IncorrectLoginOrPassword {
             get {
                 return ResourceManager.GetString("IncorrectLoginOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Недостаточно товара.
+        /// </summary>
+        internal static string InsufficientStock {
+            get {
+                return ResourceManager.GetString("InsufficientStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Товар добавлен.
+        /// </summary>
+        internal static string ItemAdded {
+            get {
+                return ResourceManager.GetString("ItemAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Цена должна быть больше 0.
+        /// </summary>
+        internal static string NegativePriceWarning {
+            get {
+                return ResourceManager.GetString("NegativePriceWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Остаток должен быть целым неотрицательным числом.
+        /// </summary>
+        internal static string NegativeStockWarning {
+            get {
+                return ResourceManager.GetString("NegativeStockWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Нет такой категории.
+        /// </summary>
+        internal static string NoCategoriesError {
+            get {
+                return ResourceManager.GetString("NoCategoriesError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Нет товара.
+        /// </summary>
+        internal static string ProductNotFound {
+            get {
+                return ResourceManager.GetString("ProductNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка сохранения.
+        /// </summary>
+        internal static string SaveErrorText {
+            get {
+                return ResourceManager.GetString("SaveErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Дата отгрузки не может быть в будущем.
+        /// </summary>
+        internal static string ShipmentDateFutureError {
+            get {
+                return ResourceManager.GetString("ShipmentDateFutureError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Дата отгрузки не может быть в прошлом.
+        /// </summary>
+        internal static string ShipmentDatePastError {
+            get {
+                return ResourceManager.GetString("ShipmentDatePastError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Отгрузка проведена.
+        /// </summary>
+        internal static string ShipmentSucces {
+            get {
+                return ResourceManager.GetString("ShipmentSucces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на  Ошибка запуска.
+        /// </summary>
+        internal static string StartupError {
+            get {
+                return ResourceManager.GetString("StartupError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Сохранено.
+        /// </summary>
+        internal static string SuccessMessage {
+            get {
+                return ResourceManager.GetString("SuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Успех.
+        /// </summary>
+        internal static string SuccessTitle {
+            get {
+                return ResourceManager.GetString("SuccessTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Есть несохраненные изменения. Сохранить?.
+        /// </summary>
+        internal static string UnsavedChangesQuestion {
+            get {
+                return ResourceManager.GetString("UnsavedChangesQuestion", resourceCulture);
             }
         }
         
@@ -102,6 +354,15 @@ namespace WarehouseApp.Properties {
         internal static string UserRegistered {
             get {
                 return ResourceManager.GetString("UserRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Внимание.
+        /// </summary>
+        internal static string WarningTitle {
+            get {
+                return ResourceManager.GetString("WarningTitle", resourceCulture);
             }
         }
         

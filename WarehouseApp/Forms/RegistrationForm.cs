@@ -25,6 +25,7 @@ namespace WarehouseApp
         {
             if (string.IsNullOrWhiteSpace(txtName.Text) || string.IsNullOrWhiteSpace(txtSurname.Text) || string.IsNullOrWhiteSpace(txtLogin.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
+                Logger.Warning("System", "FIELDS_REQUIRED", "Пользователь не заполнил поля");
                 MessageBox.Show(Properties.Resources.FillTheFIelds);
             }
             else
@@ -34,6 +35,7 @@ namespace WarehouseApp
                     var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
                     if (thisUser != null)
                     {
+                        Logger.Warning("System", "USER_EXISTS", "Попытка регистрации существующего пользователя");
                         MessageBox.Show(Properties.Resources.UserAlreadyExists);
                     }
                     else
@@ -48,18 +50,19 @@ namespace WarehouseApp
                             Role = Roles.Storekeeper,
                             DateOfRegistration = DateTime.Now
                         };
-                        user1.HashPasswordBCrypt(user1, txtPassword.Text);
+                        Password.HashPasswordBCrypt(user1, txtPassword.Text);
 
                         try
                         {
                             db.Users.Add(user1);
                             db.SaveChanges();
+                            Logger.Info("System", "USER_REGISTERED", "Новый пользователь успешно зарегистрирован");
                             MessageBox.Show(Properties.Resources.UserRegistered);
                             Close();
                         }
-                        catch (DbUpdateException ex)
+                        catch
                         {
-                            Console.WriteLine(ex.Message);
+                            Logger.Error("System", "DB_SAVE_EXCEPTION", "Исключение при сохранении данных в базу");
                             MessageBox.Show(Properties.Resources.DatabaseSavingException);
                         }
                     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
+using WarehouseApp.Classes;
 using WarehouseApp.ClassesContext;
 using WarehouseApp.Forms;
 
@@ -30,7 +31,7 @@ namespace WarehouseApp
             using (var db = new WarehouseContext())
             {
                 var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
-                if (thisUser != null && thisUser.CheckPassword(thisUser, txtPassword.Text))
+                if (thisUser != null && Password.CheckPassword(thisUser, txtPassword.Text))
                 {
                     string userName = "";
                     if (string.IsNullOrWhiteSpace(thisUser.Patronymic))
@@ -63,6 +64,7 @@ namespace WarehouseApp
                 }
                 else
                 {
+                    Logger.Warning("System", "LOGIN_FAILED", "Попытка входа с неверными учетными данными");
                     MessageBox.Show(Properties.Resources.IncorrectLoginOrPassword);
                 }
             }
