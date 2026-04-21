@@ -33,33 +33,20 @@ namespace WarehouseApp
                 var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
                 if (thisUser != null && Password.CheckPassword(thisUser, txtPassword.Text))
                 {
-                    string userName = "";
-                    if (string.IsNullOrWhiteSpace(thisUser.Patronymic))
-                    {
-                        userName += thisUser.Name[0] + ". ";
-                        userName += thisUser.Surname;
-                    }
-                    else
-                    {
-                        userName += thisUser.Name[0] + ". ";
-                        userName += thisUser.Patronymic[0] + ". ";
-                        userName += thisUser.Surname;
-                    }
+                    UserContext.Current = thisUser;
+                    Logger.Info(thisUser.Login, "LOGIN_SUCCESS", $"Успешный вход. Роль: {thisUser.Role}");
 
                     if (thisUser.Role == Enums.Roles.Administrator)
                     {
-                        
-                        var mainMenuAdminForm = new MainMenuAdminForm(userName);
+                        var mainMenuAdminForm = new MainMenuAdminForm();
                         Close();
                         mainMenuAdminForm.ShowDialog();
                     }
                     else if (thisUser.Role == Enums.Roles.Storekeeper)
                     {
-                        
-                        var mainMenuStorekeeperForm = new MainMenuStorekeeperForm(userName);
+                        var mainMenuStorekeeperForm = new MainMenuStorekeeperForm();
                         Close();
                         mainMenuStorekeeperForm.ShowDialog();
-                        
                     }
                 }
                 else

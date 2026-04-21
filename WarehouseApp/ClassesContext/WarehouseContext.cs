@@ -30,6 +30,9 @@ namespace WarehouseApp.ClassesContext
         public DbSet<UnitOfMeasure> UnitOfMeasure { get; set; }
         public DbSet<ActionHistory> ActionHistory { get; set; }
         public DbSet<SystemLog> Logs { get; set; }
+        public DbSet<Supply> Supplies { get; set; }
+        public DbSet<SupplyItem> SupplyItems { get; set; }
+        public DbSet<AppSetting> AppSettings { get; set; }
 
         /// <summary>
         /// Генерирует следующий артикул

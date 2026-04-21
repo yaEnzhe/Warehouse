@@ -34,9 +34,9 @@
             this.lblValuta = new System.Windows.Forms.Label();
             this.lblPeriod = new System.Windows.Forms.Label();
             this.lblSale = new System.Windows.Forms.Label();
-            this.cmbValuta = new System.Windows.Forms.ComboBox();
-            this.cmbPeriod = new System.Windows.Forms.ComboBox();
-            this.cmbSale = new System.Windows.Forms.ComboBox();
+            this.cmbCurrency = new System.Windows.Forms.ComboBox();
+            this.txtPeriod = new System.Windows.Forms.ComboBox();
+            this.cmbDiscount = new System.Windows.Forms.ComboBox();
             this.lblVal = new System.Windows.Forms.Label();
             this.lblMonth = new System.Windows.Forms.Label();
             this.lblprosent = new System.Windows.Forms.Label();
@@ -107,35 +107,35 @@
             this.lblSale.Text = " Скидка:";
             this.lblSale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cmbValuta
+            // cmbCurrency
             // 
-            this.cmbValuta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbValuta.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cmbValuta.FormattingEnabled = true;
-            this.cmbValuta.Location = new System.Drawing.Point(288, 142);
-            this.cmbValuta.Name = "cmbValuta";
-            this.cmbValuta.Size = new System.Drawing.Size(323, 39);
-            this.cmbValuta.TabIndex = 6;
+            this.cmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCurrency.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbCurrency.FormattingEnabled = true;
+            this.cmbCurrency.Location = new System.Drawing.Point(288, 142);
+            this.cmbCurrency.Name = "cmbCurrency";
+            this.cmbCurrency.Size = new System.Drawing.Size(323, 39);
+            this.cmbCurrency.TabIndex = 6;
             // 
-            // cmbPeriod
+            // txtPeriod
             // 
-            this.cmbPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cmbPeriod.FormattingEnabled = true;
-            this.cmbPeriod.Location = new System.Drawing.Point(399, 213);
-            this.cmbPeriod.Name = "cmbPeriod";
-            this.cmbPeriod.Size = new System.Drawing.Size(161, 44);
-            this.cmbPeriod.TabIndex = 7;
+            this.txtPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtPeriod.FormattingEnabled = true;
+            this.txtPeriod.Location = new System.Drawing.Point(399, 213);
+            this.txtPeriod.Name = "txtPeriod";
+            this.txtPeriod.Size = new System.Drawing.Size(161, 44);
+            this.txtPeriod.TabIndex = 7;
             // 
-            // cmbSale
+            // cmbDiscount
             // 
-            this.cmbSale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSale.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cmbSale.FormattingEnabled = true;
-            this.cmbSale.Location = new System.Drawing.Point(288, 293);
-            this.cmbSale.Name = "cmbSale";
-            this.cmbSale.Size = new System.Drawing.Size(151, 39);
-            this.cmbSale.TabIndex = 8;
+            this.cmbDiscount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbDiscount.FormattingEnabled = true;
+            this.cmbDiscount.Location = new System.Drawing.Point(288, 293);
+            this.cmbDiscount.Name = "cmbDiscount";
+            this.cmbDiscount.Size = new System.Drawing.Size(151, 39);
+            this.cmbDiscount.TabIndex = 8;
             // 
             // lblVal
             // 
@@ -194,9 +194,9 @@
             this.Controls.Add(this.lblprosent);
             this.Controls.Add(this.lblMonth);
             this.Controls.Add(this.lblVal);
-            this.Controls.Add(this.cmbSale);
-            this.Controls.Add(this.cmbPeriod);
-            this.Controls.Add(this.cmbValuta);
+            this.Controls.Add(this.cmbDiscount);
+            this.Controls.Add(this.txtPeriod);
+            this.Controls.Add(this.cmbCurrency);
             this.Controls.Add(this.lblSale);
             this.Controls.Add(this.lblPeriod);
             this.Controls.Add(this.lblValuta);
@@ -216,9 +216,9 @@
         private System.Windows.Forms.Label lblValuta;
         private System.Windows.Forms.Label lblPeriod;
         private System.Windows.Forms.Label lblSale;
-        private System.Windows.Forms.ComboBox cmbValuta;
-        private System.Windows.Forms.ComboBox cmbPeriod;
-        private System.Windows.Forms.ComboBox cmbSale;
+        private System.Windows.Forms.ComboBox cmbCurrency;
+        private System.Windows.Forms.ComboBox txtPeriod;
+        private System.Windows.Forms.ComboBox cmbDiscount;
         private System.Windows.Forms.Label lblVal;
         private System.Windows.Forms.Label lblMonth;
         private System.Windows.Forms.Label lblprosent;

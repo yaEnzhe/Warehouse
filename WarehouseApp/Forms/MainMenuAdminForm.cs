@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using WarehouseApp.Classes;
 
 namespace WarehouseApp.Forms
 {
@@ -16,10 +17,11 @@ namespace WarehouseApp.Forms
         /// конструктор класса главной формы кладовщика
         /// </summary>
         /// <param name="userName"> ФИО либо ФИ пользователя</param>
-        public MainMenuAdminForm(string userName)
+        public MainMenuAdminForm()
         {
             InitializeComponent();
-            UserName = userName;
+            var currentUserLogin = UserContext.Current.Login;
+            var currentRole = UserContext.Current.Role.ToString();
             txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
             txtWelcome.Text = $"{Properties.Resources.Welcome}{UserName}";
         }

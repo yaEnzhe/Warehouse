@@ -142,6 +142,15 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка загрузки файла.
+        /// </summary>
+        internal static string EmptyOrInvalidFileFormat {
+            get {
+                return ResourceManager.GetString("EmptyOrInvalidFileFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Список пуст.
         /// </summary>
         internal static string EmptyProductList {
@@ -205,6 +214,15 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Импорт завершён..
+        /// </summary>
+        internal static string ImportCompleted {
+            get {
+                return ResourceManager.GetString("ImportCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Неверный логин или пароль.
         /// </summary>
         internal static string IncorrectLoginOrPassword {
@@ -219,6 +237,24 @@ namespace WarehouseApp.Properties {
         internal static string InsufficientStock {
             get {
                 return ResourceManager.GetString("InsufficientStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Цена должна быть больше 0.
+        /// </summary>
+        internal static string InvalidPrice {
+            get {
+                return ResourceManager.GetString("InvalidPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Количество меньше 0.
+        /// </summary>
+        internal static string InvalidQuantity {
+            get {
+                return ResourceManager.GetString("InvalidQuantity", resourceCulture);
             }
         }
         
@@ -331,6 +367,15 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Поставки нет.
+        /// </summary>
+        internal static string SupplyNotFound {
+            get {
+                return ResourceManager.GetString("SupplyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Есть несохраненные изменения. Сохранить?.
         /// </summary>
         internal static string UnsavedChangesQuestion {
@@ -345,6 +390,15 @@ namespace WarehouseApp.Properties {
         internal static string UserAlreadyExists {
             get {
                 return ResourceManager.GetString("UserAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пользователь не авторизован.
+        /// </summary>
+        internal static string UserNotAuthorized {
+            get {
+                return ResourceManager.GetString("UserNotAuthorized", resourceCulture);
             }
         }
         
