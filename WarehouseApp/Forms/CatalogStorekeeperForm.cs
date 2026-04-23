@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -14,6 +15,7 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class CatalogStorekeeperForm : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private BindingList<Products> _allProducts;
         /// <summary>
         /// Конструктор для формы каталога товаров
@@ -88,7 +90,7 @@ namespace WarehouseApp.Forms
             }
             catch (Exception ex)
             {
-                Logger.Error("System", "LOAD_DATA_ERROR", ex.Message);
+                logger.Error(ex, "LOAD_DATA_ERROR. Category: {Category}", "System");
                 MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WarehouseApp.Enums;
@@ -36,5 +37,9 @@ namespace WarehouseApp.Classes
         /// </summary>
         [ForeignKey("IdClients")]
         public Clients Clients { get; set; }
+        /// <summary>
+        /// список товаров
+        /// </summary>
+        public virtual ICollection<ShipmentContents> ShipmentContents { get; set; }
     }
 }

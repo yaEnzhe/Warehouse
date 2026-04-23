@@ -29,13 +29,12 @@
             this.labelSearch = new System.Windows.Forms.Label();
             this.btnAddCategory = new System.Windows.Forms.Button();
             this.lblCategoria = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cmbFilterCategory = new System.Windows.Forms.ComboBox();
             this.lblCat = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
-            this.cmbStatus = new System.Windows.Forms.ComboBox();
+            this.cmbFilterStatus = new System.Windows.Forms.ComboBox();
             this.lblStat = new System.Windows.Forms.Label();
-            this.labelYourRole = new System.Windows.Forms.Label();
-            this.labelAdmin = new System.Windows.Forms.Label();
+            this.lblUserRole = new System.Windows.Forms.Label();
             this.txtDate = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.panel1.SuspendLayout();
@@ -66,7 +65,7 @@
             // 
             this.buttonForBack.BackColor = System.Drawing.Color.Brown;
             this.buttonForBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonForBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonForBack.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonForBack.Location = new System.Drawing.Point(-4, 31);
             this.buttonForBack.Name = "buttonForBack";
             this.buttonForBack.Size = new System.Drawing.Size(186, 30);
@@ -79,7 +78,7 @@
             // 
             this.buttonToAddGood.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.buttonToAddGood.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonToAddGood.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonToAddGood.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonToAddGood.Location = new System.Drawing.Point(558, 31);
             this.buttonToAddGood.Name = "buttonToAddGood";
             this.buttonToAddGood.Size = new System.Drawing.Size(247, 30);
@@ -179,15 +178,16 @@
             this.lblCategoria.Text = "Категория";
             this.lblCategoria.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // comboBox1
+            // cmbFilterCategory
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(181, 122);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(174, 28);
-            this.comboBox1.TabIndex = 10;
+            this.cmbFilterCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbFilterCategory.FormattingEnabled = true;
+            this.cmbFilterCategory.Location = new System.Drawing.Point(181, 122);
+            this.cmbFilterCategory.Name = "cmbFilterCategory";
+            this.cmbFilterCategory.Size = new System.Drawing.Size(174, 28);
+            this.cmbFilterCategory.TabIndex = 10;
+            this.cmbFilterCategory.SelectedIndexChanged += new System.EventHandler(this.cmbFilterCategory_SelectedIndexChanged);
             // 
             // lblCat
             // 
@@ -210,15 +210,16 @@
             this.lblStatus.Text = "Статус";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // cmbStatus
+            // cmbFilterStatus
             // 
-            this.cmbStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cmbStatus.FormattingEnabled = true;
-            this.cmbStatus.Location = new System.Drawing.Point(548, 122);
-            this.cmbStatus.Name = "cmbStatus";
-            this.cmbStatus.Size = new System.Drawing.Size(174, 28);
-            this.cmbStatus.TabIndex = 13;
+            this.cmbFilterStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbFilterStatus.FormattingEnabled = true;
+            this.cmbFilterStatus.Location = new System.Drawing.Point(548, 122);
+            this.cmbFilterStatus.Name = "cmbFilterStatus";
+            this.cmbFilterStatus.Size = new System.Drawing.Size(174, 28);
+            this.cmbFilterStatus.TabIndex = 13;
+            this.cmbFilterStatus.SelectedIndexChanged += new System.EventHandler(this.cmbFilterStatus_SelectedIndexChanged);
             // 
             // lblStat
             // 
@@ -231,25 +232,14 @@
             this.lblStat.Text = "▼";
             this.lblStat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelYourRole
+            // lblUserRole
             // 
-            this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(509, 3);
-            this.labelYourRole.Name = "labelYourRole";
-            this.labelYourRole.Size = new System.Drawing.Size(115, 25);
-            this.labelYourRole.TabIndex = 15;
-            this.labelYourRole.Text = "Ваша роль:";
-            // 
-            // labelAdmin
-            // 
-            this.labelAdmin.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.labelAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelAdmin.Location = new System.Drawing.Point(624, 3);
-            this.labelAdmin.Name = "labelAdmin";
-            this.labelAdmin.Size = new System.Drawing.Size(164, 25);
-            this.labelAdmin.TabIndex = 16;
-            this.labelAdmin.Text = "Администратор";
+            this.lblUserRole.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.lblUserRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblUserRole.Location = new System.Drawing.Point(473, 3);
+            this.lblUserRole.Name = "lblUserRole";
+            this.lblUserRole.Size = new System.Drawing.Size(315, 25);
+            this.lblUserRole.TabIndex = 16;
             // 
             // txtDate
             // 
@@ -271,13 +261,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.txtDate);
-            this.Controls.Add(this.labelAdmin);
-            this.Controls.Add(this.labelYourRole);
+            this.Controls.Add(this.lblUserRole);
             this.Controls.Add(this.lblStat);
-            this.Controls.Add(this.cmbStatus);
+            this.Controls.Add(this.cmbFilterStatus);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblCat);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cmbFilterCategory);
             this.Controls.Add(this.lblCategoria);
             this.Controls.Add(this.labelTop);
             this.Controls.Add(this.btnAddCategory);
@@ -313,13 +302,12 @@
         private System.Windows.Forms.TextBox textBoxSearch;
         private System.Windows.Forms.Button btnAddCategory;
         private System.Windows.Forms.Label lblCategoria;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmbFilterCategory;
         private System.Windows.Forms.Label lblCat;
         private System.Windows.Forms.Label lblStatus;
-        private System.Windows.Forms.ComboBox cmbStatus;
+        private System.Windows.Forms.ComboBox cmbFilterStatus;
         private System.Windows.Forms.Label lblStat;
-        private System.Windows.Forms.Label labelYourRole;
-        private System.Windows.Forms.Label labelAdmin;
+        private System.Windows.Forms.Label lblUserRole;
         private System.Windows.Forms.TextBox txtDate;
     }
 }

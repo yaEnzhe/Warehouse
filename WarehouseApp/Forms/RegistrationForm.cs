@@ -1,5 +1,5 @@
-﻿using System;
-using System.Data.Entity.Infrastructure;
+﻿using NLog;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
@@ -13,6 +13,7 @@ namespace WarehouseApp
     /// </summary>
     public partial class RegistrationForm : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// конструктор класса формы регистрации
         /// </summary>
@@ -25,7 +26,7 @@ namespace WarehouseApp
         {
             if (string.IsNullOrWhiteSpace(txtName.Text) || string.IsNullOrWhiteSpace(txtSurname.Text) || string.IsNullOrWhiteSpace(txtLogin.Text) || string.IsNullOrWhiteSpace(txtPassword.Text))
             {
-                Logger.Warning("System", "FIELDS_REQUIRED", "Пользователь не заполнил поля");
+                logger.Warn("FIELDS_REQUIRED. Category: {Category}", "System", "Не заполнены поля");
                 MessageBox.Show(Properties.Resources.FillTheFIelds);
             }
             else
@@ -35,7 +36,7 @@ namespace WarehouseApp
                     var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
                     if (thisUser != null)
                     {
-                        Logger.Warning("System", "USER_EXISTS", "Попытка регистрации существующего пользователя");
+                        logger.Warn("USER_EXISTS. Category: {Category}", "System", "Попытка регистрации существующего пользователя");
                         MessageBox.Show(Properties.Resources.UserAlreadyExists);
                     }
                     else
@@ -56,13 +57,13 @@ namespace WarehouseApp
                         {
                             db.Users.Add(user1);
                             db.SaveChanges();
-                            Logger.Info("System", "USER_REGISTERED", "Новый пользователь успешно зарегистрирован");
+                            logger.Info("USER_REGISTERED. Category: {Category}", "System", "Новый пользователь успешно зарегистрирован");
                             MessageBox.Show(Properties.Resources.UserRegistered);
                             Close();
                         }
                         catch
                         {
-                            Logger.Error("System", "DB_SAVE_EXCEPTION", "Исключение при сохранении данных в базу");
+                            logger.Error("DB_SAVE_EXCEPTION. Category: {Category}. {Message}", "System", "Исключение при сохранении данных");
                             MessageBox.Show(Properties.Resources.DatabaseSavingException);
                         }
                     }
@@ -77,7 +78,7 @@ namespace WarehouseApp
 
         private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(e.KeyChar == ' ')        //запрет на пробелы
+            if (e.KeyChar == ' ')        //запрет на пробелы
             {
                 e.Handled = true;
             }

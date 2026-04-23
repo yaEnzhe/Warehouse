@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
@@ -12,6 +13,7 @@ namespace WarehouseApp
     /// </summary>
     public partial class LoginForm : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// конструктор класса формы авторизации
         /// </summary>
@@ -31,40 +33,29 @@ namespace WarehouseApp
             using (var db = new WarehouseContext())
             {
                 var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
+
                 if (thisUser != null && Password.CheckPassword(thisUser, txtPassword.Text))
                 {
-                    string userName = "";
-                    if (string.IsNullOrWhiteSpace(thisUser.Patronymic))
-                    {
-                        userName += thisUser.Name[0] + ". ";
-                        userName += thisUser.Surname;
-                    }
-                    else
-                    {
-                        userName += thisUser.Name[0] + ". ";
-                        userName += thisUser.Patronymic[0] + ". ";
-                        userName += thisUser.Surname;
-                    }
-
+                    UserContext.Current = thisUser;
+                    logger.Info("LOGIN_SUCCESS. Category: {Category}", thisUser.Login, $"Успешный вход. Роль: {thisUser.Role}");
                     if (thisUser.Role == Enums.Roles.Administrator)
                     {
-                        
-                        var mainMenuAdminForm = new MainMenuAdminForm(userName);
-                        Close();
+                        var mainMenuAdminForm = new MainMenuAdminForm();
+                        Hide();
                         mainMenuAdminForm.ShowDialog();
+                        Close();
                     }
                     else if (thisUser.Role == Enums.Roles.Storekeeper)
                     {
-                        
-                        var mainMenuStorekeeperForm = new MainMenuStorekeeperForm(userName);
-                        Close();
+                        var mainMenuStorekeeperForm = new MainMenuStorekeeperForm();
+                        Hide();
                         mainMenuStorekeeperForm.ShowDialog();
-                        
+                        Close();
                     }
                 }
                 else
                 {
-                    Logger.Warning("System", "LOGIN_FAILED", "Попытка входа с неверными учетными данными");
+                    logger.Warn("LOGIN_FAILED. Category: {Category}", "System", "Попытка входа с неверным паролем/логином");
                     MessageBox.Show(Properties.Resources.IncorrectLoginOrPassword);
                 }
             }

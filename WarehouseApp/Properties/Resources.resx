@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CannotDeleteUsedProduct" xml:space="preserve">
+    <value>Не удалось удалить товар</value>
+  </data>
   <data name="CategoryAddedSuccess" xml:space="preserve">
     <value>Категория добавлена</value>
   </data>
@@ -126,11 +129,59 @@
   <data name="ClearListTitle" xml:space="preserve">
     <value>Очистить весь список товаров</value>
   </data>
+  <data name="ColumnAmount" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="ColumnArticle" xml:space="preserve">
+    <value>Артикул</value>
+  </data>
+  <data name="ColumnAvailability" xml:space="preserve">
+    <value>Наличие</value>
+  </data>
+  <data name="ColumnContents" xml:space="preserve">
+    <value>Состав</value>
+  </data>
+  <data name="ColumnDate" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="ColumnDocumentNumber" xml:space="preserve">
+    <value>Номер документа</value>
+  </data>
+  <data name="ColumnExpirationDate" xml:space="preserve">
+    <value> Срок годности</value>
+  </data>
+  <data name="ColumnName" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="ColumnPrice" xml:space="preserve">
+    <value>Цена</value>
+  </data>
+  <data name="ColumnPricePerUnit" xml:space="preserve">
+    <value>Цена за шт</value>
+  </data>
+  <data name="ColumnProduct" xml:space="preserve">
+    <value>Товар</value>
+  </data>
+  <data name="ColumnPurchasePrice" xml:space="preserve">
+    <value>Цена закупки</value>
+  </data>
+  <data name="ColumnQuantity" xml:space="preserve">
+    <value>Количество</value>
+  </data>
+  <data name="ColumnTerm" xml:space="preserve">
+    <value>Срок</value>
+  </data>
+  <data name="ColumnTotalAmount" xml:space="preserve">
+    <value>Общая сумма</value>
+  </data>
   <data name="ConfirmDeleteTitle" xml:space="preserve">
     <value>Подтверждение</value>
   </data>
   <data name="CreateErrorText" xml:space="preserve">
     <value>Ошибка создания</value>
+  </data>
+  <data name="CriticalErrorMessage" xml:space="preserve">
+    <value>Критическая ошибка</value>
   </data>
   <data name="DatabaseSavingException" xml:space="preserve">
     <value>Ошибка сохранения базы данных</value>
@@ -144,8 +195,17 @@
   <data name="DeleteErrorText" xml:space="preserve">
     <value>Ошибка удаления</value>
   </data>
+  <data name="EmptyOrInvalidFileFormat" xml:space="preserve">
+    <value>Ошибка загрузки файла</value>
+  </data>
   <data name="EmptyProductList" xml:space="preserve">
     <value>Список пуст</value>
+  </data>
+  <data name="ErrorDateFutureNotAllowed" xml:space="preserve">
+    <value>Нельзя выбирать будущие даты!</value>
+  </data>
+  <data name="ErrorDateStartAfterEnd" xml:space="preserve">
+    <value>Дата начала не может быть позже даты окончания!</value>
   </data>
   <data name="ErrorTitle" xml:space="preserve">
     <value>Ошибка</value>
@@ -165,11 +225,23 @@
   <data name="GenericErrorText" xml:space="preserve">
     <value>Ошибка</value>
   </data>
+  <data name="ImportCompleted" xml:space="preserve">
+    <value>Импорт завершён.</value>
+  </data>
   <data name="IncorrectLoginOrPassword" xml:space="preserve">
     <value>Неверный логин или пароль</value>
   </data>
   <data name="InsufficientStock" xml:space="preserve">
     <value>Недостаточно товара</value>
+  </data>
+  <data name="InvalidDiscountRange" xml:space="preserve">
+    <value>Введена некорректная скидка</value>
+  </data>
+  <data name="InvalidPrice" xml:space="preserve">
+    <value>Цена должна быть больше 0</value>
+  </data>
+  <data name="InvalidQuantity" xml:space="preserve">
+    <value>Количество меньше 0</value>
   </data>
   <data name="ItemAdded" xml:space="preserve">
     <value>Товар добавлен</value>
@@ -186,8 +258,23 @@
   <data name="ProductNotFound" xml:space="preserve">
     <value>Нет товара</value>
   </data>
+  <data name="ReportColAmount" xml:space="preserve">
+    <value>Сумма отгрузки</value>
+  </data>
+  <data name="ReportColCustomer" xml:space="preserve">
+    <value>Покупатель</value>
+  </data>
+  <data name="ReportColDate" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="ReportColProfit" xml:space="preserve">
+    <value>Прибыль</value>
+  </data>
   <data name="SaveErrorText" xml:space="preserve">
     <value>Ошибка сохранения</value>
+  </data>
+  <data name="SettingsSaved" xml:space="preserve">
+    <value>Параметры обновлены</value>
   </data>
   <data name="ShipmentDateFutureError" xml:space="preserve">
     <value>Дата отгрузки не может быть в будущем</value>
@@ -207,11 +294,17 @@
   <data name="SuccessTitle" xml:space="preserve">
     <value>Успех</value>
   </data>
+  <data name="SupplyNotFound" xml:space="preserve">
+    <value>Поставки нет</value>
+  </data>
   <data name="UnsavedChangesQuestion" xml:space="preserve">
     <value>Есть несохраненные изменения. Сохранить?</value>
   </data>
   <data name="UserAlreadyExists" xml:space="preserve">
     <value>Пользователь с таким логином уже есть</value>
+  </data>
+  <data name="UserNotAuthorized" xml:space="preserve">
+    <value>Пользователь не авторизован</value>
   </data>
   <data name="UserRegistered" xml:space="preserve">
     <value>Вы зарегистрированы!</value>

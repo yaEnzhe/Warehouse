@@ -32,14 +32,12 @@
             this.buttonToBack = new System.Windows.Forms.Button();
             this.labelToShipment = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.txtDocNumber = new System.Windows.Forms.TextBox();
+            this.txtDate = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.dgvHistory = new System.Windows.Forms.DataGridView();
+            this.dgvItems = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -63,6 +61,7 @@
             this.buttonToBack.TabIndex = 3;
             this.buttonToBack.Text = "Закрыть";
             this.buttonToBack.UseVisualStyleBackColor = false;
+            this.buttonToBack.Click += new System.EventHandler(this.buttonToBack_Click);
             // 
             // labelToShipment
             // 
@@ -84,95 +83,69 @@
             this.label1.TabIndex = 31;
             this.label1.Text = "Дата:";
             // 
-            // textBox1
+            // txtDocNumber
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(404, 77);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(123, 28);
-            this.textBox1.TabIndex = 36;
-            this.textBox1.TabStop = false;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtDocNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtDocNumber.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.txtDocNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtDocNumber.Location = new System.Drawing.Point(514, 77);
+            this.txtDocNumber.Multiline = true;
+            this.txtDocNumber.Name = "txtDocNumber";
+            this.txtDocNumber.ReadOnly = true;
+            this.txtDocNumber.Size = new System.Drawing.Size(123, 28);
+            this.txtDocNumber.TabIndex = 36;
+            this.txtDocNumber.TabStop = false;
+            this.txtDocNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // textBox2
+            // txtDate
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.Location = new System.Drawing.Point(128, 77);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(121, 28);
-            this.textBox2.TabIndex = 37;
-            this.textBox2.TabStop = false;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox3.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox3.Location = new System.Drawing.Point(654, 77);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(122, 28);
-            this.textBox3.TabIndex = 38;
-            this.textBox3.TabStop = false;
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(533, 77);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 28);
-            this.label2.TabIndex = 39;
-            this.label2.Text = "Поставщик:";
+            this.txtDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtDate.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.txtDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtDate.Location = new System.Drawing.Point(128, 77);
+            this.txtDate.Multiline = true;
+            this.txtDate.Name = "txtDate";
+            this.txtDate.ReadOnly = true;
+            this.txtDate.Size = new System.Drawing.Size(121, 28);
+            this.txtDate.TabIndex = 37;
+            this.txtDate.TabStop = false;
+            this.txtDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label3
             // 
             this.label3.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(255, 77);
+            this.label3.Location = new System.Drawing.Point(361, 77);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(156, 28);
             this.label3.TabIndex = 40;
             this.label3.Text = "№ документа:";
             // 
-            // dgvHistory
+            // dgvItems
             // 
-            this.dgvHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvHistory.Location = new System.Drawing.Point(0, 127);
-            this.dgvHistory.Name = "dgvHistory";
-            this.dgvHistory.RowHeadersWidth = 51;
-            this.dgvHistory.RowTemplate.Height = 24;
-            this.dgvHistory.Size = new System.Drawing.Size(804, 296);
-            this.dgvHistory.TabIndex = 41;
+            this.dgvItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvItems.Location = new System.Drawing.Point(0, 127);
+            this.dgvItems.Name = "dgvItems";
+            this.dgvItems.RowHeadersWidth = 51;
+            this.dgvItems.RowTemplate.Height = 24;
+            this.dgvItems.Size = new System.Drawing.Size(804, 296);
+            this.dgvItems.TabIndex = 41;
             // 
             // ContentsOfSupplies
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dgvHistory);
+            this.Controls.Add(this.dgvItems);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtDate);
+            this.Controls.Add(this.txtDocNumber);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Name = "ContentsOfSupplies";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvItems)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -184,11 +157,9 @@
         private System.Windows.Forms.Button buttonToBack;
         private System.Windows.Forms.Label labelToShipment;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtDocNumber;
+        private System.Windows.Forms.TextBox txtDate;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.DataGridView dgvHistory;
+        private System.Windows.Forms.DataGridView dgvItems;
     }
 }

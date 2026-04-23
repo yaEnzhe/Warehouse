@@ -135,7 +135,7 @@
             this.labelYourRole.AutoSize = true;
             this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(516, 408);
+            this.labelYourRole.Location = new System.Drawing.Point(490, 408);
             this.labelYourRole.Name = "labelYourRole";
             this.labelYourRole.Size = new System.Drawing.Size(115, 25);
             this.labelYourRole.TabIndex = 12;
@@ -146,7 +146,7 @@
             this.labelAdmin.AutoSize = true;
             this.labelAdmin.BackColor = System.Drawing.Color.LightSeaGreen;
             this.labelAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelAdmin.Location = new System.Drawing.Point(637, 408);
+            this.labelAdmin.Location = new System.Drawing.Point(611, 408);
             this.labelAdmin.Name = "labelAdmin";
             this.labelAdmin.Size = new System.Drawing.Size(164, 25);
             this.labelAdmin.TabIndex = 13;

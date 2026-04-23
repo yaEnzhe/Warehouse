@@ -37,18 +37,20 @@
             this.buttonToAddInTable = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnhistori = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.btnAddToSupply = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxProducts = new System.Windows.Forms.ComboBox();
+            this.cmbProduct = new System.Windows.Forms.ComboBox();
             this.lblCat = new System.Windows.Forms.Label();
             this.txtboxcolichestvo = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.dgv = new System.Windows.Forms.DataGridView();
+            this.dgvSupply = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtboxPrice = new System.Windows.Forms.TextBox();
+            this.dtpExpirationDate = new System.Windows.Forms.DateTimePicker();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSupply)).BeginInit();
             this.SuspendLayout();
             // 
             // txtDate
@@ -107,6 +109,7 @@
             this.buttonToBack.TabIndex = 3;
             this.buttonToBack.Text = "Назад";
             this.buttonToBack.UseVisualStyleBackColor = false;
+            this.buttonToBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // labelToShipment
             // 
@@ -137,10 +140,11 @@
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button1.Location = new System.Drawing.Point(304, 105);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(168, 40);
+            this.button1.Size = new System.Drawing.Size(200, 40);
             this.button1.TabIndex = 24;
             this.button1.Text = "Импорт из файла";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnImportFromFile_Click);
             // 
             // btnhistori
             // 
@@ -149,23 +153,24 @@
             this.btnhistori.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnhistori.Location = new System.Drawing.Point(568, 105);
             this.btnhistori.Name = "btnhistori";
-            this.btnhistori.Size = new System.Drawing.Size(175, 40);
+            this.btnhistori.Size = new System.Drawing.Size(220, 40);
             this.btnhistori.TabIndex = 25;
             this.btnhistori.Text = "История поставок";
             this.btnhistori.UseVisualStyleBackColor = false;
             this.btnhistori.Click += new System.EventHandler(this.btnhistori_Click);
             // 
-            // button6
+            // btnAddToSupply
             // 
-            this.button6.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button6.Location = new System.Drawing.Point(88, 329);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(207, 34);
-            this.button6.TabIndex = 29;
-            this.button6.Text = "Добавить в поставку";
-            this.button6.UseVisualStyleBackColor = false;
+            this.btnAddToSupply.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.btnAddToSupply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddToSupply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnAddToSupply.Location = new System.Drawing.Point(65, 379);
+            this.btnAddToSupply.Name = "btnAddToSupply";
+            this.btnAddToSupply.Size = new System.Drawing.Size(263, 34);
+            this.btnAddToSupply.TabIndex = 29;
+            this.btnAddToSupply.Text = "Добавить в поставку";
+            this.btnAddToSupply.UseVisualStyleBackColor = false;
+            this.btnAddToSupply.Click += new System.EventHandler(this.btnAddToSupply_Click);
             // 
             // label1
             // 
@@ -191,21 +196,21 @@
             // 
             this.label3.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(37, 264);
+            this.label3.Location = new System.Drawing.Point(37, 314);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(164, 25);
             this.label3.TabIndex = 32;
             this.label3.Text = "Срок годности:";
             // 
-            // comboBoxProducts
+            // cmbProduct
             // 
-            this.comboBoxProducts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxProducts.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBoxProducts.FormattingEnabled = true;
-            this.comboBoxProducts.Location = new System.Drawing.Point(207, 173);
-            this.comboBoxProducts.Name = "comboBoxProducts";
-            this.comboBoxProducts.Size = new System.Drawing.Size(159, 28);
-            this.comboBoxProducts.TabIndex = 33;
+            this.cmbProduct.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbProduct.FormattingEnabled = true;
+            this.cmbProduct.Location = new System.Drawing.Point(207, 173);
+            this.cmbProduct.Name = "cmbProduct";
+            this.cmbProduct.Size = new System.Drawing.Size(159, 28);
+            this.cmbProduct.TabIndex = 33;
             // 
             // lblCat
             // 
@@ -226,36 +231,22 @@
             this.txtboxcolichestvo.Location = new System.Drawing.Point(207, 211);
             this.txtboxcolichestvo.Multiline = true;
             this.txtboxcolichestvo.Name = "txtboxcolichestvo";
-            this.txtboxcolichestvo.ReadOnly = true;
             this.txtboxcolichestvo.Size = new System.Drawing.Size(194, 33);
             this.txtboxcolichestvo.TabIndex = 35;
             this.txtboxcolichestvo.TabStop = false;
             this.txtboxcolichestvo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtboxcolichestvo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtboxcolichestvo_KeyPress);
             // 
-            // textBox2
+            // dgvSupply
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox2.Location = new System.Drawing.Point(207, 258);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(194, 33);
-            this.textBox2.TabIndex = 36;
-            this.textBox2.TabStop = false;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // dgv
-            // 
-            this.dgv.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Location = new System.Drawing.Point(407, 173);
-            this.dgv.Name = "dgv";
-            this.dgv.RowHeadersWidth = 51;
-            this.dgv.RowTemplate.Height = 24;
-            this.dgv.Size = new System.Drawing.Size(392, 240);
-            this.dgv.TabIndex = 37;
+            this.dgvSupply.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvSupply.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSupply.Location = new System.Drawing.Point(407, 173);
+            this.dgvSupply.Name = "dgvSupply";
+            this.dgvSupply.RowHeadersWidth = 51;
+            this.dgvSupply.RowTemplate.Height = 24;
+            this.dgvSupply.Size = new System.Drawing.Size(392, 240);
+            this.dgvSupply.TabIndex = 37;
             // 
             // button3
             // 
@@ -264,26 +255,61 @@
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button3.Location = new System.Drawing.Point(494, 419);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(239, 30);
+            this.button3.Size = new System.Drawing.Size(261, 30);
             this.button3.TabIndex = 38;
             this.button3.Text = "Провести поставку";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.btnProcessSupply_Click);
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.Location = new System.Drawing.Point(37, 264);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(164, 25);
+            this.label4.TabIndex = 39;
+            this.label4.Text = "Цена закупки:";
+            // 
+            // txtboxPrice
+            // 
+            this.txtboxPrice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtboxPrice.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.txtboxPrice.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtboxPrice.Location = new System.Drawing.Point(207, 256);
+            this.txtboxPrice.Multiline = true;
+            this.txtboxPrice.Name = "txtboxPrice";
+            this.txtboxPrice.Size = new System.Drawing.Size(194, 33);
+            this.txtboxPrice.TabIndex = 40;
+            this.txtboxPrice.TabStop = false;
+            this.txtboxPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtboxPrice.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtboxPrice_KeyPress);
+            // 
+            // dtpExpirationDate
+            // 
+            this.dtpExpirationDate.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dtpExpirationDate.Location = new System.Drawing.Point(207, 314);
+            this.dtpExpirationDate.Name = "dtpExpirationDate";
+            this.dtpExpirationDate.Size = new System.Drawing.Size(177, 22);
+            this.dtpExpirationDate.TabIndex = 50;
             // 
             // Supplies
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dtpExpirationDate);
+            this.Controls.Add(this.txtboxPrice);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.dgv);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.dgvSupply);
             this.Controls.Add(this.txtboxcolichestvo);
             this.Controls.Add(this.lblCat);
-            this.Controls.Add(this.comboBoxProducts);
+            this.Controls.Add(this.cmbProduct);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.btnAddToSupply);
             this.Controls.Add(this.btnhistori);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonToAddInTable);
@@ -294,7 +320,7 @@
             this.Name = "Supplies";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSupply)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -311,15 +337,17 @@
         private System.Windows.Forms.Button buttonToAddInTable;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnhistori;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button btnAddToSupply;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBoxProducts;
+        private System.Windows.Forms.ComboBox cmbProduct;
         private System.Windows.Forms.Label lblCat;
         private System.Windows.Forms.TextBox txtboxcolichestvo;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.DataGridView dgvSupply;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtboxPrice;
+        private System.Windows.Forms.DateTimePicker dtpExpirationDate;
     }
 }

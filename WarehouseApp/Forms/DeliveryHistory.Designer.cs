@@ -35,22 +35,21 @@
             this.buttonToBack = new System.Windows.Forms.Button();
             this.labelToShipment = new System.Windows.Forms.Label();
             this.buttonToAddInTable = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtSearch = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelPeriod = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.dtpFrom = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.dtpTo = new System.Windows.Forms.DateTimePicker();
-            this.dgv = new System.Windows.Forms.DataGridView();
+            this.dgvHistory = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).BeginInit();
             this.SuspendLayout();
             // 
             // txtDate
@@ -71,9 +70,9 @@
             // 
             this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(522, 12);
+            this.labelYourRole.Location = new System.Drawing.Point(497, 12);
             this.labelYourRole.Name = "labelYourRole";
-            this.labelYourRole.Size = new System.Drawing.Size(115, 25);
+            this.labelYourRole.Size = new System.Drawing.Size(140, 25);
             this.labelYourRole.TabIndex = 20;
             this.labelYourRole.Text = "Ваша роль:";
             // 
@@ -108,6 +107,7 @@
             this.buttonToBack.TabIndex = 3;
             this.buttonToBack.Text = "Назад";
             this.buttonToBack.UseVisualStyleBackColor = false;
+            this.buttonToBack.Click += new System.EventHandler(this.buttonToBack_Click);
             // 
             // labelToShipment
             // 
@@ -124,7 +124,7 @@
             this.buttonToAddInTable.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.buttonToAddInTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonToAddInTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonToAddInTable.Location = new System.Drawing.Point(48, 102);
+            this.buttonToAddInTable.Location = new System.Drawing.Point(80, 100);
             this.buttonToAddInTable.Name = "buttonToAddInTable";
             this.buttonToAddInTable.Size = new System.Drawing.Size(171, 37);
             this.buttonToAddInTable.TabIndex = 24;
@@ -132,26 +132,14 @@
             this.buttonToAddInTable.UseVisualStyleBackColor = false;
             this.buttonToAddInTable.Click += new System.EventHandler(this.buttonToAddInTable_Click);
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(298, 102);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(168, 40);
-            this.button1.TabIndex = 25;
-            this.button1.Text = "Импорт из файла";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.ForestGreen;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.Location = new System.Drawing.Point(552, 102);
+            this.button2.Location = new System.Drawing.Point(484, 100);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(175, 40);
+            this.button2.Size = new System.Drawing.Size(218, 40);
             this.button2.TabIndex = 26;
             this.button2.Text = "История поставок";
             this.button2.UseVisualStyleBackColor = false;
@@ -175,19 +163,19 @@
             this.label5.TabIndex = 7;
             this.label5.Text = "Поиск:";
             // 
-            // textBox1
+            // txtSearch
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(136, 160);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(245, 40);
-            this.textBox1.TabIndex = 36;
-            this.textBox1.TabStop = false;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtSearch.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtSearch.Location = new System.Drawing.Point(136, 160);
+            this.txtSearch.Multiline = true;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(245, 40);
+            this.txtSearch.TabIndex = 36;
+            this.txtSearch.TabStop = false;
+            this.txtSearch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // panel2
             // 
@@ -210,7 +198,7 @@
             // label4
             // 
             this.label4.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.label4.Location = new System.Drawing.Point(498, 165);
+            this.label4.Location = new System.Drawing.Point(494, 167);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(30, 27);
             this.label4.TabIndex = 28;
@@ -220,10 +208,12 @@
             // dtpFrom
             // 
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFrom.Location = new System.Drawing.Point(527, 168);
+            this.dtpFrom.Location = new System.Drawing.Point(527, 170);
             this.dtpFrom.Name = "dtpFrom";
+            this.dtpFrom.ShowCheckBox = true;
             this.dtpFrom.Size = new System.Drawing.Size(110, 22);
             this.dtpFrom.TabIndex = 38;
+            this.dtpFrom.ValueChanged += new System.EventHandler(this.dtpFrom_ValueChanged);
             // 
             // label1
             // 
@@ -238,37 +228,39 @@
             // dtpTo
             // 
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTo.Location = new System.Drawing.Point(668, 170);
+            this.dtpTo.Location = new System.Drawing.Point(677, 170);
             this.dtpTo.Name = "dtpTo";
+            this.dtpTo.ShowCheckBox = true;
             this.dtpTo.Size = new System.Drawing.Size(110, 22);
             this.dtpTo.TabIndex = 40;
+            this.dtpTo.ValueChanged += new System.EventHandler(this.dtpTo_ValueChanged);
             // 
-            // dgv
+            // dgvHistory
             // 
-            this.dgv.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv.Location = new System.Drawing.Point(5, 219);
-            this.dgv.Name = "dgv";
-            this.dgv.RowHeadersWidth = 51;
-            this.dgv.RowTemplate.Height = 24;
-            this.dgv.Size = new System.Drawing.Size(793, 219);
-            this.dgv.TabIndex = 41;
+            this.dgvHistory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvHistory.Location = new System.Drawing.Point(5, 219);
+            this.dgvHistory.Name = "dgvHistory";
+            this.dgvHistory.RowHeadersWidth = 51;
+            this.dgvHistory.RowTemplate.Height = 24;
+            this.dgvHistory.Size = new System.Drawing.Size(793, 219);
+            this.dgvHistory.TabIndex = 41;
+            this.dgvHistory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistory_CellContentClick);
             // 
             // DeliveryHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.dgv);
+            this.Controls.Add(this.dgvHistory);
             this.Controls.Add(this.dtpTo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtpFrom);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonToAddInTable);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelAdmin);
@@ -280,7 +272,7 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -295,17 +287,16 @@
         private System.Windows.Forms.Button buttonToBack;
         private System.Windows.Forms.Label labelToShipment;
         private System.Windows.Forms.Button buttonToAddInTable;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label labelPeriod;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DateTimePicker dtpFrom;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dtpTo;
-        private System.Windows.Forms.DataGridView dgv;
+        private System.Windows.Forms.DataGridView dgvHistory;
     }
 }

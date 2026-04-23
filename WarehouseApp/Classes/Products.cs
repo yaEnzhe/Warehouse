@@ -48,5 +48,13 @@ namespace WarehouseApp.Classes
         /// </summary>
         [ForeignKey("IdUnitOfMeasure")]
         public UnitOfMeasure UnitOfMeasure { get; set; }
+        /// <summary>
+        /// Дата окончания срока годности товара
+        /// </summary>
+        public DateTime? ExpirationDate { get; set; }
+        /// <summary>
+        /// Дата окончания начала годности товара
+        /// </summary>
+        public DateTime? ProductionDate { get; set; } 
     }
 }

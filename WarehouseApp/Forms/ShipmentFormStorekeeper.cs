@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -43,6 +44,7 @@ namespace WarehouseApp.Forms
 
             public decimal TotalSum => PricePerUnit * Quantity;
         }
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private BindingList<ShipmentViewItem> cartList;
         /// <summary>
         /// Конструктор для формы отгрузок
@@ -61,34 +63,34 @@ namespace WarehouseApp.Forms
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Название",
+                HeaderText = Properties.Resources.ColumnName,
                 DataPropertyName = "ProductName",
                 Width = 200
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Кол-во",
+                HeaderText = Properties.Resources.ColumnQuantity,
                 DataPropertyName = "Quantity"
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Цена за шт.",
+                HeaderText = Properties.Resources.ColumnPricePerUnit,
                 DataPropertyName = "PricePerUnit",
                 DefaultCellStyle = { Format = "C2" }
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Общая сумма",
+                HeaderText = Properties.Resources.ColumnTotalAmount,
                 DataPropertyName = "TotalSum",
                 ReadOnly = true,
                 DefaultCellStyle = { Format = "C2" }
             });
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Наличие",
+                HeaderText = Properties.Resources.ColumnAvailability,
                 DataPropertyName = "CurrentStock",
                 ReadOnly = true,
                 DefaultCellStyle = { ForeColor = Color.Gray }
@@ -143,7 +145,7 @@ namespace WarehouseApp.Forms
 
             if (!int.TryParse(txtQuantity.Text, out int qty) || qty <= 0)
             {
-                Logger.Warning("System", "NEGATIVE_STOCK", "Попытка установки отрицательный остаток");
+                logger.Warn("NEGATIVE_STOCK. Category: {Category}", "System", "Попытка установки отрицательный остаток");
                 MessageBox.Show(Properties.Resources.NegativeStockWarning);
                 return;
             }
@@ -153,7 +155,7 @@ namespace WarehouseApp.Forms
                 var product = db.Products.FirstOrDefault(p => p.NameProduct == productName);
                 if (product == null)
                 {
-                    Logger.Warning("System", "PRODUCT_NOT_FOUND", "Товар не найден в базе данных");
+                    logger.Warn("PRODUCT_NOT_FOUND. Category: {Category}", "System", "Товар не найден");
                     MessageBox.Show(Properties.Resources.ProductNotFound);
                     return;
                 }
@@ -161,7 +163,7 @@ namespace WarehouseApp.Forms
                 int alreadyInCart = cartList.Where(x => x.ProductId == product.IdProducts).Sum(x => x.Quantity);
                 if (product.Stock < (qty + alreadyInCart))
                 {
-                    Logger.Warning("System", "INSUFFICIENT_STOCK", "Недостаточное количество товара на складе");
+                    logger.Warn("INSUFFICIENT_STOCK. Category: {Category}", "System", "Недостаточное количество товара на складе");
                     MessageBox.Show(Properties.Resources.InsufficientStock);
                     return;
                 }
@@ -197,26 +199,26 @@ namespace WarehouseApp.Forms
 
             if (shipmentDate < DateTime.Today)
             {
-                Logger.Warning("System", "SHIPMENT_DATE_PAST", "Попытка указать дату отгрузки в прошлом");
+                logger.Warn("SHIPMENT_DATE_PAST. Category: {Category}", "System", "Попытка указать дату отгрузки в прошлом");
                 MessageBox.Show(Properties.Resources.ShipmentDatePastError);
                 return;
             }
             if (shipmentDate > DateTime.Today.AddYears(1))
             {
-                Logger.Warning("System", "SHIPMENT_DATE_FUTURE", "Попытка указать дату отгрузки в будущем");
+                logger.Warn("SHIPMENT_DATE_FUTURE. Category: {Category}", "System", "Попытка указать дату отгрузки в будущем");
                 MessageBox.Show(Properties.Resources.ShipmentDateFutureError);
                 return;
             }
             if (cartList.Count == 0)
             {
-                Logger.Warning("System", "EMPTY_PRODUCT_LIST", "Список товаров пуст");
+                logger.Warn("EMPTY_PRODUCT_LIST. Category: {Category}", "System", "Список товаров пуст");
                 MessageBox.Show(Properties.Resources.EmptyProductList);
                 return;
             }
             string clientName = txtCustomer.Text.Trim();
             if (string.IsNullOrEmpty(clientName))
             {
-                Logger.Warning("System", "EMPTY_PRODUCT_LIST", "Список товаров пуст");
+                logger.Warn("EMPTY_PRODUCT_LIST. Category: {Category}", "System", "Список товаров пуст");
                 MessageBox.Show(Properties.Resources.EmptyProductList);
                 return;
             }
@@ -229,7 +231,7 @@ namespace WarehouseApp.Forms
                         var productExists = db.Products.Any(p => p.IdProducts == item.ProductId);
                         if (!productExists)
                         {
-                            Logger.Warning("System", "PRODUCT_NOT_FOUND", "Товар не найден в базе данных");
+                            logger.Warn("PRODUCT_NOT_FOUND. Category: {Category}", "System", "Товар не найден");
                             MessageBox.Show(Properties.Resources.ProductNotFound);
                             return;
                         }
@@ -278,15 +280,15 @@ namespace WarehouseApp.Forms
                     }
 
                     db.SaveChanges();
-                    Logger.Info("System", "SHIPMENT_SUCCESS", "Отгрузка успешно проведена");
+                    logger.Info("SHIPMENT_SUCCESS. Category: {Category}", "System", "Отгрузка успешно проведена");
                     MessageBox.Show(Properties.Resources.ShipmentSucces);
                     cartList.Clear();
                     txtCustomer.Text = "";
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                Logger.Error("System", "SAVE_ERROR", "Ошибка сохранения данных");
+                logger.Error(ex, "SAVE_ERROR. Category: {Category}", "System");
                 MessageBox.Show(Properties.Resources.SaveErrorText);
             }
         }
@@ -295,7 +297,7 @@ namespace WarehouseApp.Forms
         {
             if (cartList.Count > 0)
             {
-                Logger.Info("System", "CLEAR_LIST_PROMPT", "Запрос подтверждения очистки списка");
+                logger.Info("CLEAR_LIST_PROMPT. Category: {Category}", "System", "Подтверждение очистки списка");
                 var result = MessageBox.Show(Properties.Resources.ClearListTitle, Properties.Resources.ClearListTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {

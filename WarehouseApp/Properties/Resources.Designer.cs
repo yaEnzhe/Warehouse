@@ -61,6 +61,15 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Не удалось удалить товар.
+        /// </summary>
+        internal static string CannotDeleteUsedProduct {
+            get {
+                return ResourceManager.GetString("CannotDeleteUsedProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Категория добавлена.
         /// </summary>
         internal static string CategoryAddedSuccess {
@@ -88,6 +97,141 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Сумма.
+        /// </summary>
+        internal static string ColumnAmount {
+            get {
+                return ResourceManager.GetString("ColumnAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Артикул.
+        /// </summary>
+        internal static string ColumnArticle {
+            get {
+                return ResourceManager.GetString("ColumnArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Наличие.
+        /// </summary>
+        internal static string ColumnAvailability {
+            get {
+                return ResourceManager.GetString("ColumnAvailability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Состав.
+        /// </summary>
+        internal static string ColumnContents {
+            get {
+                return ResourceManager.GetString("ColumnContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Дата.
+        /// </summary>
+        internal static string ColumnDate {
+            get {
+                return ResourceManager.GetString("ColumnDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Номер документа.
+        /// </summary>
+        internal static string ColumnDocumentNumber {
+            get {
+                return ResourceManager.GetString("ColumnDocumentNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на  Срок годности.
+        /// </summary>
+        internal static string ColumnExpirationDate {
+            get {
+                return ResourceManager.GetString("ColumnExpirationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Название.
+        /// </summary>
+        internal static string ColumnName {
+            get {
+                return ResourceManager.GetString("ColumnName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Цена.
+        /// </summary>
+        internal static string ColumnPrice {
+            get {
+                return ResourceManager.GetString("ColumnPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Цена за шт.
+        /// </summary>
+        internal static string ColumnPricePerUnit {
+            get {
+                return ResourceManager.GetString("ColumnPricePerUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Товар.
+        /// </summary>
+        internal static string ColumnProduct {
+            get {
+                return ResourceManager.GetString("ColumnProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Цена закупки.
+        /// </summary>
+        internal static string ColumnPurchasePrice {
+            get {
+                return ResourceManager.GetString("ColumnPurchasePrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Количество.
+        /// </summary>
+        internal static string ColumnQuantity {
+            get {
+                return ResourceManager.GetString("ColumnQuantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Срок.
+        /// </summary>
+        internal static string ColumnTerm {
+            get {
+                return ResourceManager.GetString("ColumnTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Общая сумма.
+        /// </summary>
+        internal static string ColumnTotalAmount {
+            get {
+                return ResourceManager.GetString("ColumnTotalAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Подтверждение.
         /// </summary>
         internal static string ConfirmDeleteTitle {
@@ -102,6 +246,15 @@ namespace WarehouseApp.Properties {
         internal static string CreateErrorText {
             get {
                 return ResourceManager.GetString("CreateErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Критическая ошибка.
+        /// </summary>
+        internal static string CriticalErrorMessage {
+            get {
+                return ResourceManager.GetString("CriticalErrorMessage", resourceCulture);
             }
         }
         
@@ -142,11 +295,38 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка загрузки файла.
+        /// </summary>
+        internal static string EmptyOrInvalidFileFormat {
+            get {
+                return ResourceManager.GetString("EmptyOrInvalidFileFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Список пуст.
         /// </summary>
         internal static string EmptyProductList {
             get {
                 return ResourceManager.GetString("EmptyProductList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Нельзя выбирать будущие даты!.
+        /// </summary>
+        internal static string ErrorDateFutureNotAllowed {
+            get {
+                return ResourceManager.GetString("ErrorDateFutureNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Дата начала не может быть позже даты окончания!.
+        /// </summary>
+        internal static string ErrorDateStartAfterEnd {
+            get {
+                return ResourceManager.GetString("ErrorDateStartAfterEnd", resourceCulture);
             }
         }
         
@@ -205,6 +385,15 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Импорт завершён..
+        /// </summary>
+        internal static string ImportCompleted {
+            get {
+                return ResourceManager.GetString("ImportCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Неверный логин или пароль.
         /// </summary>
         internal static string IncorrectLoginOrPassword {
@@ -219,6 +408,33 @@ namespace WarehouseApp.Properties {
         internal static string InsufficientStock {
             get {
                 return ResourceManager.GetString("InsufficientStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Введена некорректная скидка.
+        /// </summary>
+        internal static string InvalidDiscountRange {
+            get {
+                return ResourceManager.GetString("InvalidDiscountRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Цена должна быть больше 0.
+        /// </summary>
+        internal static string InvalidPrice {
+            get {
+                return ResourceManager.GetString("InvalidPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Количество меньше 0.
+        /// </summary>
+        internal static string InvalidQuantity {
+            get {
+                return ResourceManager.GetString("InvalidQuantity", resourceCulture);
             }
         }
         
@@ -268,11 +484,56 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Сумма отгрузки.
+        /// </summary>
+        internal static string ReportColAmount {
+            get {
+                return ResourceManager.GetString("ReportColAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Покупатель.
+        /// </summary>
+        internal static string ReportColCustomer {
+            get {
+                return ResourceManager.GetString("ReportColCustomer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Дата.
+        /// </summary>
+        internal static string ReportColDate {
+            get {
+                return ResourceManager.GetString("ReportColDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Прибыль.
+        /// </summary>
+        internal static string ReportColProfit {
+            get {
+                return ResourceManager.GetString("ReportColProfit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Ошибка сохранения.
         /// </summary>
         internal static string SaveErrorText {
             get {
                 return ResourceManager.GetString("SaveErrorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Параметры обновлены.
+        /// </summary>
+        internal static string SettingsSaved {
+            get {
+                return ResourceManager.GetString("SettingsSaved", resourceCulture);
             }
         }
         
@@ -331,6 +592,15 @@ namespace WarehouseApp.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Поставки нет.
+        /// </summary>
+        internal static string SupplyNotFound {
+            get {
+                return ResourceManager.GetString("SupplyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Есть несохраненные изменения. Сохранить?.
         /// </summary>
         internal static string UnsavedChangesQuestion {
@@ -345,6 +615,15 @@ namespace WarehouseApp.Properties {
         internal static string UserAlreadyExists {
             get {
                 return ResourceManager.GetString("UserAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Пользователь не авторизован.
+        /// </summary>
+        internal static string UserNotAuthorized {
+            get {
+                return ResourceManager.GetString("UserNotAuthorized", resourceCulture);
             }
         }
         
