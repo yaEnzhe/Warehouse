@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
 
@@ -9,6 +10,7 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class MainMenuAdminForm : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// ФИО либо ФИ пользователя
         /// </summary>
@@ -20,14 +22,27 @@ namespace WarehouseApp.Forms
         public MainMenuAdminForm()
         {
             InitializeComponent();
-            var currentUserLogin = UserContext.Current.Login;
-            var currentRole = UserContext.Current.Role.ToString();
+            if (UserContext.Current == null)
+            {
+                logger.Warn("SESSION_EXPIRED. Category: {Category}", "System", "Ошибка авторизации");
+                MessageBox.Show(Properties.Resources.UserNotAuthorized);
+                Close();
+                return;
+            }
+            string userLogin = UserContext.Current.Login;
+            string userFullName = $"{UserContext.Current.Surname} {UserContext.Current.Name}";
+            string currentRole = UserContext.Current.Role.ToString();
             txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
-            txtWelcome.Text = $"{Properties.Resources.Welcome}{UserName}";
+            txtWelcome.Text = $"{Properties.Resources.Welcome}{userFullName}";
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
+            UserContext.Current = null;
+            Hide();
+            LoginForm loginForm = new LoginForm();
+            loginForm.FormClosed += (s, args) => Application.Exit();
+            loginForm.ShowDialog();
             Close();
         }
 

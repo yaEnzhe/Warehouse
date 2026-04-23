@@ -36,14 +36,14 @@
             this.dgvHistory = new System.Windows.Forms.DataGridView();
             this.dtpFrom = new System.Windows.Forms.DateTimePicker();
             this.dtpTo = new System.Windows.Forms.DateTimePicker();
-            this.txtDate = new System.Windows.Forms.TextBox();
+            this.lblDate = new System.Windows.Forms.TextBox();
             this.labelYourRole = new System.Windows.Forms.Label();
             this.labelAdmin = new System.Windows.Forms.Label();
             this.lblCategoria = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cmbCategory = new System.Windows.Forms.ComboBox();
             this.lblCat = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.cmbCustomer = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -89,9 +89,9 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panel2.Controls.Add(this.labelPeriod);
-            this.panel2.Location = new System.Drawing.Point(94, 128);
+            this.panel2.Location = new System.Drawing.Point(74, 128);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(144, 35);
+            this.panel2.Size = new System.Drawing.Size(164, 35);
             this.panel2.TabIndex = 1;
             // 
             // labelPeriod
@@ -99,7 +99,7 @@
             this.labelPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPeriod.Location = new System.Drawing.Point(3, 1);
             this.labelPeriod.Name = "labelPeriod";
-            this.labelPeriod.Size = new System.Drawing.Size(79, 22);
+            this.labelPeriod.Size = new System.Drawing.Size(122, 27);
             this.labelPeriod.TabIndex = 3;
             this.labelPeriod.Text = "Период:";
             // 
@@ -120,6 +120,7 @@
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(152, 22);
             this.dtpFrom.TabIndex = 3;
+            this.dtpFrom.ValueChanged += new System.EventHandler(this.DatePickers_ValueChanged);
             // 
             // dtpTo
             // 
@@ -128,28 +129,29 @@
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(169, 22);
             this.dtpTo.TabIndex = 4;
+            this.dtpTo.ValueChanged += new System.EventHandler(this.DatePickers_ValueChanged);
             // 
-            // txtDate
+            // lblDate
             // 
-            this.txtDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.txtDate.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.txtDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtDate.Location = new System.Drawing.Point(12, 12);
-            this.txtDate.Multiline = true;
-            this.txtDate.Name = "txtDate";
-            this.txtDate.ReadOnly = true;
-            this.txtDate.Size = new System.Drawing.Size(207, 22);
-            this.txtDate.TabIndex = 18;
-            this.txtDate.TabStop = false;
-            this.txtDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.lblDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblDate.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblDate.Location = new System.Drawing.Point(12, 12);
+            this.lblDate.Multiline = true;
+            this.lblDate.Name = "lblDate";
+            this.lblDate.ReadOnly = true;
+            this.lblDate.Size = new System.Drawing.Size(207, 22);
+            this.lblDate.TabIndex = 18;
+            this.lblDate.TabStop = false;
+            this.lblDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // labelYourRole
             // 
             this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(457, 9);
+            this.labelYourRole.Location = new System.Drawing.Point(435, 9);
             this.labelYourRole.Name = "labelYourRole";
-            this.labelYourRole.Size = new System.Drawing.Size(115, 25);
+            this.labelYourRole.Size = new System.Drawing.Size(137, 25);
             this.labelYourRole.TabIndex = 19;
             this.labelYourRole.Text = "Ваша роль:";
             // 
@@ -159,7 +161,7 @@
             this.labelAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelAdmin.Location = new System.Drawing.Point(578, 9);
             this.labelAdmin.Name = "labelAdmin";
-            this.labelAdmin.Size = new System.Drawing.Size(164, 25);
+            this.labelAdmin.Size = new System.Drawing.Size(195, 25);
             this.labelAdmin.TabIndex = 20;
             this.labelAdmin.Text = "Администратор";
             // 
@@ -173,15 +175,16 @@
             this.lblCategoria.Text = "Категория";
             this.lblCategoria.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // comboBox1
+            // cmbCategory
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(568, 75);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(174, 28);
-            this.comboBox1.TabIndex = 22;
+            this.cmbCategory.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCategory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbCategory.FormattingEnabled = true;
+            this.cmbCategory.Location = new System.Drawing.Point(568, 75);
+            this.cmbCategory.Name = "cmbCategory";
+            this.cmbCategory.Size = new System.Drawing.Size(174, 28);
+            this.cmbCategory.TabIndex = 22;
+            this.cmbCategory.SelectedIndexChanged += new System.EventHandler(this.Filters_SelectedIndexChanged);
             // 
             // lblCat
             // 
@@ -204,15 +207,16 @@
             this.label2.Text = "Покупатель";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // comboBox2
+            // cmbCustomer
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(178, 77);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(174, 28);
-            this.comboBox2.TabIndex = 25;
+            this.cmbCustomer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbCustomer.FormattingEnabled = true;
+            this.cmbCustomer.Location = new System.Drawing.Point(178, 77);
+            this.cmbCustomer.Name = "cmbCustomer";
+            this.cmbCustomer.Size = new System.Drawing.Size(174, 28);
+            this.cmbCustomer.TabIndex = 25;
+            this.cmbCustomer.SelectedIndexChanged += new System.EventHandler(this.Filters_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -266,6 +270,7 @@
             this.button1.TabIndex = 30;
             this.button1.Text = "Экспорт";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // ChangesAdmin
             // 
@@ -277,14 +282,14 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.cmbCustomer);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblCat);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.cmbCategory);
             this.Controls.Add(this.lblCategoria);
             this.Controls.Add(this.labelAdmin);
             this.Controls.Add(this.labelYourRole);
-            this.Controls.Add(this.txtDate);
+            this.Controls.Add(this.lblDate);
             this.Controls.Add(this.dgvHistory);
             this.Controls.Add(this.buttonForBack);
             this.Controls.Add(this.dtpTo);
@@ -311,14 +316,14 @@
         private System.Windows.Forms.DataGridView dgvHistory;
         private System.Windows.Forms.DateTimePicker dtpFrom;
         private System.Windows.Forms.DateTimePicker dtpTo;
-        private System.Windows.Forms.TextBox txtDate;
+        private System.Windows.Forms.TextBox lblDate;
         private System.Windows.Forms.Label labelYourRole;
         private System.Windows.Forms.Label labelAdmin;
         private System.Windows.Forms.Label lblCategoria;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmbCategory;
         private System.Windows.Forms.Label lblCat;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox cmbCustomer;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;

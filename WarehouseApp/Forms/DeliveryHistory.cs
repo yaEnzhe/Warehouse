@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using WarehouseApp.Classes;
 using WarehouseApp.ClassesContext;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -12,6 +12,7 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class DeliveryHistory : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<SupplyHistoryRow> allHistoryRows = new List<SupplyHistoryRow>();  //Кэш поставок для фильтрации
         /// <summary>
         ///Конструктор для истории поставок
@@ -42,7 +43,7 @@ namespace WarehouseApp.Forms
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colDate",
-                HeaderText = "Дата",
+                HeaderText = Properties.Resources.ColumnDate,
                 DataPropertyName = "Date",
                 Width = 100,
                 DefaultCellStyle = { Format = "dd.MM.yyyy" }
@@ -50,14 +51,14 @@ namespace WarehouseApp.Forms
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colDocNum",
-                HeaderText = "№ документа",
+                HeaderText = Properties.Resources.ColumnDocumentNumber,
                 DataPropertyName = "DocumentNumber",
                 Width = 100
             });
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colSum",
-                HeaderText = "Сумма",
+                HeaderText = Properties.Resources.ColumnAmount,
                 DataPropertyName = "TotalSum",
                 Width = 100,
                 DefaultCellStyle = { Format = "0.00 ₽", Alignment = DataGridViewContentAlignment.MiddleRight }
@@ -65,7 +66,7 @@ namespace WarehouseApp.Forms
             var btnColumn = new DataGridViewButtonColumn
             {
                 Name = "colAction",
-                HeaderText = "Состав",
+                HeaderText = Properties.Resources.ColumnContents,
                 Text = "Открыть",
                 UseColumnTextForButtonValue = true,
                 Width = 80
@@ -105,7 +106,7 @@ namespace WarehouseApp.Forms
             }
             catch (Exception ex)
             {
-                Logger.Error("System", "HISTORY_LOAD_ERROR", ex.Message);
+                logger.Error(ex, "HISTORY_LOAD_ERROR. Category: {Category}", "System");
                 MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
         }

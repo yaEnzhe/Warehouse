@@ -32,15 +32,12 @@
             this.labelPar = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.lblValuta = new System.Windows.Forms.Label();
-            this.lblPeriod = new System.Windows.Forms.Label();
             this.lblSale = new System.Windows.Forms.Label();
-            this.cmbCurrency = new System.Windows.Forms.ComboBox();
-            this.txtPeriod = new System.Windows.Forms.ComboBox();
-            this.cmbDiscount = new System.Windows.Forms.ComboBox();
+            this.cmbValute = new System.Windows.Forms.ComboBox();
             this.lblVal = new System.Windows.Forms.Label();
-            this.lblMonth = new System.Windows.Forms.Label();
             this.lblprosent = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
+            this.txtDiscount = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -72,6 +69,7 @@
             this.btnClose.TabIndex = 2;
             this.btnClose.Text = "Закрыть";
             this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblValuta
             // 
@@ -85,57 +83,26 @@
             this.lblValuta.Text = "  Валюта:";
             this.lblValuta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblPeriod
-            // 
-            this.lblPeriod.BackColor = System.Drawing.Color.DarkGray;
-            this.lblPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblPeriod.Location = new System.Drawing.Point(103, 212);
-            this.lblPeriod.Name = "lblPeriod";
-            this.lblPeriod.Size = new System.Drawing.Size(295, 45);
-            this.lblPeriod.TabIndex = 4;
-            this.lblPeriod.Text = "Период до истечения срока:";
-            this.lblPeriod.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // lblSale
             // 
             this.lblSale.BackColor = System.Drawing.Color.DarkGray;
             this.lblSale.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblSale.Location = new System.Drawing.Point(104, 293);
+            this.lblSale.Location = new System.Drawing.Point(104, 224);
             this.lblSale.Name = "lblSale";
             this.lblSale.Size = new System.Drawing.Size(178, 41);
             this.lblSale.TabIndex = 5;
             this.lblSale.Text = " Скидка:";
             this.lblSale.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // cmbCurrency
+            // cmbValute
             // 
-            this.cmbCurrency.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCurrency.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cmbCurrency.FormattingEnabled = true;
-            this.cmbCurrency.Location = new System.Drawing.Point(288, 142);
-            this.cmbCurrency.Name = "cmbCurrency";
-            this.cmbCurrency.Size = new System.Drawing.Size(323, 39);
-            this.cmbCurrency.TabIndex = 6;
-            // 
-            // txtPeriod
-            // 
-            this.txtPeriod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.txtPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtPeriod.FormattingEnabled = true;
-            this.txtPeriod.Location = new System.Drawing.Point(399, 213);
-            this.txtPeriod.Name = "txtPeriod";
-            this.txtPeriod.Size = new System.Drawing.Size(161, 44);
-            this.txtPeriod.TabIndex = 7;
-            // 
-            // cmbDiscount
-            // 
-            this.cmbDiscount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.cmbDiscount.FormattingEnabled = true;
-            this.cmbDiscount.Location = new System.Drawing.Point(288, 293);
-            this.cmbDiscount.Name = "cmbDiscount";
-            this.cmbDiscount.Size = new System.Drawing.Size(151, 39);
-            this.cmbDiscount.TabIndex = 8;
+            this.cmbValute.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbValute.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbValute.FormattingEnabled = true;
+            this.cmbValute.Location = new System.Drawing.Point(288, 142);
+            this.cmbValute.Name = "cmbValute";
+            this.cmbValute.Size = new System.Drawing.Size(323, 39);
+            this.cmbValute.TabIndex = 6;
             // 
             // lblVal
             // 
@@ -149,24 +116,12 @@
             this.lblVal.Text = "    ▼";
             this.lblVal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblMonth
-            // 
-            this.lblMonth.BackColor = System.Drawing.Color.DarkGray;
-            this.lblMonth.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblMonth.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lblMonth.Location = new System.Drawing.Point(566, 214);
-            this.lblMonth.Name = "lblMonth";
-            this.lblMonth.Size = new System.Drawing.Size(142, 41);
-            this.lblMonth.TabIndex = 10;
-            this.lblMonth.Text = "месяц";
-            this.lblMonth.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lblprosent
             // 
             this.lblprosent.BackColor = System.Drawing.Color.DarkGray;
             this.lblprosent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblprosent.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lblprosent.Location = new System.Drawing.Point(445, 293);
+            this.lblprosent.Location = new System.Drawing.Point(445, 227);
             this.lblprosent.Name = "lblprosent";
             this.lblprosent.Size = new System.Drawing.Size(263, 41);
             this.lblprosent.TabIndex = 11;
@@ -177,12 +132,21 @@
             // 
             this.btnSave.BackColor = System.Drawing.Color.LimeGreen;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnSave.Location = new System.Drawing.Point(288, 366);
+            this.btnSave.Location = new System.Drawing.Point(288, 326);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(258, 42);
             this.btnSave.TabIndex = 12;
             this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // txtDiscount
+            // 
+            this.txtDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txtDiscount.Location = new System.Drawing.Point(288, 227);
+            this.txtDiscount.Name = "txtDiscount";
+            this.txtDiscount.Size = new System.Drawing.Size(151, 34);
+            this.txtDiscount.TabIndex = 13;
             // 
             // Options
             // 
@@ -190,21 +154,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txtDiscount);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblprosent);
-            this.Controls.Add(this.lblMonth);
             this.Controls.Add(this.lblVal);
-            this.Controls.Add(this.cmbDiscount);
-            this.Controls.Add(this.txtPeriod);
-            this.Controls.Add(this.cmbCurrency);
+            this.Controls.Add(this.cmbValute);
             this.Controls.Add(this.lblSale);
-            this.Controls.Add(this.lblPeriod);
             this.Controls.Add(this.lblValuta);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.labelPar);
             this.Controls.Add(this.label1);
             this.Name = "Options";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -214,14 +176,11 @@
         private System.Windows.Forms.Label labelPar;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label lblValuta;
-        private System.Windows.Forms.Label lblPeriod;
         private System.Windows.Forms.Label lblSale;
-        private System.Windows.Forms.ComboBox cmbCurrency;
-        private System.Windows.Forms.ComboBox txtPeriod;
-        private System.Windows.Forms.ComboBox cmbDiscount;
+        private System.Windows.Forms.ComboBox cmbValute;
         private System.Windows.Forms.Label lblVal;
-        private System.Windows.Forms.Label lblMonth;
         private System.Windows.Forms.Label lblprosent;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.TextBox txtDiscount;
     }
 }

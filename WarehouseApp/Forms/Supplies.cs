@@ -1,12 +1,13 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
 using WarehouseApp.ClassesContext;
 using WarehouseApp.Enums;
-using System.IO;
-using System.Text.Json;
 
 namespace WarehouseApp.Forms
 {
@@ -15,6 +16,7 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class Supplies : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<SupplyRow> currentSupply = new List<SupplyRow>();
         /// <summary>
         /// Класс для отражения в таблице данных перед сохранением в БД
@@ -61,7 +63,7 @@ namespace WarehouseApp.Forms
             var currentUser = UserContext.Current;
             if (currentUser == null)
             {
-                Logger.Warning("System", "SESSION_NOT_FOUND", "Попытка открытия формы поставок без авторизации");
+                logger.Warn("SESSION_NOT_FOUND. Category: {Category}", "System", "Попытка входа в отчет не администратора");
                 MessageBox.Show(Properties.Resources.StartupError);
                 Close();
                 return;
@@ -87,9 +89,56 @@ namespace WarehouseApp.Forms
             }
             catch (Exception ex)
             {
-                Logger.Error("System", "LOAD_PRODUCTS_ERROR", ex.Message);
+                logger.Error(ex, "LOAD_PRODUCTS_ERROR. Category: {Category}", "System");
                 MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
+        }
+        public void LoadData()
+        {
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var supplies = db.ShipmentContents.ToList();
+                    var list = new List<SupplyRow>();
+
+                    foreach (var item in supplies)
+                    {
+                        var product = db.Products.Find(item.IdProducts);
+                        if (product == null) continue;
+
+                        list.Add(new SupplyRow
+                        {
+                            ProductId = product.IdProducts,
+                            Article = product.Article,
+                            ProductName = product.NameProduct,
+                            Quantity = item.QuantityShipmentContents,
+                            Price = Options.ConvertFromBase(product.Price),
+                            Expiration = product.ExpirationDate ?? DateTime.MaxValue
+                        });
+                    }
+                    dgvSupply.DataSource = null;
+                    dgvSupply.DataSource = list;
+                    string symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+                    if (dgvSupply.Columns["colPrice"] != null)
+                    {
+                        dgvSupply.Columns["colPrice"].HeaderText = $"Цена ({symbol})";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "LOAD_SUPPLIES_ERROR", "System");
+                MessageBox.Show(Properties.Resources.DataLoadErrorText);
+            }
+        }
+
+        /// <summary>
+        /// Метод для обновления данных
+        /// </summary>
+        public void ReloadData()
+        {
+            LoadData();
         }
         private void SetupGridColumns()
         {
@@ -99,35 +148,35 @@ namespace WarehouseApp.Forms
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colArticle",
-                HeaderText = "Артикул",
+                HeaderText = Properties.Resources.ColumnArticle,
                 DataPropertyName = "Article",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colName",
-                HeaderText = "Название",
+                HeaderText = Properties.Resources.ColumnName,
                 DataPropertyName = "ProductName",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colQty",
-                HeaderText = "Кол-во",
+                HeaderText = Properties.Resources.ColumnQuantity,
                 DataPropertyName = "Quantity",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colPrice",
-                HeaderText = "Цена",
+                HeaderText = Properties.Resources.ColumnPrice,
                 DataPropertyName = "Price",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colExp",
-                HeaderText = "Срок",
+                HeaderText = Properties.Resources.ColumnTerm,
                 DataPropertyName = "Expiration",
                 ReadOnly = true
             });
@@ -143,7 +192,6 @@ namespace WarehouseApp.Forms
             var currentUser = UserContext.Current;
             if (currentUser == null)
             {
-                Logger.Error("System", "NAVIGATE_ERROR", "Попытка навигации без авторизованного пользователя");
                 Application.Exit();
                 return;
             }
@@ -158,7 +206,7 @@ namespace WarehouseApp.Forms
                     nextForm = new MainMenuStorekeeperForm();
                     break;
                 default:
-                    Logger.Warning(currentUser.Login, "NAVIGATE_UNKNOWN_ROLE", $"Неизвестная роль: {userRole}");
+                    logger.Warn("NAVIGATE_UNKNOWN_ROLE. Category: {Category}", currentUser.Login, $"{userRole}");
                     Application.Exit();
                     return;
             }
@@ -170,28 +218,28 @@ namespace WarehouseApp.Forms
             var priceText = txtboxPrice.Text.Replace('.', ',');
             if (cmbProduct.SelectedItem == null)
             {
-                Logger.Warning("System", "PRODUCT_NOT_SELECTED", "Пользователь не выбрал товар");
+                logger.Warn("PRODUCT_NOT_SELECTED. Category: {Category}", "System", "Пользователь не выбрал товар");
                 MessageBox.Show(Properties.Resources.ProductNotFound);
                 cmbProduct.Focus();
                 return;
             }
             if (dtpExpirationDate.Value.Date < DateTime.Now.Date)
             {
-                Logger.Warning("System", "EXPIRATION_DATE_PAST", "Указана прошедшая дата срока годности");
+                logger.Warn("EXPIRATION_DATE_PAST. Category: {Category}", "System", "Указана прошедшая дата срока годности");
                 MessageBox.Show(Properties.Resources.ShipmentDatePastError);
                 dtpExpirationDate.Focus();
                 return;
             }
             if (!decimal.TryParse(qtyText, out decimal qty) || qty <= 0)
             {
-                Logger.Warning("System", "INVALID_QUANTITY", "Количество должно быть больше 0");
+                logger.Warn("INVALID_QUANTITY. Category: {Category}", "System", "Количество должно быть больше 0");
                 MessageBox.Show(Properties.Resources.InvalidQuantity);
                 return;
             }
 
             if (!decimal.TryParse(priceText, out decimal price) || price <= 0)
             {
-                Logger.Warning("System", "INVALID_PRICE", "Цена закупки должна быть больше 0");
+                logger.Warn("INVALID_PRICE. Category: {Category}", "System", "Цена закупки должна быть больше 0");
                 MessageBox.Show(Properties.Resources.InvalidPrice);
                 return;
             }
@@ -214,11 +262,10 @@ namespace WarehouseApp.Forms
             txtboxcolichestvo.Clear();
             txtboxPrice.Clear();
             dtpExpirationDate.Value = DateTime.Now;
-            Logger.Info("System", "ITEM_ADDED", $"Добавлено: {productName}, {qty} шт.");
+            logger.Info("ITEM_ADDED. Category: {Category}", "System", $"Добавлено: {productName}, {qty} шт.");
         }
         private void txtboxcolichestvo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"[Кол-во] Нажато: '{e.KeyChar}' | Код: {(int)e.KeyChar}");
             if (!char.IsControl(e.KeyChar) && (e.KeyChar < '0' || e.KeyChar > '9'))
             {
                 e.Handled = true;
@@ -266,6 +313,7 @@ namespace WarehouseApp.Forms
                         UserId = currentUser.Id,
                         SupplyItems = new List<SupplyItem>()
                     };
+
                     foreach (var item in currentSupply)
                     {
                         var supplyItem = new SupplyItem
@@ -282,19 +330,25 @@ namespace WarehouseApp.Forms
                         if (product != null)
                         {
                             product.Stock += item.Quantity;
+                            product.Price = item.Price;
+                            if (item.Expiration > DateTime.MinValue)
+                            {
+                                product.ExpirationDate = item.Expiration;
+                            }
                         }
                     }
+
                     db.Supplies.Add(supply);
                     db.SaveChanges();
                 }
                 currentSupply.Clear();
                 dgvSupply.DataSource = null;
-                Logger.Info(currentUser.Login, "SUPPLY_PROCESSED", $"Проведена поставка. Товаров: {currentSupply.Count}");
+                logger.Info("SUPPLY_PROCESSED. Category: {Category}", currentUser.Login, $"Товаров: {currentSupply.Count}");
                 MessageBox.Show(Properties.Resources.ShipmentSucces);
             }
             catch (Exception ex)
             {
-                Logger.Error("System", "SUPPLY_SAVE_ERROR", ex.Message);
+                logger.Error(ex, "SUPPLY_SAVE_ERROR. Category: {Category}", "System");
                 MessageBox.Show(Properties.Resources.SaveErrorText);
             }
         }
@@ -378,7 +432,7 @@ namespace WarehouseApp.Forms
                 } 
                 catch (Exception ex)
                 {
-                    Logger.Error("System", "IMPORT_ERROR", ex.Message);
+                    logger.Error(ex, "IMPORT_ERROR. Category: {Category}", "System");
                     MessageBox.Show(Properties.Resources.EmptyOrInvalidFileFormat);
                 }
             } 

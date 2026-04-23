@@ -52,7 +52,9 @@
     <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.6.1.2\lib\net46\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
     </Reference>
@@ -99,7 +101,6 @@
     <Compile Include="Classes\Categories.cs" />
     <Compile Include="Classes\Clients.cs" />
     <Compile Include="Classes\CurrentUser.cs" />
-    <Compile Include="Classes\Logger.cs" />
     <Compile Include="Classes\Password.cs" />
     <Compile Include="Classes\Products.cs" />
     <Compile Include="Classes\Shipment.cs" />
@@ -221,6 +222,18 @@
     <Compile Include="Migrations\202604211701425_AddAppSettingsTable.Designer.cs">
       <DependentUpon>202604211701425_AddAppSettingsTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202604211950030_AddDatesToProducts.cs" />
+    <Compile Include="Migrations\202604211950030_AddDatesToProducts.Designer.cs">
+      <DependentUpon>202604211950030_AddDatesToProducts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604221351301_AddShipmentContentsNavigation.cs" />
+    <Compile Include="Migrations\202604221351301_AddShipmentContentsNavigation.Designer.cs">
+      <DependentUpon>202604221351301_AddShipmentContentsNavigation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604221723062_SyncModels.cs" />
+    <Compile Include="Migrations\202604221723062_SyncModels.Designer.cs">
+      <DependentUpon>202604221723062_SyncModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -297,6 +310,15 @@
     <EmbeddedResource Include="Migrations\202604211701425_AddAppSettingsTable.resx">
       <DependentUpon>202604211701425_AddAppSettingsTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604211950030_AddDatesToProducts.resx">
+      <DependentUpon>202604211950030_AddDatesToProducts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604221351301_AddShipmentContentsNavigation.resx">
+      <DependentUpon>202604221351301_AddShipmentContentsNavigation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604221723062_SyncModels.resx">
+      <DependentUpon>202604221723062_SyncModels.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -310,6 +332,9 @@
     <EmbeddedResource Include="Forms\RegistrationForm.resx">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

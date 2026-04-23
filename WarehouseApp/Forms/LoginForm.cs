@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Linq;
 using System.Windows.Forms;
 using WarehouseApp.Classes;
@@ -12,6 +13,7 @@ namespace WarehouseApp
     /// </summary>
     public partial class LoginForm : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// конструктор класса формы авторизации
         /// </summary>
@@ -31,27 +33,29 @@ namespace WarehouseApp
             using (var db = new WarehouseContext())
             {
                 var thisUser = db.Users.FirstOrDefault(user => user.Login == txtLogin.Text);
+
                 if (thisUser != null && Password.CheckPassword(thisUser, txtPassword.Text))
                 {
                     UserContext.Current = thisUser;
-                    Logger.Info(thisUser.Login, "LOGIN_SUCCESS", $"Успешный вход. Роль: {thisUser.Role}");
-
+                    logger.Info("LOGIN_SUCCESS. Category: {Category}", thisUser.Login, $"Успешный вход. Роль: {thisUser.Role}");
                     if (thisUser.Role == Enums.Roles.Administrator)
                     {
                         var mainMenuAdminForm = new MainMenuAdminForm();
-                        Close();
+                        Hide();
                         mainMenuAdminForm.ShowDialog();
+                        Close();
                     }
                     else if (thisUser.Role == Enums.Roles.Storekeeper)
                     {
                         var mainMenuStorekeeperForm = new MainMenuStorekeeperForm();
-                        Close();
+                        Hide();
                         mainMenuStorekeeperForm.ShowDialog();
+                        Close();
                     }
                 }
                 else
                 {
-                    Logger.Warning("System", "LOGIN_FAILED", "Попытка входа с неверными учетными данными");
+                    logger.Warn("LOGIN_FAILED. Category: {Category}", "System", "Попытка входа с неверным паролем/логином");
                     MessageBox.Show(Properties.Resources.IncorrectLoginOrPassword);
                 }
             }

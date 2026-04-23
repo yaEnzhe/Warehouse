@@ -38,6 +38,8 @@
             this.labelYourRole = new System.Windows.Forms.Label();
             this.labelStorekeeper = new System.Windows.Forms.Label();
             this.btnPostavki = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cmbCurrency = new System.Windows.Forms.ComboBox();
             this.panelHeadline.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,11 +166,33 @@
             this.btnPostavki.UseVisualStyleBackColor = false;
             this.btnPostavki.Click += new System.EventHandler(this.btnPostavki_Click);
             // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Location = new System.Drawing.Point(278, 399);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(109, 29);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Валюта:";
+            // 
+            // cmbCurrency
+            // 
+            this.cmbCurrency.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbCurrency.FormattingEnabled = true;
+            this.cmbCurrency.Location = new System.Drawing.Point(393, 394);
+            this.cmbCurrency.Name = "cmbCurrency";
+            this.cmbCurrency.Size = new System.Drawing.Size(151, 33);
+            this.cmbCurrency.TabIndex = 23;
+            this.cmbCurrency.SelectedIndexChanged += new System.EventHandler(this.cmbCurrency_SelectedIndexChanged);
+            // 
             // MainMenuStorekeeperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cmbCurrency);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnPostavki);
             this.Controls.Add(this.labelStorekeeper);
             this.Controls.Add(this.labelYourRole);
@@ -199,5 +223,7 @@
         private System.Windows.Forms.Label labelYourRole;
         private System.Windows.Forms.Label labelStorekeeper;
         private System.Windows.Forms.Button btnPostavki;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox cmbCurrency;
     }
 }

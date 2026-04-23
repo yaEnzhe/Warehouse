@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using WarehouseApp.ClassesContext;
 using WarehouseApp.Classes;
+using WarehouseApp.ClassesContext;
 
 namespace WarehouseApp.Forms
 {
@@ -11,6 +12,7 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class InputCategoryForm : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
         /// Конструктор для добавления категорий
         /// </summary>
@@ -50,7 +52,7 @@ namespace WarehouseApp.Forms
                             {
                                 if (db.Categories.Any(c => c.NameCategory.ToLower() == newName.ToLower()))
                                 {
-                                    Logger.Error("System", "CATEGORY_EXISTS_ERROR", "Попытка добавления уже существующей категории");
+                                    logger.Error("CATEGORY_EXISTS_ERROR. Category: {Category}", "System", "Категория уже есть");
                                     MessageBox.Show(Properties.Resources.CategoryExistsWarning);
                                     return;
                                 }
@@ -63,13 +65,13 @@ namespace WarehouseApp.Forms
                                 db.Categories.Add(newCat);
                                 db.SaveChanges();
                             }
-                            Logger.Info("System", "CATEGORY_ADDED_SUCCESS", "Категория успешно добавлена");
+                            logger.Info("CATEGORY_ADDED_SUCCESS. Category: {Category}", "System", "Категория успешно добавлена");
                             MessageBox.Show(Properties.Resources.CategoryAddedSuccess);
                             LoadCategoriesToList();
                         }
-                        catch
+                        catch(Exception ex)
                         {
-                            Logger.Error("System", "ERROR_MESSAGE_DISPLAY", "Отображено сообщение об ошибке");
+                            logger.Error(ex,"ERROR_MESSAGE_DISPLAY. Category: {Category}", "System");
                             MessageBox.Show(Properties.Resources.ErrorTitle);
                         }
                     }

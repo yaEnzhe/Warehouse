@@ -1,9 +1,9 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using WarehouseApp.ClassesContext;
-using WarehouseApp.Classes;
 
 namespace WarehouseApp.Forms
 {
@@ -12,6 +12,7 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class ContentsOfSupplies : Form
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private Guid supplyId;
         /// <summary>
         /// Конструктор для формы поставок 
@@ -31,7 +32,7 @@ namespace WarehouseApp.Forms
             dgvItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colProduct",
-                HeaderText = "Товар",
+                HeaderText = Properties.Resources.ColumnProduct,
                 DataPropertyName = "ProductName",
                 Width = 200,
                 ReadOnly = true
@@ -39,7 +40,7 @@ namespace WarehouseApp.Forms
             dgvItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colQty",
-                HeaderText = "Количество",
+                HeaderText = Properties.Resources.ColumnQuantity,
                 DataPropertyName = "Quantity",
                 Width = 100,
                 ReadOnly = true
@@ -47,7 +48,7 @@ namespace WarehouseApp.Forms
             dgvItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colPrice",
-                HeaderText = "Цена закупки",
+                HeaderText = Properties.Resources.ColumnPurchasePrice,
                 DataPropertyName = "Price",
                 Width = 120,
                 DefaultCellStyle = { Format = "0.00 ₽", Alignment = DataGridViewContentAlignment.MiddleRight },
@@ -56,7 +57,7 @@ namespace WarehouseApp.Forms
             dgvItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colExp",
-                HeaderText = "Срок годности",
+                HeaderText = Properties.Resources.ColumnExpirationDate,
                 DataPropertyName = "ExpirationDisplay",
                 Width = 120,
                 ReadOnly = true
@@ -70,7 +71,7 @@ namespace WarehouseApp.Forms
 
                 if (supply == null)
                 {
-                    Logger.Warning("System", "SUPPLY_NOT_FOUND", $"Поставка с ID {supplyId} не найдена в базе данных");
+                    logger.Warn("SUPPLY_NOT_FOUND. Category: {Category}", "System", $"Поставка с ID {supplyId} не найдена в базе данных");
                     MessageBox.Show(Properties.Resources.SupplyNotFound);
                     Close();
                     return;
