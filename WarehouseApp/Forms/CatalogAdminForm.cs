@@ -85,14 +85,19 @@ namespace WarehouseApp.Forms
                     DisplayStyleForCurrentCellOnly = true
                 };
                 dgv.Columns.Add(comboCategory);
-                dgv.Columns.Add(new DataGridViewTextBoxColumn
+                var comboUnit = new DataGridViewComboBoxColumn
                 {
                     Name = "colUnit",
                     HeaderText = "Ед. изм.",
                     DataPropertyName = "Unit",
-                    Width = 80,
-                    ReadOnly = true
-                });
+                    DisplayMember = "Name",
+                    ValueMember = "Name",
+                    DataSource = GetUnitsForCombo(),
+                    Width = 90,
+                    DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox,
+                    DisplayStyleForCurrentCellOnly = true
+                };
+                dgv.Columns.Add(comboUnit);
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colPrice",
@@ -587,9 +592,20 @@ namespace WarehouseApp.Forms
             {
                 e.Cancel = true;
             }
-            if (colName == "colStatus")
+            if (colName == "colStatus" || colName == "colArticle")
             {
                 e.Cancel = true;
+            }
+        }
+        private List<UnitItem> GetUnitsForCombo()
+        {
+            using (var db = new WarehouseContext())
+            {
+                return db.UnitOfMeasure.Select(u => new UnitItem
+                {
+                    Id = u.IdUnit,
+                    Name = u.NameUnit
+                }).ToList();
             }
         }
         /// <summary>
@@ -626,6 +642,14 @@ namespace WarehouseApp.Forms
     /// Класс для категорий
     /// </summary>
     public class CategoryItem
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+    }
+    /// <summary>
+    /// Класс для привязки единиц измерения
+    /// </summary>
+    public class UnitItem
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
