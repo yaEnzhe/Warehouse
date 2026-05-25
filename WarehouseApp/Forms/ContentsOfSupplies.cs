@@ -20,6 +20,7 @@ namespace WarehouseApp.Forms
         public ContentsOfSupplies(Guid supplyId)
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             this.supplyId = supplyId;
             SetupGrid();
             LoadSupplyData();

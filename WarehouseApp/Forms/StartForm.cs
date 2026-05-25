@@ -15,6 +15,7 @@ namespace WarehouseApp
         public StartForm()
         {
             InitializeComponent();
+            ResponsiveFormHelper.Enable(this);
         }
 
         private void btnStart_Click(object sender, EventArgs e)

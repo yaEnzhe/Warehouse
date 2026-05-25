@@ -41,10 +41,8 @@
             this.labelAdmin = new System.Windows.Forms.Label();
             this.lblCategoria = new System.Windows.Forms.Label();
             this.cmbCategory = new System.Windows.Forms.ComboBox();
-            this.lblCat = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbCustomer = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnPoisk = new System.Windows.Forms.Button();
@@ -116,7 +114,7 @@
             // dtpFrom
             // 
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFrom.Location = new System.Drawing.Point(290, 129);
+            this.dtpFrom.Location = new System.Drawing.Point(290, 133);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.Size = new System.Drawing.Size(152, 22);
             this.dtpFrom.TabIndex = 3;
@@ -125,7 +123,7 @@
             // dtpTo
             // 
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTo.Location = new System.Drawing.Point(491, 129);
+            this.dtpTo.Location = new System.Drawing.Point(491, 134);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.Size = new System.Drawing.Size(169, 22);
             this.dtpTo.TabIndex = 4;
@@ -186,17 +184,6 @@
             this.cmbCategory.TabIndex = 22;
             this.cmbCategory.SelectedIndexChanged += new System.EventHandler(this.Filters_SelectedIndexChanged);
             // 
-            // lblCat
-            // 
-            this.lblCat.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.lblCat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCat.Location = new System.Drawing.Point(742, 75);
-            this.lblCat.Name = "lblCat";
-            this.lblCat.Size = new System.Drawing.Size(46, 28);
-            this.lblCat.TabIndex = 23;
-            this.lblCat.Text = "▼";
-            this.lblCat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -217,17 +204,6 @@
             this.cmbCustomer.Size = new System.Drawing.Size(174, 28);
             this.cmbCustomer.TabIndex = 25;
             this.cmbCustomer.SelectedIndexChanged += new System.EventHandler(this.Filters_SelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(349, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 28);
-            this.label3.TabIndex = 26;
-            this.label3.Text = "▼";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
@@ -281,10 +257,8 @@
             this.Controls.Add(this.btnPoisk);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.cmbCustomer);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.lblCat);
             this.Controls.Add(this.cmbCategory);
             this.Controls.Add(this.lblCategoria);
             this.Controls.Add(this.labelAdmin);
@@ -321,10 +295,8 @@
         private System.Windows.Forms.Label labelAdmin;
         private System.Windows.Forms.Label lblCategoria;
         private System.Windows.Forms.ComboBox cmbCategory;
-        private System.Windows.Forms.Label lblCat;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbCustomer;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnPoisk;

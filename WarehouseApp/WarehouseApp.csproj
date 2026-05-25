@@ -110,6 +110,7 @@
     <Compile Include="Classes\SupplyItem.cs" />
     <Compile Include="Classes\SystemLog.cs" />
     <Compile Include="Classes\UnitOfMeasure.cs" />
+    <Compile Include="Classes\UserDisplayHelper.cs" />
     <Compile Include="Enums\LogLevels.cs" />
     <Compile Include="Enums\ShipmentStatus.cs" />
     <Compile Include="Forms\CatalogAdminForm.cs">
@@ -196,6 +197,12 @@
     <Compile Include="Forms\Supplies.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\WarehouseMapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WarehouseMapForm.Designer.cs">
+      <DependentUpon>WarehouseMapForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Supplies.Designer.cs">
       <DependentUpon>Supplies.cs</DependentUpon>
     </Compile>
@@ -241,6 +248,7 @@
     <Compile Include="Forms\RegistrationForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\ResponsiveFormHelper.cs" />
     <Compile Include="Forms\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
@@ -292,6 +300,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Supplies.resx">
       <DependentUpon>Supplies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WarehouseMapForm.resx">
+      <DependentUpon>WarehouseMapForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202603291034238_InitialCreate.resx">
       <DependentUpon>202603291034238_InitialCreate.cs</DependentUpon>

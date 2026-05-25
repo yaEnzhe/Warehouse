@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
@@ -7,6 +8,7 @@ using WarehouseApp.Classes;
 using WarehouseApp.ClassesContext;
 using WarehouseApp.Enums;
 using WarehouseApp.Forms;
+using WarehouseApp.Migrations;
 
 namespace WarehouseApp
 {
@@ -19,6 +21,8 @@ namespace WarehouseApp
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+                Database.SetInitializer(new MigrateDatabaseToLatestVersion<WarehouseContext, Configuration>());
+
                 using (var db = new WarehouseContext())
                 {
                     var badRate = db.AppSettings.FirstOrDefault(s => s.Key == "ExchangeRate");
@@ -33,9 +37,9 @@ namespace WarehouseApp
                 LoadCurrencySettings();
                 Application.Run(new LoginForm());
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show(Properties.Resources.StartupError);
+                MessageBox.Show($"{Properties.Resources.StartupError}\n\n{ex.Message}");
             }
         }
         /// <summary>

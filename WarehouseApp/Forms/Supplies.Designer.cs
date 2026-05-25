@@ -42,7 +42,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbProduct = new System.Windows.Forms.ComboBox();
-            this.lblCat = new System.Windows.Forms.Label();
             this.txtboxcolichestvo = new System.Windows.Forms.TextBox();
             this.dgvSupply = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
@@ -77,16 +76,18 @@
             this.labelYourRole.Size = new System.Drawing.Size(115, 25);
             this.labelYourRole.TabIndex = 19;
             this.labelYourRole.Text = "Ваша роль:";
+            this.labelYourRole.Click += new System.EventHandler(this.labelYourRole_Click);
             // 
             // labelAdmin
             // 
             this.labelAdmin.BackColor = System.Drawing.Color.LightSeaGreen;
             this.labelAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelAdmin.Location = new System.Drawing.Point(624, 8);
+            this.labelAdmin.Location = new System.Drawing.Point(634, 9);
             this.labelAdmin.Name = "labelAdmin";
-            this.labelAdmin.Size = new System.Drawing.Size(164, 25);
+            this.labelAdmin.Size = new System.Drawing.Size(164, 26);
             this.labelAdmin.TabIndex = 20;
             this.labelAdmin.Text = "Пользователь";
+            this.labelAdmin.Click += new System.EventHandler(this.labelAdmin_Click);
             // 
             // panel1
             // 
@@ -196,7 +197,7 @@
             // 
             this.label3.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(37, 314);
+            this.label3.Location = new System.Drawing.Point(37, 301);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(164, 25);
             this.label3.TabIndex = 32;
@@ -209,19 +210,8 @@
             this.cmbProduct.FormattingEnabled = true;
             this.cmbProduct.Location = new System.Drawing.Point(207, 173);
             this.cmbProduct.Name = "cmbProduct";
-            this.cmbProduct.Size = new System.Drawing.Size(159, 28);
+            this.cmbProduct.Size = new System.Drawing.Size(194, 28);
             this.cmbProduct.TabIndex = 33;
-            // 
-            // lblCat
-            // 
-            this.lblCat.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.lblCat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCat.Location = new System.Drawing.Point(363, 173);
-            this.lblCat.Name = "lblCat";
-            this.lblCat.Size = new System.Drawing.Size(38, 28);
-            this.lblCat.TabIndex = 34;
-            this.lblCat.Text = "▼";
-            this.lblCat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtboxcolichestvo
             // 
@@ -288,9 +278,9 @@
             // dtpExpirationDate
             // 
             this.dtpExpirationDate.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dtpExpirationDate.Location = new System.Drawing.Point(207, 314);
+            this.dtpExpirationDate.Location = new System.Drawing.Point(207, 304);
             this.dtpExpirationDate.Name = "dtpExpirationDate";
-            this.dtpExpirationDate.Size = new System.Drawing.Size(177, 22);
+            this.dtpExpirationDate.Size = new System.Drawing.Size(194, 22);
             this.dtpExpirationDate.TabIndex = 50;
             // 
             // Supplies
@@ -304,7 +294,6 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dgvSupply);
             this.Controls.Add(this.txtboxcolichestvo);
-            this.Controls.Add(this.lblCat);
             this.Controls.Add(this.cmbProduct);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -342,7 +331,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbProduct;
-        private System.Windows.Forms.Label lblCat;
         private System.Windows.Forms.TextBox txtboxcolichestvo;
         private System.Windows.Forms.DataGridView dgvSupply;
         private System.Windows.Forms.Button button3;

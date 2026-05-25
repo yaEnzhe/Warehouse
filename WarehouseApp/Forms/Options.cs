@@ -30,6 +30,7 @@ namespace WarehouseApp.Forms
         public Options()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             cmbValute.Items.AddRange(new string[] { "RUB", "USD", "EUR", "KZT" });
         }
         private void Options_Load(object sender, EventArgs e)
@@ -63,6 +64,14 @@ namespace WarehouseApp.Forms
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
+            if (cmbValute.SelectedItem == null)
+            {
+                logger.Warn("CURRENCY_NOT_SELECTED. Category: {Category}", "System", "Валюта не выбрана");
+                MessageBox.Show("Выберите валюту", Properties.Resources.WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbValute.Focus();
+                return;
+            }
+
             string selectedCurrency = cmbValute.SelectedItem.ToString();
             string discountVal = txtDiscount.Text;
             if (!decimal.TryParse(discountVal, out decimal discount) || discount < 0 || discount > 100)
@@ -169,6 +178,11 @@ namespace WarehouseApp.Forms
                 { "KZT", "₸" }
             };
             return symbols.TryGetValue(currencyCode, out var s) ? s : currencyCode;
+        }
+
+        private void labelPar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

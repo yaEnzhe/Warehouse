@@ -241,7 +241,6 @@
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.buttonForBack);
             this.Controls.Add(this.panelTop);
-            this.MaximizeBox = false;
             this.Name = "CatalogStorekeeperForm";
             this.Load += new System.EventHandler(this.CatalogStorekeeperForm_Load);
             this.panelTop.ResumeLayout(false);

@@ -32,7 +32,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
-            this.lbCategories = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // btnClose
@@ -49,44 +48,35 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(77, 83);
+            this.label1.Location = new System.Drawing.Point(77, 129);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(147, 16);
             this.label1.TabIndex = 3;
             this.label1.Text = "Название категории:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(80, 111);
+            this.txtName.Location = new System.Drawing.Point(80, 158);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(271, 22);
+            this.txtName.Size = new System.Drawing.Size(276, 22);
             this.txtName.TabIndex = 4;
             // 
             // btnOk
             // 
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(442, 100);
+            this.btnOk.Location = new System.Drawing.Point(441, 153);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(159, 33);
             this.btnOk.TabIndex = 5;
             this.btnOk.Text = "ОК";
             this.btnOk.UseVisualStyleBackColor = true;
             // 
-            // lbCategories
-            // 
-            this.lbCategories.FormattingEnabled = true;
-            this.lbCategories.ItemHeight = 16;
-            this.lbCategories.Location = new System.Drawing.Point(45, 174);
-            this.lbCategories.Name = "lbCategories";
-            this.lbCategories.Size = new System.Drawing.Size(493, 132);
-            this.lbCategories.TabIndex = 6;
-            // 
             // InputCategoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lbCategories);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.label1);
@@ -101,7 +91,6 @@
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnOk;
-        private System.Windows.Forms.ListBox lbCategories;
         public System.Windows.Forms.TextBox txtName;
     }
 }

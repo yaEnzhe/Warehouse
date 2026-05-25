@@ -20,6 +20,7 @@ namespace WarehouseApp
         public RegistrationForm()
         {
             InitializeComponent();
+            ResponsiveFormHelper.Enable(this);
         }
 
         private void btnRegistration_Click(object sender, EventArgs e)
@@ -94,41 +95,22 @@ namespace WarehouseApp
 
         private void txtPatronymic_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == ' ')
-            {
-                e.Handled = true;
-            }
-
-            if (!char.IsLetter(e.KeyChar))
-            {
-                e.Handled = true;
-            }
+            e.Handled = !IsNameInputAllowed(e.KeyChar);
         }
 
         private void txtSurname_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == ' ')
-            {
-                e.Handled = true;
-            }
-
-            if (!char.IsLetter(e.KeyChar))
-            {
-                e.Handled = true;
-            }
+            e.Handled = !IsNameInputAllowed(e.KeyChar);
         }
 
         private void txtName_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == ' ')
-            {
-                e.Handled = true;
-            }
+            e.Handled = !IsNameInputAllowed(e.KeyChar);
+        }
 
-            if (!char.IsLetter(e.KeyChar))
-            {
-                e.Handled = true;
-            }
+        private bool IsNameInputAllowed(char keyChar)
+        {
+            return char.IsControl(keyChar) || char.IsLetter(keyChar);
         }
 
         private void txtNameHeadline_Enter(object sender, EventArgs e)

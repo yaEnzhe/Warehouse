@@ -52,6 +52,7 @@ namespace WarehouseApp.Forms
         public ShipmentFormStorekeeper()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             cartList = new BindingList<ShipmentViewItem>();
         }
 
@@ -132,7 +133,7 @@ namespace WarehouseApp.Forms
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            Close();
+            CloseShipmentForm();
         }
 
 
@@ -141,7 +142,13 @@ namespace WarehouseApp.Forms
         private void buttonToAddInTable_Click(object sender, EventArgs e)
         {
             string productName = txtSearch.Text.Trim();
-            if (string.IsNullOrEmpty(productName)) return;
+            if (string.IsNullOrEmpty(productName))
+            {
+                logger.Warn("EMPTY_PRODUCT_SEARCH. Category: {Category}", "System", "Поле поиска товара не заполнено");
+                MessageBox.Show(Properties.Resources.FillAllFields);
+                txtSearch.Focus();
+                return;
+            }
 
             if (!int.TryParse(txtQuantity.Text, out int qty) || qty <= 0)
             {
@@ -310,6 +317,17 @@ namespace WarehouseApp.Forms
 
         private void buttonToBack_Click(object sender, EventArgs e)
         {
+            CloseShipmentForm();
+        }
+
+        private void CloseShipmentForm()
+        {
+            if (cartList.Count > 0)
+            {
+                logger.Warn("SHIPMENT_NOT_COMPLETED. Category: {Category}", "System", "Товар добавлен в список, но отгрузка не проведена");
+                MessageBox.Show("Внимание! Вы добавили товар в список, но не провели отгрузку", Properties.Resources.WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             Close();
         }
     }

@@ -18,12 +18,15 @@ namespace WarehouseApp.Forms
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private bool isReadOnlyMode;
         private BindingList<ProductRow> allProducts;
+        private Guid? pendingNewProductId;
+        private bool restoringPendingProductSelection;
         /// <summary>
         /// Конструктор для формы каталога товара.
         /// </summary>
         public CatalogAdminForm(bool readOnly = false)
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             isReadOnlyMode = readOnly;
             txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
         }
@@ -138,6 +141,7 @@ namespace WarehouseApp.Forms
                 dgv.CellValidating += dgv_CellValidating;
                 dgv.CellClick += dgv_CellClick;
                 dgv.CellBeginEdit += dgv_CellBeginEdit;
+                dgv.SelectionChanged += dgv_SelectionChanged;
                 LoadData();
                 dgv.ReadOnly = true;
                 LoadFilterControls();
@@ -145,8 +149,7 @@ namespace WarehouseApp.Forms
                 var currentUser = UserContext.Current;
                 if (currentUser != null)
                 {
-                    string roleName = currentUser.Role.ToString();
-                    lblUserRole.Text = $"Ваша роль: {roleName}";
+                    lblUserRole.Text = $"Ваша роль: {UserDisplayHelper.GetRoleName(currentUser.Role)}";
                     if (currentUser.Role == Enums.Roles.Storekeeper)
                     {
                         buttonForEdit.Visible = false;
@@ -163,7 +166,15 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.StartupError);
                 Close();
             }
+            BeginInvoke(new Action(ClearCatalogSelection));
         }
+
+        private void ClearCatalogSelection()
+        {
+            dgv.ClearSelection();
+            dgv.CurrentCell = null;
+        }
+
         private void LoadData()
         {
             try
@@ -252,6 +263,7 @@ namespace WarehouseApp.Forms
                 }
                 logger.Info("SAVE_SUCCESS. Category: {Category}. Message: {Message}", "System", "Данные успешно сохранены");
                 MessageBox.Show(Properties.Resources.SuccessMessage);
+                pendingNewProductId = null;
                 LoadData();
                 ApplyFilters();
             }
@@ -297,6 +309,7 @@ namespace WarehouseApp.Forms
 
                     db.Products.Add(newProd);
                     db.SaveChanges();
+                    pendingNewProductId = newProd.IdProducts;
                 }
                 LoadData();
                 ApplyFilters();
@@ -322,6 +335,44 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.CreateErrorText);
             }
         }
+
+        private void dgv_SelectionChanged(object sender, EventArgs e)
+        {
+            if (!pendingNewProductId.HasValue || restoringPendingProductSelection || dgv.CurrentRow == null)
+                return;
+
+            if (dgv.CurrentRow.DataBoundItem is ProductRow row && row.Id == pendingNewProductId.Value)
+                return;
+
+            RestorePendingProductSelection();
+        }
+
+        private void RestorePendingProductSelection()
+        {
+            if (!pendingNewProductId.HasValue)
+                return;
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (row.DataBoundItem is ProductRow product && product.Id == pendingNewProductId.Value)
+                {
+                    restoringPendingProductSelection = true;
+                    try
+                    {
+                        dgv.ClearSelection();
+                        row.Selected = true;
+                        dgv.CurrentCell = row.Cells["colName"];
+                        dgv.FirstDisplayedScrollingRowIndex = row.Index;
+                    }
+                    finally
+                    {
+                        restoringPendingProductSelection = false;
+                    }
+                    break;
+                }
+            }
+        }
+
         private void buttonForDelete_Click(object sender, EventArgs e)
         {
             if (dgv.CurrentRow == null) return;
@@ -351,6 +402,9 @@ namespace WarehouseApp.Forms
                             logger.Info("DELETE_SUCCESS", $"Товар '{productRow.Name}' удалён");
                         }
                     }
+                    if (pendingNewProductId == productRow.Id)
+                        pendingNewProductId = null;
+
                     LoadData();
                     ApplyFilters();
                 }
@@ -417,6 +471,7 @@ namespace WarehouseApp.Forms
                 }
                 else if (MessageBox.Show(Properties.Resources.ExitWithoutSavingQuestion, Properties.Resources.ExitTitle, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    DeletePendingNewProduct();
                     Close();
                 }
             }
@@ -425,6 +480,31 @@ namespace WarehouseApp.Forms
                 Close();
             }
         }
+
+        private void DeletePendingNewProduct()
+        {
+            if (!pendingNewProductId.HasValue)
+                return;
+
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var product = db.Products.Find(pendingNewProductId.Value);
+                    if (product != null)
+                    {
+                        db.Products.Remove(product);
+                        db.SaveChanges();
+                    }
+                }
+                pendingNewProductId = null;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "DELETE_PENDING_PRODUCT_ERROR. Category: {Category}", "System");
+            }
+        }
+
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
@@ -588,6 +668,15 @@ namespace WarehouseApp.Forms
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             string colName = dgv.Columns[e.ColumnIndex].Name;
+            if (pendingNewProductId.HasValue &&
+                dgv.Rows[e.RowIndex].DataBoundItem is ProductRow row &&
+                row.Id != pendingNewProductId.Value)
+            {
+                e.Cancel = true;
+                RestorePendingProductSelection();
+                return;
+            }
+
             if (colName == "colStock" || colName == "colExp")
             {
                 e.Cancel = true;

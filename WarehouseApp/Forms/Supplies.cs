@@ -59,6 +59,7 @@ namespace WarehouseApp.Forms
         public Supplies()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             SetupGridColumns();
             var currentUser = UserContext.Current;
             if (currentUser == null)
@@ -68,6 +69,7 @@ namespace WarehouseApp.Forms
                 Close();
                 return;
             }
+            labelAdmin.Text = UserDisplayHelper.GetRoleName(currentUser.Role);
             txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
             LoadProducts();
         }
@@ -436,6 +438,16 @@ namespace WarehouseApp.Forms
                     MessageBox.Show(Properties.Resources.EmptyOrInvalidFileFormat);
                 }
             } 
+        }
+
+        private void labelYourRole_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelAdmin_Click(object sender, EventArgs e)
+        {
+
         }
     }
     /// <summary>

@@ -23,10 +23,14 @@ namespace WarehouseApp.Forms
         public CatalogStorekeeperForm()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
         }
 
         private void CatalogStorekeeperForm_Load(object sender, EventArgs e)
         {
+            if (UserContext.Current != null)
+                labelStorekeeper.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
+
             using (var db = new WarehouseContext())
             {
                 dgv.BorderStyle = BorderStyle.None;
@@ -71,7 +75,15 @@ namespace WarehouseApp.Forms
                 dgv.DataError += dgv_DataError;
                 LoadData();
             }
+            BeginInvoke(new Action(ClearCatalogSelection));
         }
+
+        private void ClearCatalogSelection()
+        {
+            dgv.ClearSelection();
+            dgv.CurrentCell = null;
+        }
+
         private void LoadData()
         {
             try

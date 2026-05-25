@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using WarehouseApp.Classes;
 using WarehouseApp.ClassesContext;
 using NLog;
 
@@ -14,12 +15,17 @@ namespace WarehouseApp.Forms
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<SupplyHistoryRow> allHistoryRows = new List<SupplyHistoryRow>();  //Кэш поставок для фильтрации
+        private bool updatingDateLimits;
         /// <summary>
         ///Конструктор для истории поставок
         /// </summary>
         public DeliveryHistory()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
+            if (UserContext.Current != null)
+                labelAdmin.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
+            ConfigureDatePickers();
             SetupHistoryGrid();
             LoadHistory();
             txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
@@ -136,13 +142,54 @@ namespace WarehouseApp.Forms
             ApplyFilters();
         }
 
+        private void ConfigureDatePickers()
+        {
+            dtpFrom.Value = DateTime.Today;
+            dtpTo.Value = DateTime.Today;
+            dtpFrom.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
+            dtpTo.MaxDate = DateTime.Today.AddDays(1).AddTicks(-1);
+            UpdateDateLimits();
+        }
+
+        private void UpdateDateLimits()
+        {
+            if (updatingDateLimits)
+                return;
+
+            try
+            {
+                updatingDateLimits = true;
+
+                DateTime todayEnd = DateTime.Today.AddDays(1).AddTicks(-1);
+
+                dtpFrom.MaxDate = dtpTo.Checked && dtpTo.Value.Date < DateTime.Today
+                    ? dtpTo.Value.Date
+                    : todayEnd;
+
+                dtpTo.MinDate = dtpFrom.Checked
+                    ? dtpFrom.Value.Date
+                    : DateTimePicker.MinimumDateTime;
+
+                dtpTo.MaxDate = todayEnd;
+
+                if (dtpFrom.Checked && dtpTo.Checked && dtpFrom.Value.Date > dtpTo.Value.Date)
+                    dtpTo.Value = dtpFrom.Value.Date;
+            }
+            finally
+            {
+                updatingDateLimits = false;
+            }
+        }
+
         private void dtpFrom_ValueChanged(object sender, EventArgs e)
         {
+            UpdateDateLimits();
             ApplyFilters();
         }
 
         private void dtpTo_ValueChanged(object sender, EventArgs e)
         {
+            UpdateDateLimits();
             ApplyFilters();
         }
 

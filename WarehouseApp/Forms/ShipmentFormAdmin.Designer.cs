@@ -154,9 +154,9 @@
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panel3.Controls.Add(this.txtCustomer);
             this.panel3.Controls.Add(this.label2);
-            this.panel3.Location = new System.Drawing.Point(406, 62);
+            this.panel3.Location = new System.Drawing.Point(459, 62);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(373, 50);
+            this.panel3.Size = new System.Drawing.Size(329, 50);
             this.panel3.TabIndex = 4;
             // 
             // txtCustomer
@@ -164,16 +164,17 @@
             this.txtCustomer.BackColor = System.Drawing.Color.DarkGray;
             this.txtCustomer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtCustomer.Location = new System.Drawing.Point(84, 14);
+            this.txtCustomer.Location = new System.Drawing.Point(60, 11);
             this.txtCustomer.Name = "txtCustomer";
             this.txtCustomer.Size = new System.Drawing.Size(259, 28);
             this.txtCustomer.TabIndex = 7;
+            this.txtCustomer.TextChanged += new System.EventHandler(this.txtCustomer_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(3, 11);
+            this.label2.Location = new System.Drawing.Point(3, 14);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 25);
             this.label2.TabIndex = 6;
@@ -301,7 +302,7 @@
             this.buttonToDeleteShipment.UseVisualStyleBackColor = false;
             this.buttonToDeleteShipment.Click += new System.EventHandler(this.buttonToDeleteShipment_Click);
             // 
-            // ShipmentForm
+            // ShipmentFormAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -316,7 +317,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.buttonToBack);
             this.Controls.Add(this.panel1);
-            this.Name = "ShipmentForm";
+            this.Name = "ShipmentFormAdmin";
             this.Load += new System.EventHandler(this.Shipment_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

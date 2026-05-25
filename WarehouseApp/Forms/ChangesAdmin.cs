@@ -19,6 +19,9 @@ namespace WarehouseApp.Forms
         public ChangesAdmin()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
+            if (UserContext.Current != null)
+                labelAdmin.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
         }
 
         private void Changes_Load(object sender, EventArgs e)

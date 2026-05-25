@@ -24,11 +24,13 @@ namespace WarehouseApp.Forms
         public MainMenuStorekeeperForm()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
 
             if (UserContext.Current != null)
             {
                 txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
-                txtWelcome.Text = $"{Properties.Resources.Welcome} {UserContext.Current.Login}";
+                txtWelcome.Text = $"{Properties.Resources.Welcome}{UserDisplayHelper.GetShortName(UserContext.Current)}";
+                labelStorekeeper.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
             }
             InitializeCurrency();
         }
@@ -103,6 +105,24 @@ namespace WarehouseApp.Forms
         {
             Supplies supplies = new Supplies();
             supplies.ShowDialog();
+        }
+
+        private void btnWarehouseMap_Click(object sender, EventArgs e)
+        {
+            using (var warehouseMap = new WarehouseMapForm())
+            {
+                warehouseMap.ShowDialog();
+            }
+        }
+
+        private void labelStorekeeper_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -59,13 +59,14 @@
             this.labelPar.Size = new System.Drawing.Size(258, 34);
             this.labelPar.TabIndex = 1;
             this.labelPar.Text = "Параметры";
+            this.labelPar.Click += new System.EventHandler(this.labelPar_Click);
             // 
             // btnClose
             // 
             this.btnClose.BackColor = System.Drawing.Color.Red;
-            this.btnClose.Location = new System.Drawing.Point(623, 23);
+            this.btnClose.Location = new System.Drawing.Point(623, 26);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(165, 55);
+            this.btnClose.Size = new System.Drawing.Size(165, 46);
             this.btnClose.TabIndex = 2;
             this.btnClose.Text = "Закрыть";
             this.btnClose.UseVisualStyleBackColor = false;
@@ -121,7 +122,7 @@
             this.lblprosent.BackColor = System.Drawing.Color.DarkGray;
             this.lblprosent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblprosent.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lblprosent.Location = new System.Drawing.Point(445, 227);
+            this.lblprosent.Location = new System.Drawing.Point(445, 225);
             this.lblprosent.Name = "lblprosent";
             this.lblprosent.Size = new System.Drawing.Size(263, 41);
             this.lblprosent.TabIndex = 11;

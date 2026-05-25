@@ -20,6 +20,7 @@ namespace WarehouseApp
         public LoginForm()
         {
             InitializeComponent();
+            ResponsiveFormHelper.Enable(this);
         }
 
         private void btnRegistration_Click(object sender, EventArgs e)

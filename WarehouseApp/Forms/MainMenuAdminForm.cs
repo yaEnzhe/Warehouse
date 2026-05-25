@@ -22,6 +22,7 @@ namespace WarehouseApp.Forms
         public MainMenuAdminForm()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             if (UserContext.Current == null)
             {
                 logger.Warn("SESSION_EXPIRED. Category: {Category}", "System", "Ошибка авторизации");
@@ -29,11 +30,9 @@ namespace WarehouseApp.Forms
                 Close();
                 return;
             }
-            string userLogin = UserContext.Current.Login;
-            string userFullName = $"{UserContext.Current.Surname} {UserContext.Current.Name}";
-            string currentRole = UserContext.Current.Role.ToString();
             txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
-            txtWelcome.Text = $"{Properties.Resources.Welcome}{userFullName}";
+            txtWelcome.Text = $"{Properties.Resources.Welcome}{UserDisplayHelper.GetShortName(UserContext.Current)}";
+            labelAdmin.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -74,6 +73,15 @@ namespace WarehouseApp.Forms
             Supplies supplies = new Supplies();
             supplies.Show();
         }
+
+        private void btnWarehouseMap_Click(object sender, EventArgs e)
+        {
+            using (var warehouseMap = new WarehouseMapForm())
+            {
+                warehouseMap.ShowDialog();
+            }
+        }
+
     }
 }
 

@@ -30,10 +30,8 @@
             this.btnAddCategory = new System.Windows.Forms.Button();
             this.lblCategoria = new System.Windows.Forms.Label();
             this.cmbFilterCategory = new System.Windows.Forms.ComboBox();
-            this.lblCat = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.cmbFilterStatus = new System.Windows.Forms.ComboBox();
-            this.lblStat = new System.Windows.Forms.Label();
             this.lblUserRole = new System.Windows.Forms.Label();
             this.txtDate = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
@@ -189,17 +187,6 @@
             this.cmbFilterCategory.TabIndex = 10;
             this.cmbFilterCategory.SelectedIndexChanged += new System.EventHandler(this.cmbFilterCategory_SelectedIndexChanged);
             // 
-            // lblCat
-            // 
-            this.lblCat.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.lblCat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCat.Location = new System.Drawing.Point(352, 122);
-            this.lblCat.Name = "lblCat";
-            this.lblCat.Size = new System.Drawing.Size(59, 28);
-            this.lblCat.TabIndex = 11;
-            this.lblCat.Text = "▼";
-            this.lblCat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lblStatus
             // 
             this.lblStatus.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -220,17 +207,6 @@
             this.cmbFilterStatus.Size = new System.Drawing.Size(174, 28);
             this.cmbFilterStatus.TabIndex = 13;
             this.cmbFilterStatus.SelectedIndexChanged += new System.EventHandler(this.cmbFilterStatus_SelectedIndexChanged);
-            // 
-            // lblStat
-            // 
-            this.lblStat.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.lblStat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblStat.Location = new System.Drawing.Point(721, 122);
-            this.lblStat.Name = "lblStat";
-            this.lblStat.Size = new System.Drawing.Size(52, 28);
-            this.lblStat.TabIndex = 14;
-            this.lblStat.Text = "▼";
-            this.lblStat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblUserRole
             // 
@@ -262,10 +238,8 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.txtDate);
             this.Controls.Add(this.lblUserRole);
-            this.Controls.Add(this.lblStat);
             this.Controls.Add(this.cmbFilterStatus);
             this.Controls.Add(this.lblStatus);
-            this.Controls.Add(this.lblCat);
             this.Controls.Add(this.cmbFilterCategory);
             this.Controls.Add(this.lblCategoria);
             this.Controls.Add(this.labelTop);
@@ -277,7 +251,6 @@
             this.Controls.Add(this.buttonToAddGood);
             this.Controls.Add(this.buttonForBack);
             this.Controls.Add(this.panelTop);
-            this.MaximizeBox = false;
             this.Name = "CatalogAdminForm";
             this.Load += new System.EventHandler(this.Catalog_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
@@ -303,10 +276,8 @@
         private System.Windows.Forms.Button btnAddCategory;
         private System.Windows.Forms.Label lblCategoria;
         private System.Windows.Forms.ComboBox cmbFilterCategory;
-        private System.Windows.Forms.Label lblCat;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.ComboBox cmbFilterStatus;
-        private System.Windows.Forms.Label lblStat;
         private System.Windows.Forms.Label lblUserRole;
         private System.Windows.Forms.TextBox txtDate;
     }
