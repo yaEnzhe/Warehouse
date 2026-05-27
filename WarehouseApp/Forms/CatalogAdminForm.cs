@@ -1,11 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
 using NLog;
 
 namespace WarehouseApp.Forms
@@ -311,7 +303,7 @@ namespace WarehouseApp.Forms
                         MessageBox.Show(Properties.Resources.NoCategoriesError);
                         return;
                     }
-                    string newArticle = db.GenerateNextArticle();
+                    var newArticle = db.GenerateNextArticle();
                     var newProd = new Products
                     {
                         IdProducts = Guid.NewGuid(),
@@ -437,7 +429,7 @@ namespace WarehouseApp.Forms
         {
             if (e.ColumnIndex == dgv.Columns["colPrice"].Index || e.ColumnIndex == dgv.Columns["colStock"].Index)
             {
-                string input = e.FormattedValue?.ToString()?.Trim();
+                var input = e.FormattedValue?.ToString()?.Trim();
                 if (string.IsNullOrEmpty(input)) return;
 
                 if (e.ColumnIndex == dgv.Columns["colPrice"].Index)
@@ -555,7 +547,7 @@ namespace WarehouseApp.Forms
             {
                 if (inputForm.ShowDialog() == DialogResult.OK)
                 {
-                    string newName = inputForm.txtName.Text.Trim();
+                    var newName = inputForm.txtName.Text.Trim();
 
                     if (!string.IsNullOrWhiteSpace(newName))
                     {
@@ -597,16 +589,16 @@ namespace WarehouseApp.Forms
                 return "Списан";
             if (!row.ExpirationDate.HasValue)
                 return "Активен";
-            bool isDiscountActive = false;
+            var isDiscountActive = false;
             if (row.ProductionDate.HasValue && row.ProductionDate.Value < row.ExpirationDate.Value)
             {
                 TimeSpan total = row.ExpirationDate.Value - row.ProductionDate.Value;
-                DateTime discountStart = row.ExpirationDate.Value.Subtract(TimeSpan.FromDays(total.Days / 3));
+                var discountStart = row.ExpirationDate.Value.Subtract(TimeSpan.FromDays(total.Days / 3));
                 isDiscountActive = DateTime.Today >= discountStart;
             }
             else
             {
-                DateTime discountStart = row.ExpirationDate.Value.AddDays(-30);
+                var discountStart = row.ExpirationDate.Value.AddDays(-30);
                 isDiscountActive = DateTime.Today >= discountStart;
             }
             return isDiscountActive ? "Скидка 30%" : "Активен";
@@ -629,9 +621,9 @@ namespace WarehouseApp.Forms
         {
             if (allProducts == null) return;
 
-            string searchText = textBoxSearch.Text.ToLower().Trim();
-            string categoryFilter = cmbFilterCategory.SelectedItem?.ToString();
-            string statusFilter = cmbFilterStatus.SelectedItem?.ToString();
+            var searchText = textBoxSearch.Text.ToLower().Trim();
+            var categoryFilter = cmbFilterCategory.SelectedItem?.ToString();
+            var statusFilter = cmbFilterStatus.SelectedItem?.ToString();
 
             var filtered = new List<ProductRow>();
 
@@ -639,20 +631,20 @@ namespace WarehouseApp.Forms
             {
                 row.Status = CalculateStatus(row);
 
-                bool matchSearch = string.IsNullOrEmpty(searchText) ||
+                var matchSearch = string.IsNullOrEmpty(searchText) ||
                     row.Name.ToLower().Contains(searchText) ||
                     row.Article.ToLower().Contains(searchText);
                 if (!matchSearch) continue;
 
-                bool matchCategory = categoryFilter == "Все" || row.CategoryName == categoryFilter;
+                var matchCategory = categoryFilter == "Все" || row.CategoryName == categoryFilter;
                 if (!matchCategory) continue;
 
-                bool matchStatus = statusFilter == "Все" || row.Status == statusFilter;
+                var matchStatus = statusFilter == "Все" || row.Status == statusFilter;
                 if (!matchStatus) continue;
 
                 filtered.Add(row);
             }
-            string symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+            var symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
             if (dgv.Columns["colPrice"] != null)
             {
                 dgv.Columns["colPrice"].HeaderText = $"Цена ({symbol})";
@@ -685,7 +677,7 @@ namespace WarehouseApp.Forms
         }
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            string colName = dgv.Columns[e.ColumnIndex].Name;
+            var colName = dgv.Columns[e.ColumnIndex].Name;
             if (pendingNewProductId.HasValue &&
                 dgv.Rows[e.RowIndex].DataBoundItem is ProductRow row &&
                 row.Id != pendingNewProductId.Value)
@@ -730,18 +722,58 @@ namespace WarehouseApp.Forms
     public class ProductRow
     {
         /// <summary>
-        /// Значения, которые хранятся в таблице
+        /// Идентификатор товара.
         /// </summary>
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Артикул товара.
+        /// </summary>
         public string Article { get; set; }
+
+        /// <summary>
+        /// Наименование товара.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Идентификатор категории.
+        /// </summary>
         public Guid CategoryId { get; set; }
+
+        /// <summary>
+        /// Название категории.
+        /// </summary>
         public string CategoryName { get; set; }
+
+        /// <summary>
+        /// Единица измерения.
+        /// </summary>
         public string Unit { get; set; }
+
+        /// <summary>
+        /// Цена товара.
+        /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Остаток товара на складе.
+        /// </summary>
         public int Stock { get; set; }
+
+        /// <summary>
+        /// Дата окончания срока годности.
+        /// </summary>
         public DateTime? ExpirationDate { get; set; }
+
+        /// <summary>
+        /// Дата производства товара.
+        /// </summary>
         public DateTime? ProductionDate { get; set; }
+
+        /// <summary>
+        /// Отображаемый статус товара.
+        /// </summary>
         public string Status { get; set; }
     }
 
@@ -750,15 +782,30 @@ namespace WarehouseApp.Forms
     /// </summary>
     public class CategoryItem
     {
+        /// <summary>
+        /// Идентификатор категории.
+        /// </summary>
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Название категории.
+        /// </summary>
         public string Name { get; set; }
     }
+
     /// <summary>
     /// Класс для привязки единиц измерения
     /// </summary>
     public class UnitItem
     {
+        /// <summary>
+        /// Идентификатор единицы измерения.
+        /// </summary>
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Название единицы измерения.
+        /// </summary>
         public string Name { get; set; }
     }
 }

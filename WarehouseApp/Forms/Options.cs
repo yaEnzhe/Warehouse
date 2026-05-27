@@ -1,12 +1,4 @@
-﻿using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text.Json;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -16,6 +8,9 @@ namespace WarehouseApp.Forms
     public partial class Options : Form
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly ICurrencyRateService currencyRateService;
+        private readonly BindingSource settingsBindingSource = new BindingSource();
+        private readonly OptionsSettingsModel settings = new OptionsSettingsModel();
         /// <summary>
         /// Курс выбранной валюты
         /// </summary>
@@ -27,13 +22,24 @@ namespace WarehouseApp.Forms
         /// <summary>
         /// Конструктор для формы валют
         /// </summary>
-        public Options()
+        public Options(ICurrencyRateService currencyRateService = null)
         {
             InitializeComponent();
             WarehouseApp.ResponsiveFormHelper.Enable(this);
             cmbValute.Items.AddRange(new string[] { "RUB", "USD", "EUR", "KZT" });
+            this.currencyRateService = currencyRateService ?? AppServices.Get<ICurrencyRateService>();
+            BindSettings();
+            Load += Options_Load;
         }
-        private void Options_Load(object sender, EventArgs e)
+
+        private void BindSettings()
+        {
+            settingsBindingSource.DataSource = settings;
+            cmbValute.DataBindings.Add("SelectedItem", settingsBindingSource, nameof(OptionsSettingsModel.Currency), false, DataSourceUpdateMode.OnPropertyChanged);
+            txtDiscount.DataBindings.Add("Text", settingsBindingSource, nameof(OptionsSettingsModel.DiscountPercent), false, DataSourceUpdateMode.OnPropertyChanged);
+        }
+
+        private async void Options_Load(object sender, EventArgs e)
         {
             using (var db = new WarehouseContext())
             {
@@ -41,30 +47,34 @@ namespace WarehouseApp.Forms
                 var discountSetting = db.AppSettings.FirstOrDefault(s => s.Key == "DiscountPercent");
                 if (currencySetting != null)
                 {
-                    cmbValute.SelectedItem = currencySetting.Value;
-                    CurrentCurrency = currencySetting.Value;
+                    settings.Currency = currencySetting.Value;
                 }
                 else
                 {
-                    cmbValute.SelectedItem = "RUB";
+                    settings.Currency = "RUB";
                 }
                 if (discountSetting != null)
                 {
-                    txtDiscount.Text = discountSetting.Value;
+                    settings.DiscountPercent = discountSetting.Value;
                 }
                 else
                 {
-                    txtDiscount.Text = "30";
+                    settings.DiscountPercent = "30";
                 }
             }
-            if (cmbValute.SelectedItem.ToString() != "RUB")
+            settingsBindingSource.ResetBindings(false);
+            CurrentCurrency = settings.Currency;
+
+            if (settings.Currency != "RUB")
             {
-                LoadCurrencyRate(cmbValute.SelectedItem.ToString());
+                await LoadCurrencyRateAsync(settings.Currency);
             }
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (cmbValute.SelectedItem == null)
+            settingsBindingSource.EndEdit();
+
+            if (string.IsNullOrWhiteSpace(settings.Currency))
             {
                 logger.Warn("CURRENCY_NOT_SELECTED. Category: {Category}", "System", "Валюта не выбрана");
                 MessageBox.Show("Выберите валюту", Properties.Resources.WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -72,8 +82,8 @@ namespace WarehouseApp.Forms
                 return;
             }
 
-            string selectedCurrency = cmbValute.SelectedItem.ToString();
-            string discountVal = txtDiscount.Text;
+            var selectedCurrency = settings.Currency;
+            var discountVal = settings.DiscountPercent;
             if (!decimal.TryParse(discountVal, out decimal discount) || discount < 0 || discount > 100)
             {
                 logger.Warn("DISCOUNT_VALIDATION_ERROR. Category: {Category}", "System", "Введено некорректное значение скидки");
@@ -97,7 +107,7 @@ namespace WarehouseApp.Forms
         {
             Close();
         }
-        private void LoadCurrencyRate(string currencyCode)
+        private async Task LoadCurrencyRateAsync(string currencyCode)
         {
             if (currencyCode == "RUB")
             {
@@ -106,23 +116,7 @@ namespace WarehouseApp.Forms
             }
             try
             {
-                string url = "https://www.cbr-xml-daily.ru/daily_json.js";
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.UserAgent = "WarehouseApp";
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                using (System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream()))
-                {
-                    string json = reader.ReadToEnd();
-                    using (var doc = JsonDocument.Parse(json))
-                    {
-                        if (doc.RootElement.TryGetProperty("Valute", out var valute) &&
-                            valute.TryGetProperty(currencyCode, out var currency) &&
-                            currency.TryGetProperty("Value", out var valueElement))
-                        {
-                            CurrentExchangeRate = valueElement.GetDecimal();
-                        }
-                    }
-                }
+                CurrentExchangeRate = await currencyRateService.GetRateAsync(currencyCode);
             }
             catch (JsonException)
             {
@@ -183,6 +177,19 @@ namespace WarehouseApp.Forms
         private void labelPar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private class OptionsSettingsModel
+        {
+            /// <summary>
+            /// Выбранная валюта.
+            /// </summary>
+            public string Currency { get; set; }
+
+            /// <summary>
+            /// Процент скидки для товаров.
+            /// </summary>
+            public string DiscountPercent { get; set; }
         }
     }
 }

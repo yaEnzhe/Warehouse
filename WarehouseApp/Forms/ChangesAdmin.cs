@@ -1,8 +1,3 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
 using NLog;
 
 namespace WarehouseApp.Forms
@@ -29,8 +24,8 @@ namespace WarehouseApp.Forms
             try
             {
                 lblDate.Text = $"Дата: {DateTime.Now:dd.MM.yyyy}";
-                DateTime end = DateTime.Today;
-                DateTime start = end.AddDays(-30);
+                var end = DateTime.Today;
+                var start = end.AddDays(-30);
                 dtpFrom.Value = start;
                 dtpTo.Value = end;
                 LoadCustomers();
@@ -122,10 +117,10 @@ namespace WarehouseApp.Forms
             {
                 using (var db = new WarehouseContext())
                 {
-                    string selectedCustomer = cmbCustomer.SelectedItem?.ToString();
-                    string selectedCategory = cmbCategory.SelectedItem?.ToString();
-                    DateTime start = startDate.Date;
-                    DateTime end = endDate.Date.AddDays(1).AddTicks(-1);
+                    var selectedCustomer = cmbCustomer.SelectedItem?.ToString();
+                    var selectedCategory = cmbCategory.SelectedItem?.ToString();
+                    var start = startDate.Date;
+                    var end = endDate.Date.AddDays(1).AddTicks(-1);
                     var query = db.Shipments
                         .Include("Clients")
                         .Include("ShipmentContents.Product.Category")
@@ -169,7 +164,7 @@ namespace WarehouseApp.Forms
                         .Where(sc => sc.IdShipment == shipment.IdShipment)
                         .ToList();
 
-                    decimal totalProfit = 0;
+                    var totalProfit = 0m;
 
                     foreach (var content in contents)
                     {
@@ -177,9 +172,9 @@ namespace WarehouseApp.Forms
 
                         if (product != null)
                         {
-                            decimal revenue = content.PriceShipmentContents;
-                            decimal cost = product.Price * content.QuantityShipmentContents;
-                            decimal itemProfit = revenue - cost;
+                            var revenue = content.PriceShipmentContents;
+                            var cost = product.Price * content.QuantityShipmentContents;
+                            var itemProfit = revenue - cost;
                             totalProfit += itemProfit;
                         }
                     }
@@ -194,8 +189,8 @@ namespace WarehouseApp.Forms
 
         private void DatePickers_ValueChanged(object sender, EventArgs e)
         {
-            DateTime start = dtpFrom.Value.Date;
-            DateTime end = dtpTo.Value.Date;
+            var start = dtpFrom.Value.Date;
+            var end = dtpTo.Value.Date;
 
             if (!ValidatePeriod(start, end, out string error))
             {
@@ -217,8 +212,8 @@ namespace WarehouseApp.Forms
         }
         private void Filters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DateTime start = dtpFrom.Value.Date;
-            DateTime end = dtpTo.Value.Date;
+            var start = dtpFrom.Value.Date;
+            var end = dtpTo.Value.Date;
             LoadReportData(start, end);
         }
 
@@ -291,7 +286,7 @@ namespace WarehouseApp.Forms
                             if (column.Visible)
                             {
                                 var value = row.Cells[column.Index].Value;
-                                string cellValue = value?.ToString()?.Replace(";", ",") ?? "";
+                                var cellValue = value?.ToString()?.Replace(";", ",") ?? "";
                                 cells.Add(cellValue);
                             }
                         }

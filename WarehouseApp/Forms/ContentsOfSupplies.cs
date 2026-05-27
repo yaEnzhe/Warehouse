@@ -1,9 +1,4 @@
-﻿using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.ClassesContext;
+using NLog;
 
 namespace WarehouseApp.Forms
 {

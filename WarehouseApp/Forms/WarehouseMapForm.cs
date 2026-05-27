@@ -1,11 +1,4 @@
 using NLog;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
 
 namespace WarehouseApp.Forms
 {
@@ -64,8 +57,8 @@ namespace WarehouseApp.Forms
 
             var sortedProducts = GetSortedProducts();
             string[] columns = { "A", "B", "C", "D", "E", "F", "G" };
-            int dataRows = 4;
-            int dataColumns = columns.Length;
+            var dataRows = 4;
+            var dataColumns = columns.Length;
 
             tableMap.Controls.Add(CreateHeaderCell(string.Empty), 0, 0);
 
@@ -78,8 +71,8 @@ namespace WarehouseApp.Forms
 
                 for (int column = 0; column < dataColumns; column++)
                 {
-                    int productIndex = row * dataColumns + column;
-                    Control cell = productIndex < sortedProducts.Count
+                    var productIndex = row * dataColumns + column;
+                    var cell = productIndex < sortedProducts.Count
                         ? CreateProductCell(sortedProducts[productIndex])
                         : CreateEmptyCell();
 
@@ -104,7 +97,7 @@ namespace WarehouseApp.Forms
 
         private Control CreateProductCell(Products product)
         {
-            Label cell = new Label
+            var cell = new Label
             {
                 Dock = DockStyle.Fill,
                 Margin = Padding.Empty,
@@ -142,11 +135,11 @@ namespace WarehouseApp.Forms
 
         private string BuildCellText(Products product)
         {
-            string expiration = product.ExpirationDate.HasValue
+            var expiration = product.ExpirationDate.HasValue
                 ? product.ExpirationDate.Value.ToString("dd.MM.yyyy")
                 : "нет срока";
 
-            string daysLeft = "нет срока";
+            var daysLeft = "нет срока";
             if (product.ExpirationDate.HasValue)
                 daysLeft = (product.ExpirationDate.Value.Date - DateTime.Today).Days.ToString();
 
@@ -169,7 +162,7 @@ namespace WarehouseApp.Forms
             if (!product.ExpirationDate.HasValue)
                 return Color.FromArgb(94, 205, 113);
 
-            int daysLeft = (product.ExpirationDate.Value.Date - DateTime.Today).Days;
+            var daysLeft = (product.ExpirationDate.Value.Date - DateTime.Today).Days;
 
             if (daysLeft < 0)
                 return Color.FromArgb(246, 65, 35);

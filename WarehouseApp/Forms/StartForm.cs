@@ -1,6 +1,4 @@
-﻿using System;
 
-using System.Windows.Forms;
 
 namespace WarehouseApp
 {
@@ -20,7 +18,7 @@ namespace WarehouseApp
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            var loginForm = new LoginForm();
+            var loginForm = AppServices.Get<LoginForm>();
             FormNavigationHelper.Show(this, loginForm);
         }
 

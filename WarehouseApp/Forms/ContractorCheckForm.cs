@@ -1,5 +1,3 @@
-using System;
-using System.Windows.Forms;
 
 namespace WarehouseApp.Forms
 {
@@ -8,11 +6,14 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class ContractorCheckForm : Form
     {
-        public ContractorCheckForm()
+        private readonly IContractorCheckService contractorCheckService;
+
+        public ContractorCheckForm(IContractorCheckService contractorCheckService = null)
         {
             InitializeComponent();
             WarehouseApp.ResponsiveFormHelper.Enable(this);
             cmbLegalStatus.SelectedIndex = 0;
+            this.contractorCheckService = contractorCheckService ?? AppServices.Get<IContractorCheckService>();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -20,11 +21,11 @@ namespace WarehouseApp.Forms
             Close();
         }
 
-        private void btnCheck_Click(object sender, EventArgs e)
+        private async void btnCheck_Click(object sender, EventArgs e)
         {
-            string inn = txtInn.Text.Trim();
-            string status = cmbLegalStatus.SelectedItem?.ToString();
-            int expectedLength = status == "ИП" ? 12 : 10;
+            var inn = txtInn.Text.Trim();
+            var status = cmbLegalStatus.SelectedItem?.ToString();
+            var expectedLength = status == "ИП" ? 12 : 10;
 
             if (inn.Length != expectedLength)
             {
@@ -33,7 +34,16 @@ namespace WarehouseApp.Forms
                 return;
             }
 
-            Close();
+            try
+            {
+                btnCheck.Enabled = false;
+                var result = await contractorCheckService.CheckAsync(inn, status);
+                MessageBox.Show(result.Message);
+            }
+            finally
+            {
+                btnCheck.Enabled = true;
+            }
         }
 
         private void txtInn_KeyPress(object sender, KeyPressEventArgs e)

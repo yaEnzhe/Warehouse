@@ -1,13 +1,4 @@
-﻿using NLog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using WarehouseApp.Enums;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -121,7 +112,7 @@ namespace WarehouseApp.Forms
                     }
                     dgvSupply.DataSource = null;
                     dgvSupply.DataSource = list;
-                    string symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+                    var symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
                     if (dgvSupply.Columns["colPrice"] != null)
                     {
                         dgvSupply.Columns["colPrice"].HeaderText = $"Цена ({symbol})";
@@ -185,7 +176,7 @@ namespace WarehouseApp.Forms
         }
         private void btnhistori_Click(object sender, EventArgs e)
         {
-            DeliveryHistory deliveryHistory = new DeliveryHistory();
+            var deliveryHistory = AppServices.Get<DeliveryHistory>();
             FormNavigationHelper.Show(this, deliveryHistory);
             Close();
         }
@@ -202,10 +193,10 @@ namespace WarehouseApp.Forms
             switch (userRole)
             {
                 case Roles.Administrator:
-                    nextForm = new MainMenuAdminForm();
+                    nextForm = AppServices.Get<MainMenuAdminForm>();
                     break;
                 case Roles.Storekeeper:
-                    nextForm = new MainMenuStorekeeperForm();
+                    nextForm = AppServices.Get<MainMenuStorekeeperForm>();
                     break;
                 default:
                     logger.Warn("NAVIGATE_UNKNOWN_ROLE. Category: {Category}", currentUser.Login, $"{userRole}");
@@ -247,8 +238,8 @@ namespace WarehouseApp.Forms
                 return;
             }
             var selectedProduct = cmbProduct.SelectedItem as Products;
-            Guid productId = selectedProduct?.IdProducts ?? Guid.Empty;
-            string productName = selectedProduct?.NameProduct ?? cmbProduct.Text;
+            var productId = selectedProduct?.IdProducts ?? Guid.Empty;
+            var productName = selectedProduct?.NameProduct ?? cmbProduct.Text;
             var newRow = new SupplyRow
             {
                 ProductId = selectedProduct?.IdProducts ?? Guid.Empty,
@@ -277,11 +268,11 @@ namespace WarehouseApp.Forms
 
         private void txtboxPrice_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox tb = sender as TextBox;
+            var tb = sender as TextBox;
             System.Diagnostics.Debug.WriteLine($"[Цена] Нажато: '{e.KeyChar}' | Код: {(int)e.KeyChar}");
-            bool isDigit = (e.KeyChar >= '0' && e.KeyChar <= '9');
-            bool isSeparator = (e.KeyChar == '.' || e.KeyChar == ',');
-            bool isControl = char.IsControl(e.KeyChar);
+            var isDigit = (e.KeyChar >= '0' && e.KeyChar <= '9');
+            var isSeparator = (e.KeyChar == '.' || e.KeyChar == ',');
+            var isControl = char.IsControl(e.KeyChar);
             if (!isControl && !isDigit && !isSeparator)
             {
                 e.Handled = true;
@@ -367,15 +358,15 @@ namespace WarehouseApp.Forms
 
                 try
                 {
-                    string json = File.ReadAllText(ofd.FileName);
+                    var json = File.ReadAllText(ofd.FileName);
                     var importItems = JsonSerializer.Deserialize<List<ImportDto>>(json);
                     if (importItems == null || importItems.Count == 0)
                     {
                         MessageBox.Show(Properties.Resources.EmptyOrInvalidFileFormat);
                         return;
                     }
-                    int successCount = 0;
-                    int errorCount = 0;
+                    var successCount = 0;
+                    var errorCount = 0;
                     using (var db = new WarehouseContext())
                     {
                         var products = db.Products.ToList();
@@ -384,8 +375,8 @@ namespace WarehouseApp.Forms
                             Products foundProduct = null;
                             foreach (var p in products)
                             {
-                                string articleFromDb = p.Article.Trim().ToLower();
-                                string articleFromFile = item.Article.Trim().ToLower();
+                                var articleFromDb = p.Article.Trim().ToLower();
+                                var articleFromFile = item.Article.Trim().ToLower();
                                 if (articleFromDb == articleFromFile)
                                 {
                                     foundProduct = p;
@@ -398,16 +389,16 @@ namespace WarehouseApp.Forms
                             }
                             else
                             {
-                                bool quantityOk = item.Quantity > 0;
-                                bool priceOk = item.Price > 0;
+                                var quantityOk = item.Quantity > 0;
+                                var priceOk = item.Price > 0;
 
                                 if (quantityOk && priceOk)
                                 {
-                                    DateTime expDate = item.ExpirationDate.Date;
-                                    DateTime today = DateTime.Now.Date;
+                                    var expDate = item.ExpirationDate.Date;
+                                    var today = DateTime.Now.Date;
                                     if (expDate >= today)
                                     {
-                                        SupplyRow newRow = new SupplyRow();
+                                        var newRow = new SupplyRow();
                                         newRow.ProductId = foundProduct.IdProducts;
                                         newRow.Article = foundProduct.Article;
                                         newRow.ProductName = foundProduct.NameProduct;
@@ -443,7 +434,7 @@ namespace WarehouseApp.Forms
 
         private void btnCheckContractor_Click(object sender, EventArgs e)
         {
-            ContractorCheckForm form = new ContractorCheckForm();
+            var form = AppServices.Get<ContractorCheckForm>();
             FormNavigationHelper.ShowDialog(this, form);
         }
 

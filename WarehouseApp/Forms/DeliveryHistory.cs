@@ -1,9 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
 using NLog;
 
 namespace WarehouseApp.Forms
@@ -32,13 +26,13 @@ namespace WarehouseApp.Forms
         }
         private void buttonToAddInTable_Click(object sender, EventArgs e)
         {
-            Supplies supplies = new Supplies();
+            var supplies = AppServices.Get<Supplies>();
             FormNavigationHelper.Show(this, supplies);
             Close();
         }
         private void buttonToBack_Click(object sender, EventArgs e)
         {
-            Supplies supplies = new Supplies();
+            var supplies = AppServices.Get<Supplies>();
             FormNavigationHelper.Show(this, supplies);
             Close();
         }
@@ -93,11 +87,11 @@ namespace WarehouseApp.Forms
                     foreach (var supply in supplies)
                     {
                         var items = db.SupplyItems.Where(si => si.SupplyId == supply.Id).ToList();
-                        decimal totalSum = 0;
+                        var totalSum = 0m;
                         foreach (var item in items)
                             totalSum += item.Quantity * item.Price;
 
-                        string docNumber = $"П-{supply.Id.ToString().Substring(0, 4).ToUpper()}";
+                        var docNumber = $"П-{supply.Id.ToString().Substring(0, 4).ToUpper()}";
 
                         allHistoryRows.Add(new SupplyHistoryRow
                         {
@@ -119,7 +113,7 @@ namespace WarehouseApp.Forms
         private void ApplyFilters()
         {
             IEnumerable<SupplyHistoryRow> query = allHistoryRows;
-            string search = txtSearch.Text.Trim();
+            var search = txtSearch.Text.Trim();
             if (!string.IsNullOrWhiteSpace(search))
             {
                 query = query.Where(row =>
@@ -127,12 +121,12 @@ namespace WarehouseApp.Forms
             }
             if (dtpFrom.Checked)
             {
-                DateTime from = dtpFrom.Value.Date;
+                var from = dtpFrom.Value.Date;
                 query = query.Where(row => row.Date.Date >= from);
             }
             if (dtpTo.Checked)
             {
-                DateTime to = dtpTo.Value.Date;
+                var to = dtpTo.Value.Date;
                 query = query.Where(row => row.Date.Date <= to);
             }
             dgvHistory.DataSource = query.ToList();
@@ -160,7 +154,7 @@ namespace WarehouseApp.Forms
             {
                 updatingDateLimits = true;
 
-                DateTime todayEnd = DateTime.Today.AddDays(1).AddTicks(-1);
+                var todayEnd = DateTime.Today.AddDays(1).AddTicks(-1);
 
                 dtpFrom.MaxDate = dtpTo.Checked && dtpTo.Value.Date < DateTime.Today
                     ? dtpTo.Value.Date
@@ -201,8 +195,8 @@ namespace WarehouseApp.Forms
 
                 if (selectedRow != null)
                 {
-                    Guid supplyId = selectedRow.SupplyId;
-                    ContentsOfSupplies detailsForm = new ContentsOfSupplies(supplyId);
+                    var supplyId = selectedRow.SupplyId;
+                    var detailsForm = AppServices.Get<Func<Guid, ContentsOfSupplies>>()(supplyId);
                     FormNavigationHelper.ShowDialog(this, detailsForm);
                 }
             }

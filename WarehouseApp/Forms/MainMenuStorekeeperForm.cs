@@ -1,9 +1,4 @@
-﻿using NLog;
-using System;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using System.Linq;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -44,7 +39,7 @@ namespace WarehouseApp.Forms
         {
             if (cmbCurrency.SelectedItem == null) return;
 
-            string newCurrency = cmbCurrency.SelectedItem.ToString();
+            var newCurrency = cmbCurrency.SelectedItem.ToString();
             Options.CurrentCurrency = newCurrency;
             if (newCurrency != "RUB")
             {
@@ -84,7 +79,7 @@ namespace WarehouseApp.Forms
         {
             UserContext.Current = null;
             Hide();
-            LoginForm loginForm = new LoginForm();
+            var loginForm = AppServices.Get<LoginForm>();
             FormNavigationHelper.ApplyWindowState(this, loginForm);
             loginForm.FormClosed += (s, args) => Application.Exit();
             loginForm.ShowDialog();
@@ -93,24 +88,24 @@ namespace WarehouseApp.Forms
 
         private void btnProducts_Click(object sender, EventArgs e)
         {
-            var catalogForm = new CatalogAdminForm(readOnly: true);
+            var catalogForm = AppServices.Get<Func<bool, CatalogAdminForm>>()(true);
             FormNavigationHelper.ShowDialog(this, catalogForm);
         }
 
         private void btnShipment_Click(object sender, EventArgs e)
         {
-            var shipmentForm = new ShipmentFormStorekeeper();
+            var shipmentForm = AppServices.Get<ShipmentFormStorekeeper>();
             FormNavigationHelper.ShowDialog(this, shipmentForm);
         }
         private void btnPostavki_Click(object sender, EventArgs e)
         {
-            Supplies supplies = new Supplies();
+            var supplies = AppServices.Get<Supplies>();
             FormNavigationHelper.ShowDialog(this, supplies);
         }
 
         private void btnWarehouseMap_Click(object sender, EventArgs e)
         {
-            using (var warehouseMap = new WarehouseMapForm())
+            using (var warehouseMap = AppServices.Get<WarehouseMapForm>())
             {
                 FormNavigationHelper.ShowDialog(this, warehouseMap);
             }

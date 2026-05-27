@@ -1,14 +1,3 @@
-﻿using System;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Text.Json;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using WarehouseApp.Enums;
-using WarehouseApp.Forms;
-using WarehouseApp.Migrations;
 
 namespace WarehouseApp
 {
@@ -34,8 +23,9 @@ namespace WarehouseApp
                     }
                 }
                 InitializeDatabase();
+                ConfigureServices();
                 LoadCurrencySettings();
-                Application.Run(new LoginForm());
+                Application.Run(AppServices.Get<LoginForm>());
             }
             catch (Exception ex)
             {
@@ -47,7 +37,7 @@ namespace WarehouseApp
         /// </summary>
         static void InitializeDatabase()
         {
-            using (WarehouseContext db = new WarehouseContext())
+            using (var db = new WarehouseContext())
             {
                 var thisUser = db.Users.FirstOrDefault(user => user.Role == Roles.Administrator);
                 if (thisUser == null)
@@ -62,7 +52,7 @@ namespace WarehouseApp
                         Role = Roles.Administrator,
                         DateOfRegistration = DateTime.Now
                     };
-                    string adminPassword = "admin666";
+                    var adminPassword = "admin666";
                     Password.HashPasswordBCrypt(administrator, adminPassword);
                     db.Users.Add(administrator);
                     db.SaveChanges();
@@ -112,6 +102,35 @@ namespace WarehouseApp
         }
 
         /// <summary>
+        /// Регистрирует зависимости приложения.
+        /// </summary>
+        static void ConfigureServices()
+        {
+            var container = new SimpleContainer();
+
+            container.AddSingleton<IContractorCheckService>(() => new DadataContractorCheckService());
+            container.AddSingleton<ICurrencyRateService>(() => new CurrencyRateService());
+
+            container.AddTransient(() => new LoginForm());
+            container.AddTransient(() => new RegistrationForm());
+            container.AddTransient(() => new MainMenuAdminForm());
+            container.AddTransient(() => new MainMenuStorekeeperForm());
+            container.AddTransient(() => new CatalogAdminForm());
+            container.AddTransient<Func<bool, CatalogAdminForm>>(() => readOnly => new CatalogAdminForm(readOnly));
+            container.AddTransient(() => new ShipmentFormAdmin());
+            container.AddTransient(() => new ShipmentFormStorekeeper());
+            container.AddTransient(() => new ChangesAdmin());
+            container.AddTransient(() => new Options(AppServices.Get<ICurrencyRateService>()));
+            container.AddTransient(() => new Supplies());
+            container.AddTransient(() => new DeliveryHistory());
+            container.AddTransient<Func<Guid, ContentsOfSupplies>>(() => supplyId => new ContentsOfSupplies(supplyId));
+            container.AddTransient(() => new WarehouseMapForm());
+            container.AddTransient(() => new ContractorCheckForm(AppServices.Get<IContractorCheckService>()));
+
+            AppServices.Configure(container);
+        }
+
+        /// <summary>
         /// Загружает валюту и курс
         /// </summary>
         public static void LoadCurrencySettings()
@@ -123,7 +142,7 @@ namespace WarehouseApp
                     var currencySetting = db.AppSettings.FirstOrDefault(s => s.Key == "Currency");
                     var exchangeRateSetting = db.AppSettings.FirstOrDefault(s => s.Key == "ExchangeRate");
 
-                    string currency = currencySetting?.Value ?? "RUB";
+                    var currency = currencySetting?.Value ?? "RUB";
                     Options.CurrentCurrency = currency;
 
                     if (currency != "RUB")
@@ -134,10 +153,10 @@ namespace WarehouseApp
                         }
                         else
                         {
-                            string url = "https://www.cbr-xml-daily.ru/daily_json.js";
+                            var url = "https://www.cbr-xml-daily.ru/daily_json.js";
                             using (var client = new WebClient())
                             {
-                                string json = client.DownloadString(url);
+                                var json = client.DownloadString(url);
                                 using (var doc = JsonDocument.Parse(json))
                                 {
                                     if (doc.RootElement.TryGetProperty("Valute", out var valute) &&

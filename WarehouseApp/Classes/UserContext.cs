@@ -1,4 +1,3 @@
-﻿using System.Data.Entity;
 
 namespace WarehouseApp.Classes
 {

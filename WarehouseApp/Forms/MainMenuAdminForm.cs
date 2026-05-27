@@ -1,7 +1,4 @@
-﻿using NLog;
-using System;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -39,7 +36,7 @@ namespace WarehouseApp.Forms
         {
             UserContext.Current = null;
             Hide();
-            LoginForm loginForm = new LoginForm();
+            var loginForm = AppServices.Get<LoginForm>();
             FormNavigationHelper.ApplyWindowState(this, loginForm);
             loginForm.FormClosed += (s, args) => Application.Exit();
             loginForm.ShowDialog();
@@ -48,36 +45,36 @@ namespace WarehouseApp.Forms
 
         private void btnProducts_Click(object sender, EventArgs e)
         {
-            var catalog = new CatalogAdminForm();
+            var catalog = AppServices.Get<CatalogAdminForm>();
             FormNavigationHelper.ShowDialog(this, catalog);
         }
 
         private void btnShipment_Click(object sender, EventArgs e)
         {
-            var shipmentForm = new ShipmentFormAdmin();
+            var shipmentForm = AppServices.Get<ShipmentFormAdmin>();
             FormNavigationHelper.ShowDialog(this, shipmentForm);
         }
 
         private void btnActionHistory_Click(object sender, EventArgs e)
         {
-            var changesForm = new ChangesAdmin();
+            var changesForm = AppServices.Get<ChangesAdmin>();
             FormNavigationHelper.ShowDialog(this, changesForm);
         }
         private void btnParametr_Click(object sender, EventArgs e)
         {
-            Options options = new Options();
+            var options = AppServices.Get<Options>();
             FormNavigationHelper.Show(this, options);
         }
 
         private void btnPostavki_Click(object sender, EventArgs e)
         {
-            Supplies supplies = new Supplies();
+            var supplies = AppServices.Get<Supplies>();
             FormNavigationHelper.Show(this, supplies);
         }
 
         private void btnWarehouseMap_Click(object sender, EventArgs e)
         {
-            using (var warehouseMap = new WarehouseMapForm())
+            using (var warehouseMap = AppServices.Get<WarehouseMapForm>())
             {
                 FormNavigationHelper.ShowDialog(this, warehouseMap);
             }

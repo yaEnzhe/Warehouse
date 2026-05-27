@@ -1,10 +1,4 @@
-﻿using NLog;
-using System;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using WarehouseApp.Enums;
+using NLog;
 
 namespace WarehouseApp
 {

@@ -1,6 +1,3 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WarehouseApp.Classes
 {
@@ -43,7 +40,6 @@ namespace WarehouseApp.Classes
         /// <summary>
         /// Ссылка на товар.
         /// </summary>
-
         [ForeignKey("ProductId")]
         public virtual Products Product { get; set; }
     }

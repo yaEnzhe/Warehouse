@@ -189,7 +189,7 @@
             this.label2.BackColor = System.Drawing.SystemColors.ControlDark;
             this.label2.Location = new System.Drawing.Point(57, 77);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(124, 27);
+            this.label2.Size = new System.Drawing.Size(123, 27);
             this.label2.TabIndex = 24;
             this.label2.Text = "Покупатель";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -199,7 +199,7 @@
             this.cmbCustomer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmbCustomer.FormattingEnabled = true;
-            this.cmbCustomer.Location = new System.Drawing.Point(178, 77);
+            this.cmbCustomer.Location = new System.Drawing.Point(177, 77);
             this.cmbCustomer.Name = "cmbCustomer";
             this.cmbCustomer.Size = new System.Drawing.Size(174, 28);
             this.cmbCustomer.TabIndex = 25;

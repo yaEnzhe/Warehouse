@@ -1,19 +1,32 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace WarehouseApp
 {
+    /// <summary>
+    /// Добавляет простое масштабирование элементов формы.
+    /// </summary>
     internal static class ResponsiveFormHelper
     {
         private sealed class ControlLayout
         {
+            /// <summary>
+            /// Начальные размеры и положение элемента.
+            /// </summary>
             public Rectangle Bounds { get; set; }
+
+            /// <summary>
+            /// Начальный размер шрифта.
+            /// </summary>
             public float FontSize { get; set; }
+
+            /// <summary>
+            /// Начальные ширины колонок таблицы.
+            /// </summary>
             public List<int> GridColumnWidths { get; set; }
         }
 
+        /// <summary>
+        /// Включает изменение размеров элементов при изменении окна.
+        /// </summary>
         public static void Enable(Form form)
         {
             var baseSize = form.ClientSize;

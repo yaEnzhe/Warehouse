@@ -1,13 +1,4 @@
-﻿using NLog;
-using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using WarehouseApp.Enums;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -143,7 +134,7 @@ namespace WarehouseApp.Forms
 
         private void buttonToAddInTable_Click(object sender, EventArgs e)
         {
-            string productName = txtSearch.Text.Trim();
+            var productName = txtSearch.Text.Trim();
             if (string.IsNullOrEmpty(productName))
             {
                 logger.Warn("EMPTY_PRODUCT_SEARCH. Category: {Category}", "System", "Поле поиска товара не заполнено");
@@ -169,7 +160,7 @@ namespace WarehouseApp.Forms
                     return;
                 }
 
-                int alreadyInCart = cartList.Where(x => x.ProductId == product.IdProducts).Sum(x => x.Quantity);
+                var alreadyInCart = cartList.Where(x => x.ProductId == product.IdProducts).Sum(x => x.Quantity);
                 if (product.Stock < (qty + alreadyInCart))
                 {
                     logger.Warn("INSUFFICIENT_STOCK. Category: {Category}", "System", "Недостаточное количество товара на складе");
@@ -212,7 +203,7 @@ namespace WarehouseApp.Forms
                 return;
             }
 
-            string clientName = txtCustomer.Text.Trim();
+            var clientName = txtCustomer.Text.Trim();
             if (string.IsNullOrEmpty(clientName))
             {
                 logger.Warn("EMPTY_PRODUCT_LIST. Category: {Category}", "System", "Список товаров пуст");
@@ -324,7 +315,7 @@ namespace WarehouseApp.Forms
 
         private void btnCheckContractor_Click(object sender, EventArgs e)
         {
-            ContractorCheckForm form = new ContractorCheckForm();
+            var form = AppServices.Get<ContractorCheckForm>();
             FormNavigationHelper.ShowDialog(this, form);
         }
     }
