@@ -186,7 +186,7 @@ namespace WarehouseApp.Forms
         private void btnhistori_Click(object sender, EventArgs e)
         {
             DeliveryHistory deliveryHistory = new DeliveryHistory();
-            deliveryHistory.Show();
+            FormNavigationHelper.Show(this, deliveryHistory);
             Close();
         }
         private void btnBack_Click(object sender, EventArgs e)
@@ -212,6 +212,7 @@ namespace WarehouseApp.Forms
                     Application.Exit();
                     return;
             }
+            FormNavigationHelper.Show(this, nextForm);
             Close();
         }
         private void btnAddToSupply_Click(object sender, EventArgs e)
@@ -438,6 +439,12 @@ namespace WarehouseApp.Forms
                     MessageBox.Show(Properties.Resources.EmptyOrInvalidFileFormat);
                 }
             } 
+        }
+
+        private void btnCheckContractor_Click(object sender, EventArgs e)
+        {
+            ContractorCheckForm form = new ContractorCheckForm();
+            FormNavigationHelper.ShowDialog(this, form);
         }
 
         private void labelYourRole_Click(object sender, EventArgs e)

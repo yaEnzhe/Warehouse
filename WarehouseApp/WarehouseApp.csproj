@@ -138,12 +138,19 @@
     <Compile Include="Forms\ContentsOfSupplies.Designer.cs">
       <DependentUpon>ContentsOfSupplies.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ContractorCheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ContractorCheckForm.Designer.cs">
+      <DependentUpon>ContractorCheckForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\DeliveryHistory.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\DeliveryHistory.Designer.cs">
       <DependentUpon>DeliveryHistory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormNavigationHelper.cs" />
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -274,6 +281,9 @@
     <EmbeddedResource Include="Forms\ContentsOfSupplies.resx">
       <DependentUpon>ContentsOfSupplies.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ContractorCheckForm.resx">
+      <DependentUpon>ContractorCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DeliveryHistory.resx">
       <DependentUpon>DeliveryHistory.cs</DependentUpon>
     </EmbeddedResource>
@@ -291,6 +301,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShipmentFormStorekeeper.resx">
+      <DependentUpon>ShipmentFormStorekeeper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StartForm.resx">
       <DependentUpon>StartForm.cs</DependentUpon>

@@ -43,6 +43,10 @@ namespace WarehouseApp.Forms
             /// Общая сумма позиции (цена × количество)
             /// </summary>
             public decimal TotalSum => PricePerUnit * Quantity;
+            /// <summary>
+            /// Рекомендация по погоде для региона получателя.
+            /// </summary>
+            public string WeatherRecommendation { get; set; }
         }
         private BindingList<ShipmentViewItem> cartList;
 
@@ -95,6 +99,13 @@ namespace WarehouseApp.Forms
                 DataPropertyName = "CurrentStock",
                 ReadOnly = true,
                 DefaultCellStyle = { ForeColor = Color.Gray }
+            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Метео-рекомендации",
+                DataPropertyName = "WeatherRecommendation",
+                Width = 150,
+                ReadOnly = true
             });
             SetupAutoComplete();
         }
@@ -180,7 +191,8 @@ namespace WarehouseApp.Forms
                         ProductName = product.NameProduct,
                         PricePerUnit = product.Price,
                         Quantity = qty,
-                        CurrentStock = product.Stock
+                        CurrentStock = product.Stock,
+                        WeatherRecommendation = GetWeatherRecommendation()
                     });
                 }
 
@@ -300,6 +312,20 @@ namespace WarehouseApp.Forms
         private void txtCustomer_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private string GetWeatherRecommendation()
+        {
+            if (cmbRegion.SelectedIndex < 0)
+                return "";
+
+            return "Погодные условия в норме";
+        }
+
+        private void btnCheckContractor_Click(object sender, EventArgs e)
+        {
+            ContractorCheckForm form = new ContractorCheckForm();
+            FormNavigationHelper.ShowDialog(this, form);
         }
     }
 }

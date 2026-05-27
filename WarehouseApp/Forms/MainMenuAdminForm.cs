@@ -40,6 +40,7 @@ namespace WarehouseApp.Forms
             UserContext.Current = null;
             Hide();
             LoginForm loginForm = new LoginForm();
+            FormNavigationHelper.ApplyWindowState(this, loginForm);
             loginForm.FormClosed += (s, args) => Application.Exit();
             loginForm.ShowDialog();
             Close();
@@ -48,37 +49,37 @@ namespace WarehouseApp.Forms
         private void btnProducts_Click(object sender, EventArgs e)
         {
             var catalog = new CatalogAdminForm();
-            catalog.ShowDialog();
+            FormNavigationHelper.ShowDialog(this, catalog);
         }
 
         private void btnShipment_Click(object sender, EventArgs e)
         {
             var shipmentForm = new ShipmentFormAdmin();
-            shipmentForm.ShowDialog();
+            FormNavigationHelper.ShowDialog(this, shipmentForm);
         }
 
         private void btnActionHistory_Click(object sender, EventArgs e)
         {
             var changesForm = new ChangesAdmin();
-            changesForm.ShowDialog();
+            FormNavigationHelper.ShowDialog(this, changesForm);
         }
         private void btnParametr_Click(object sender, EventArgs e)
         {
             Options options = new Options();
-            options.Show();
+            FormNavigationHelper.Show(this, options);
         }
 
         private void btnPostavki_Click(object sender, EventArgs e)
         {
             Supplies supplies = new Supplies();
-            supplies.Show();
+            FormNavigationHelper.Show(this, supplies);
         }
 
         private void btnWarehouseMap_Click(object sender, EventArgs e)
         {
             using (var warehouseMap = new WarehouseMapForm())
             {
-                warehouseMap.ShowDialog();
+                FormNavigationHelper.ShowDialog(this, warehouseMap);
             }
         }
 

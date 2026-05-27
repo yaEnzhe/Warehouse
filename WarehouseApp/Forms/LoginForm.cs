@@ -26,7 +26,7 @@ namespace WarehouseApp
         private void btnRegistration_Click(object sender, EventArgs e)
         {
             var registration = new RegistrationForm();
-            registration.ShowDialog();
+            FormNavigationHelper.ShowDialog(this, registration);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -43,14 +43,14 @@ namespace WarehouseApp
                     {
                         var mainMenuAdminForm = new MainMenuAdminForm();
                         Hide();
-                        mainMenuAdminForm.ShowDialog();
+                        FormNavigationHelper.ShowDialog(this, mainMenuAdminForm);
                         Close();
                     }
                     else if (thisUser.Role == Enums.Roles.Storekeeper)
                     {
                         var mainMenuStorekeeperForm = new MainMenuStorekeeperForm();
                         Hide();
-                        mainMenuStorekeeperForm.ShowDialog();
+                        FormNavigationHelper.ShowDialog(this, mainMenuStorekeeperForm);
                         Close();
                     }
                 }

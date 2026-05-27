@@ -181,6 +181,8 @@ namespace WarehouseApp.Forms
             {
                 using (var db = new WarehouseContext())
                 {
+                    FixRulerArticle(db);
+
                     var products = db.Products
                         .Include("Category")
                         .Include("UnitOfMeasure")
@@ -212,6 +214,22 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
         }
+
+        private void FixRulerArticle(WarehouseContext db)
+        {
+            var ruler = db.Products
+                .FirstOrDefault(p => p.NameProduct == "Линейка" && p.Article != null);
+
+            if (ruler == null)
+                return;
+
+            if (!Guid.TryParse(ruler.Article, out Guid oldArticle))
+                return;
+
+            ruler.Article = db.GenerateNextArticle();
+            db.SaveChanges();
+        }
+
         private void buttonForEdit_Click(object sender, EventArgs e)
         { 
             if (buttonForEdit.Text == "Редактировать")

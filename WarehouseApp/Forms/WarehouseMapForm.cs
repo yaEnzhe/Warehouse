@@ -16,14 +16,26 @@ namespace WarehouseApp.Forms
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<Products> products = new List<Products>();
+        private Timer refreshTimer;
+        private ToolTip cellToolTip;
 
         public WarehouseMapForm()
         {
             InitializeComponent();
             WarehouseApp.ResponsiveFormHelper.Enable(this);
             cmbSort.SelectedIndex = 0;
+            cellToolTip = new ToolTip();
+            StartRefreshTimer();
             LoadProducts();
             DrawMap();
+        }
+
+        private void StartRefreshTimer()
+        {
+            refreshTimer = new Timer();
+            refreshTimer.Interval = 60 * 60 * 1000;
+            refreshTimer.Tick += refreshTimer_Tick;
+            refreshTimer.Start();
         }
 
         private void LoadProducts()
@@ -51,23 +63,37 @@ namespace WarehouseApp.Forms
             tableMap.Controls.Clear();
 
             var sortedProducts = GetSortedProducts();
-            int cellCount = tableMap.RowCount * tableMap.ColumnCount;
+            string[] columns = { "A", "B", "C", "D", "E", "F", "G" };
+            int dataRows = 4;
+            int dataColumns = columns.Length;
 
-            for (int i = 0; i < cellCount; i++)
+            tableMap.Controls.Add(CreateHeaderCell(string.Empty), 0, 0);
+
+            for (int i = 0; i < columns.Length; i++)
+                tableMap.Controls.Add(CreateHeaderCell(columns[i]), i + 1, 0);
+
+            for (int row = 0; row < dataRows; row++)
             {
-                Control cell = i < sortedProducts.Count
-                    ? CreateProductCell(sortedProducts[i])
-                    : CreateEmptyCell();
+                tableMap.Controls.Add(CreateHeaderCell((row + 1).ToString()), 0, row + 1);
 
-                tableMap.Controls.Add(cell, i % tableMap.ColumnCount, i / tableMap.ColumnCount);
+                for (int column = 0; column < dataColumns; column++)
+                {
+                    int productIndex = row * dataColumns + column;
+                    Control cell = productIndex < sortedProducts.Count
+                        ? CreateProductCell(sortedProducts[productIndex])
+                        : CreateEmptyCell();
+
+                    tableMap.Controls.Add(cell, column + 1, row + 1);
+                }
             }
 
             tableMap.ResumeLayout();
+            UpdateLegend();
         }
 
         private List<Products> GetSortedProducts()
         {
-            if (cmbSort.SelectedItem?.ToString() == "Остаток")
+            if (cmbSort.SelectedItem?.ToString() == "остаткам")
                 return products.OrderBy(p => p.Stock).ThenBy(p => p.NameProduct).ToList();
 
             return products
@@ -78,15 +104,17 @@ namespace WarehouseApp.Forms
 
         private Control CreateProductCell(Products product)
         {
-            return new Label
+            Label cell = new Label
             {
                 Dock = DockStyle.Fill,
                 Margin = Padding.Empty,
                 BackColor = GetProductColor(product),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Microsoft Sans Serif", 7F),
-                Text = BuildCellText(product)
+                Font = new Font("Microsoft Sans Serif", 7F)
             };
+
+            cellToolTip.SetToolTip(cell, BuildCellText(product));
+            return cell;
         }
 
         private Control CreateEmptyCell()
@@ -99,36 +127,57 @@ namespace WarehouseApp.Forms
             };
         }
 
+        private Control CreateHeaderCell(string text)
+        {
+            return new Label
+            {
+                Dock = DockStyle.Fill,
+                Margin = Padding.Empty,
+                BackColor = Color.White,
+                Text = text,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Microsoft Sans Serif", 9F)
+            };
+        }
+
         private string BuildCellText(Products product)
         {
             string expiration = product.ExpirationDate.HasValue
                 ? product.ExpirationDate.Value.ToString("dd.MM.yyyy")
                 : "нет срока";
 
-            return $"{product.NameProduct}\n{expiration}\n{product.Stock:0} шт.";
+            string daysLeft = "нет срока";
+            if (product.ExpirationDate.HasValue)
+                daysLeft = (product.ExpirationDate.Value.Date - DateTime.Today).Days.ToString();
+
+            return $"Товар: {product.NameProduct}\nКоличество: {product.Stock:0}\nСрок годности: {expiration}\nОсталось дней: {daysLeft}";
         }
 
         private Color GetProductColor(Products product)
         {
-            if (cmbSort.SelectedItem?.ToString() == "Остаток")
+            if (cmbSort.SelectedItem?.ToString() == "остаткам")
                 return GetStockColor(product.Stock);
 
-            return product.ExpirationDate.HasValue
-                ? GetExpirationColor(product.ExpirationDate)
-                : GetStockColor(product.Stock);
+            return GetExpirationColor(product);
         }
 
-        private Color GetExpirationColor(DateTime? expirationDate)
+        private Color GetExpirationColor(Products product)
         {
-            if (!expirationDate.HasValue)
+            if (product.Stock <= 0)
                 return Color.FromArgb(180, 180, 180);
 
-            int daysLeft = (expirationDate.Value.Date - DateTime.Today).Days;
+            if (!product.ExpirationDate.HasValue)
+                return Color.FromArgb(94, 205, 113);
 
-            if (daysLeft <= 30)
+            int daysLeft = (product.ExpirationDate.Value.Date - DateTime.Today).Days;
+
+            if (daysLeft < 0)
                 return Color.FromArgb(246, 65, 35);
 
-            if (daysLeft <= 365)
+            if (daysLeft <= 7)
+                return Color.FromArgb(255, 156, 61);
+
+            if (daysLeft <= 30)
                 return Color.FromArgb(255, 205, 70);
 
             return Color.FromArgb(94, 205, 113);
@@ -137,10 +186,10 @@ namespace WarehouseApp.Forms
         private Color GetStockColor(decimal stock)
         {
             if (stock <= 0)
-                return Color.FromArgb(180, 180, 180);
+                return Color.FromArgb(246, 65, 35);
 
             if (stock <= 10)
-                return Color.FromArgb(246, 65, 35);
+                return Color.FromArgb(255, 156, 61);
 
             if (stock <= 30)
                 return Color.FromArgb(255, 205, 70);
@@ -158,14 +207,35 @@ namespace WarehouseApp.Forms
             DrawMap();
         }
 
-        private void lblSort_Click(object sender, EventArgs e)
+        private void refreshTimer_Tick(object sender, EventArgs e)
         {
-
+            LoadProducts();
+            DrawMap();
         }
 
-        private void lblTitle_Click(object sender, EventArgs e)
+        private void UpdateLegend()
         {
+            if (cmbSort.SelectedItem?.ToString() == "остаткам")
+            {
+                lblLegend.Text = "• Красный: товара не осталось\n"
+                    + "• Оранжевый: товара ≤ 10\n"
+                    + "• Жёлтый: 11 ≤ товара ≤ 30\n"
+                    + "• Зелёный: 31 ≤ товара ≤ 100";
+                return;
+            }
 
+            lblLegend.Text = "• Красный: просрочено\n"
+                + "• Оранжевый: 0 ≤ дней осталось ≤ 7\n"
+                + "• Жёлтый: 7 ≤ дней осталось ≤ 30\n"
+                + "• Зелёный: > 30 дней\n"
+                + "• Серый: Нет в наличии";
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            LoadProducts();
+            DrawMap();
         }
     }
 }

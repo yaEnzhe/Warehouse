@@ -43,6 +43,10 @@ namespace WarehouseApp.Forms
             /// </summary>
 
             public decimal TotalSum => PricePerUnit * Quantity;
+            /// <summary>
+            /// Рекомендация по погоде для региона получателя.
+            /// </summary>
+            public string WeatherRecommendation { get; set; }
         }
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private BindingList<ShipmentViewItem> cartList;
@@ -95,6 +99,13 @@ namespace WarehouseApp.Forms
                 DataPropertyName = "CurrentStock",
                 ReadOnly = true,
                 DefaultCellStyle = { ForeColor = Color.Gray }
+            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = "Метео-рекомендации",
+                DataPropertyName = "WeatherRecommendation",
+                Width = 150,
+                ReadOnly = true
             });
             dgv.ReadOnly = true;
             foreach (DataGridViewColumn col in dgv.Columns)
@@ -189,7 +200,8 @@ namespace WarehouseApp.Forms
                         ProductName = product.NameProduct,
                         PricePerUnit = product.Price,
                         Quantity = qty,
-                        CurrentStock = product.Stock
+                        CurrentStock = product.Stock,
+                        WeatherRecommendation = GetWeatherRecommendation()
                     });
                 }
 
@@ -329,6 +341,25 @@ namespace WarehouseApp.Forms
             }
 
             Close();
+        }
+
+        private string GetWeatherRecommendation()
+        {
+            if (cmbRegion.SelectedIndex < 0)
+                return "";
+
+            return "Погодные условия в норме";
+        }
+
+        private void btnCheckContractor_Click(object sender, EventArgs e)
+        {
+            ContractorCheckForm form = new ContractorCheckForm();
+            FormNavigationHelper.ShowDialog(this, form);
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

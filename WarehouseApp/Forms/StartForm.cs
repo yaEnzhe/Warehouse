@@ -21,7 +21,7 @@ namespace WarehouseApp
         private void btnStart_Click(object sender, EventArgs e)
         {
             var loginForm = new LoginForm();
-            loginForm.Show();
+            FormNavigationHelper.Show(this, loginForm);
         }
 
 

@@ -38,8 +38,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.txtCustomer = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtCustomer = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -53,6 +53,9 @@
             this.warehouseDataSet1BindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.warehouseDataSet1 = new WarehouseApp.warehouseDataSet1();
             this.buttonToDeleteShipment = new System.Windows.Forms.Button();
+            this.btnCheckContractor = new System.Windows.Forms.Button();
+            this.lblRegion = new System.Windows.Forms.Label();
+            this.cmbRegion = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -152,32 +155,33 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.panel3.Controls.Add(this.txtCustomer);
             this.panel3.Controls.Add(this.label2);
-            this.panel3.Location = new System.Drawing.Point(406, 62);
+            this.panel3.Controls.Add(this.txtCustomer);
+            this.panel3.Location = new System.Drawing.Point(483, 62);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(373, 50);
+            this.panel3.Size = new System.Drawing.Size(281, 50);
             this.panel3.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(3, 14);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(61, 25);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Кому";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // txtCustomer
             // 
             this.txtCustomer.BackColor = System.Drawing.Color.DarkGray;
             this.txtCustomer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCustomer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtCustomer.Location = new System.Drawing.Point(84, 14);
+            this.txtCustomer.Location = new System.Drawing.Point(70, 14);
             this.txtCustomer.Name = "txtCustomer";
-            this.txtCustomer.Size = new System.Drawing.Size(259, 28);
+            this.txtCustomer.Size = new System.Drawing.Size(204, 28);
             this.txtCustomer.TabIndex = 7;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(3, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 25);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Кому";
             // 
             // contextMenuStrip1
             // 
@@ -271,11 +275,11 @@
             this.dgv.AutoGenerateColumns = false;
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.DataSource = this.warehouseDataSet1BindingSource;
-            this.dgv.Location = new System.Drawing.Point(0, 225);
+            this.dgv.Location = new System.Drawing.Point(0, 240);
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersWidth = 51;
             this.dgv.RowTemplate.Height = 24;
-            this.dgv.Size = new System.Drawing.Size(801, 170);
+            this.dgv.Size = new System.Drawing.Size(801, 155);
             this.dgv.TabIndex = 12;
             // 
             // warehouseDataSet1BindingSource
@@ -301,11 +305,54 @@
             this.buttonToDeleteShipment.UseVisualStyleBackColor = false;
             this.buttonToDeleteShipment.Click += new System.EventHandler(this.buttonToDeleteShipment_Click);
             // 
-            // ShipmentForm
+            // btnCheckContractor
+            // 
+            this.btnCheckContractor.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btnCheckContractor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCheckContractor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnCheckContractor.Location = new System.Drawing.Point(350, 62);
+            this.btnCheckContractor.Name = "btnCheckContractor";
+            this.btnCheckContractor.Size = new System.Drawing.Size(111, 50);
+            this.btnCheckContractor.TabIndex = 14;
+            this.btnCheckContractor.Text = "Проверка\r\nконтрагента";
+            this.btnCheckContractor.UseVisualStyleBackColor = false;
+            this.btnCheckContractor.Click += new System.EventHandler(this.btnCheckContractor_Click);
+            // 
+            // lblRegion
+            // 
+            this.lblRegion.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.lblRegion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblRegion.Location = new System.Drawing.Point(287, 130);
+            this.lblRegion.Name = "lblRegion";
+            this.lblRegion.Size = new System.Drawing.Size(190, 30);
+            this.lblRegion.TabIndex = 15;
+            this.lblRegion.Text = "Регион получателя";
+            this.lblRegion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cmbRegion
+            // 
+            this.cmbRegion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbRegion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbRegion.FormattingEnabled = true;
+            this.cmbRegion.Items.AddRange(new object[] {
+            "Москва",
+            "Санкт-Петербург",
+            "Казань",
+            "Нижний Новгород",
+            "Самара"});
+            this.cmbRegion.Location = new System.Drawing.Point(478, 130);
+            this.cmbRegion.Name = "cmbRegion";
+            this.cmbRegion.Size = new System.Drawing.Size(286, 30);
+            this.cmbRegion.TabIndex = 16;
+            // 
+            // ShipmentFormStorekeeper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnCheckContractor);
+            this.Controls.Add(this.cmbRegion);
+            this.Controls.Add(this.lblRegion);
             this.Controls.Add(this.buttonToDeleteShipment);
             this.Controls.Add(this.dgv);
             this.Controls.Add(this.buttonToAddInTable);
@@ -316,7 +363,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.buttonToBack);
             this.Controls.Add(this.panel1);
-            this.Name = "ShipmentForm";
+            this.Name = "ShipmentFormStorekeeper";
             this.Load += new System.EventHandler(this.Shipment_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -362,5 +409,8 @@
         private System.Windows.Forms.BindingSource warehouseDataSet1BindingSource;
         private warehouseDataSet1 warehouseDataSet1;
         private System.Windows.Forms.Button buttonToDeleteShipment;
+        private System.Windows.Forms.Button btnCheckContractor;
+        private System.Windows.Forms.Label lblRegion;
+        private System.Windows.Forms.ComboBox cmbRegion;
     }
 }

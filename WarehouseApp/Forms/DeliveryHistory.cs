@@ -33,13 +33,13 @@ namespace WarehouseApp.Forms
         private void buttonToAddInTable_Click(object sender, EventArgs e)
         {
             Supplies supplies = new Supplies();
-            supplies.Show();
+            FormNavigationHelper.Show(this, supplies);
             Close();
         }
         private void buttonToBack_Click(object sender, EventArgs e)
         {
             Supplies supplies = new Supplies();
-            supplies.Show();
+            FormNavigationHelper.Show(this, supplies);
             Close();
         }
         private void SetupHistoryGrid()
@@ -203,7 +203,7 @@ namespace WarehouseApp.Forms
                 {
                     Guid supplyId = selectedRow.SupplyId;
                     ContentsOfSupplies detailsForm = new ContentsOfSupplies(supplyId);
-                    detailsForm.ShowDialog();
+                    FormNavigationHelper.ShowDialog(this, detailsForm);
                 }
             }
         }
