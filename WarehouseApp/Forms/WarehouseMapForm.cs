@@ -230,5 +230,10 @@ namespace WarehouseApp.Forms
             LoadProducts();
             DrawMap();
         }
+
+        private void WarehouseMapForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

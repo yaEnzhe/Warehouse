@@ -7,6 +7,7 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class ShipmentFormStorekeeper : Form
     {
+        private readonly IWeatherService weatherService;
         private class ShipmentViewItem
         {
             /// <summary>
@@ -44,10 +45,11 @@ namespace WarehouseApp.Forms
         /// <summary>
         /// Конструктор для формы отгрузок
         /// </summary>
-        public ShipmentFormStorekeeper()
+        public ShipmentFormStorekeeper(IWeatherService weatherService = null)
         {
             InitializeComponent();
             WarehouseApp.ResponsiveFormHelper.Enable(this);
+            this.weatherService = weatherService ?? AppServices.Get<IWeatherService>();
             cartList = new BindingList<ShipmentViewItem>();
         }
 
@@ -141,7 +143,7 @@ namespace WarehouseApp.Forms
 
         private void txtSearch_TextChanged(object sender, EventArgs e) { }
 
-        private void buttonToAddInTable_Click(object sender, EventArgs e)
+        private async void buttonToAddInTable_Click(object sender, EventArgs e)
         {
             var productName = txtSearch.Text.Trim();
             if (string.IsNullOrEmpty(productName))
@@ -158,6 +160,10 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.NegativeStockWarning);
                 return;
             }
+
+            var weatherRecommendation = await GetWeatherRecommendationAsync();
+            if (weatherRecommendation == null)
+                return;
 
             using (var db = new WarehouseContext())
             {
@@ -192,7 +198,7 @@ namespace WarehouseApp.Forms
                         PricePerUnit = product.Price,
                         Quantity = qty,
                         CurrentStock = product.Stock,
-                        WeatherRecommendation = GetWeatherRecommendation()
+                        WeatherRecommendation = weatherRecommendation
                     });
                 }
 
@@ -334,12 +340,24 @@ namespace WarehouseApp.Forms
             Close();
         }
 
-        private string GetWeatherRecommendation()
+        private async Task<string> GetWeatherRecommendationAsync()
         {
             if (cmbRegion.SelectedIndex < 0)
-                return "";
+            {
+                MessageBox.Show("Выберите регион получателя");
+                cmbRegion.Focus();
+                return null;
+            }
 
-            return "Погодные условия в норме";
+            var recommendation = await weatherService.GetRecommendationAsync(cmbRegion.SelectedItem.ToString());
+            if (recommendation == "Прогноз погоды временно недоступен" ||
+                recommendation == "Указанный регион не найден. Проверьте правильность названия")
+            {
+                MessageBox.Show(recommendation);
+                return "";
+            }
+
+            return recommendation;
         }
 
         private void btnCheckContractor_Click(object sender, EventArgs e)

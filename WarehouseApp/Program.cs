@@ -110,6 +110,7 @@ namespace WarehouseApp
 
             container.AddSingleton<IContractorCheckService>(() => new DadataContractorCheckService());
             container.AddSingleton<ICurrencyRateService>(() => new CurrencyRateService());
+            container.AddSingleton<IWeatherService>(() => new OpenWeatherMapService());
 
             container.AddTransient(() => new LoginForm());
             container.AddTransient(() => new RegistrationForm());
@@ -117,8 +118,8 @@ namespace WarehouseApp
             container.AddTransient(() => new MainMenuStorekeeperForm());
             container.AddTransient(() => new CatalogAdminForm());
             container.AddTransient<Func<bool, CatalogAdminForm>>(() => readOnly => new CatalogAdminForm(readOnly));
-            container.AddTransient(() => new ShipmentFormAdmin());
-            container.AddTransient(() => new ShipmentFormStorekeeper());
+            container.AddTransient(() => new ShipmentFormAdmin(AppServices.Get<IWeatherService>()));
+            container.AddTransient(() => new ShipmentFormStorekeeper(AppServices.Get<IWeatherService>()));
             container.AddTransient(() => new ChangesAdmin());
             container.AddTransient(() => new Options(AppServices.Get<ICurrencyRateService>()));
             container.AddTransient(() => new Supplies());

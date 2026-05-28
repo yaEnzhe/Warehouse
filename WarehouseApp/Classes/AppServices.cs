@@ -25,6 +25,7 @@ namespace WarehouseApp.Classes
                 var defaultContainer = new SimpleContainer();
                 defaultContainer.AddSingleton<IContractorCheckService>(() => new DadataContractorCheckService());
                 defaultContainer.AddSingleton<ICurrencyRateService>(() => new CurrencyRateService());
+                defaultContainer.AddSingleton<IWeatherService>(() => new OpenWeatherMapService());
                 container = defaultContainer;
             }
 

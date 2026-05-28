@@ -132,7 +132,6 @@ namespace WarehouseApp.Forms
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.btnBack);
             this.Name = "ContractorCheckForm";
-            this.Text = "Проверка контрагента";
             this.panelHeader.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

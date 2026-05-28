@@ -83,7 +83,7 @@ namespace WarehouseApp.Forms
             "остаткам"});
             this.cmbSort.Location = new System.Drawing.Point(257, 87);
             this.cmbSort.Name = "cmbSort";
-            this.cmbSort.Size = new System.Drawing.Size(268, 40);
+            this.cmbSort.Size = new System.Drawing.Size(278, 40);
             this.cmbSort.TabIndex = 3;
             this.cmbSort.SelectedIndexChanged += new System.EventHandler(this.cmbSort_SelectedIndexChanged);
             // 
@@ -142,7 +142,7 @@ namespace WarehouseApp.Forms
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.btnBack);
             this.Name = "WarehouseMapForm";
-            this.Text = "Тепловая карта склада";
+            this.Load += new System.EventHandler(this.WarehouseMapForm_Load);
             this.panelHeader.ResumeLayout(false);
             this.ResumeLayout(false);
 
