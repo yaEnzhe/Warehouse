@@ -16,6 +16,11 @@ namespace WarehouseApp.Classes
         public string Message { get; set; }
 
         /// <summary>
+        /// Нужно ли запрещать поставку или отгрузку после проверки.
+        /// </summary>
+        public bool ShouldBlockOperation { get; set; }
+
+        /// <summary>
         /// Создаёт успешный результат проверки.
         /// </summary>
         public static ContractorCheckResult Success(string message)
@@ -23,19 +28,21 @@ namespace WarehouseApp.Classes
             return new ContractorCheckResult
             {
                 IsSuccess = true,
-                Message = message
+                Message = message,
+                ShouldBlockOperation = false
             };
         }
 
         /// <summary>
         /// Создаёт результат с ошибкой проверки.
         /// </summary>
-        public static ContractorCheckResult Error(string message)
+        public static ContractorCheckResult Error(string message, bool shouldBlockOperation = false)
         {
             return new ContractorCheckResult
             {
                 IsSuccess = false,
-                Message = message
+                Message = message,
+                ShouldBlockOperation = shouldBlockOperation
             };
         }
     }

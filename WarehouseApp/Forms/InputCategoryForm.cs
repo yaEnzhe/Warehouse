@@ -15,15 +15,11 @@ namespace WarehouseApp.Forms
         {
             InitializeComponent();
             WarehouseApp.ResponsiveFormHelper.Enable(this);
+            LanguageManager.ApplyControls(this);
         }
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

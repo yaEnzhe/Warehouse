@@ -1,4 +1,5 @@
 using System.Configuration;
+using NLog;
 
 namespace WarehouseApp.Classes
 {
@@ -7,6 +8,7 @@ namespace WarehouseApp.Classes
     /// </summary>
     public class DadataContractorCheckService : IContractorCheckService
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private const string DadataUrl = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
 
         /// <summary>
@@ -16,7 +18,10 @@ namespace WarehouseApp.Classes
         {
             var token = ConfigurationManager.AppSettings["DadataApiToken"];
             if (string.IsNullOrWhiteSpace(token))
+            {
+                logger.Warn("DADATA_TOKEN_MISSING. Category: {Category}", "Api");
                 return ContractorCheckResult.Error("Не указан API-ключ DaData.");
+            }
 
             try
             {
@@ -38,13 +43,17 @@ namespace WarehouseApp.Classes
                     var json = await response.Content.ReadAsStringAsync();
 
                     if (!response.IsSuccessStatusCode)
+                    {
+                        logger.Warn("DADATA_REQUEST_FAILED. Category: {Category}. StatusCode: {StatusCode}", "Api", response.StatusCode);
                         return ContractorCheckResult.Error("Не удалось проверить контрагента.");
+                    }
 
                     return ParseResult(json);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "DADATA_REQUEST_ERROR. Category: {Category}", "Api");
                 return ContractorCheckResult.Error("Сервис проверки недоступен.");
             }
         }
@@ -55,7 +64,10 @@ namespace WarehouseApp.Classes
             {
                 var suggestions = document.RootElement.GetProperty("suggestions");
                 if (suggestions.GetArrayLength() == 0)
+                {
+                    logger.Warn("DADATA_CONTRACTOR_NOT_FOUND. Category: {Category}", "Api");
                     return ContractorCheckResult.Error("Контрагент не найден.");
+                }
 
                 var item = suggestions[0];
                 var name = GetString(item, "value");
@@ -64,9 +76,13 @@ namespace WarehouseApp.Classes
                 var status = GetString(state, "status");
 
                 if (status == "ACTIVE")
+                {
+                    logger.Info("DADATA_CONTRACTOR_ACTIVE. Category: {Category}. Name: {Name}", "Api", name);
                     return ContractorCheckResult.Success($"Контрагент найден: {name}\nСтатус: действующий");
+                }
 
-                return ContractorCheckResult.Error($"Контрагент найден: {name}\nСтатус: {GetStatusText(status)}");
+                logger.Warn("DADATA_CONTRACTOR_NOT_ACTIVE. Category: {Category}. Name: {Name}. Status: {Status}", "Api", name, status);
+                return ContractorCheckResult.Error($"Контрагент найден: {name}\nСтатус: {GetStatusText(status)}", true);
             }
         }
 

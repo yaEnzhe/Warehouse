@@ -5,7 +5,7 @@ namespace WarehouseApp.Forms
     /// <summary>
     /// класс главной формы администратора
     /// </summary>
-    public partial class MainMenuAdminForm : Form
+    public partial class MainMenuAdminForm : Form, ILocalizableForm
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
@@ -27,9 +27,7 @@ namespace WarehouseApp.Forms
                 Close();
                 return;
             }
-            txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
-            txtWelcome.Text = $"{Properties.Resources.Welcome}{UserDisplayHelper.GetShortName(UserContext.Current)}";
-            labelAdmin.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
+            ApplyLocalization();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -80,6 +78,20 @@ namespace WarehouseApp.Forms
             }
         }
 
+        /// <summary>
+        /// Обновляет тексты формы под текущий язык.
+        /// </summary>
+        public void ApplyLocalization()
+        {
+            LanguageManager.ApplyControls(this);
+
+            if (UserContext.Current != null)
+            {
+                txtDate.Text = LanguageManager.Text("DatePrefix") + DateTime.Now.ToString("dd.MM.yyyy");
+                txtWelcome.Text = $"{LanguageManager.Text("Welcome")}{UserDisplayHelper.GetShortName(UserContext.Current)}";
+                labelAdmin.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
+            }
+        }
     }
 }
 

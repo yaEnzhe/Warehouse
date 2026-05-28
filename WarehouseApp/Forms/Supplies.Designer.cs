@@ -77,7 +77,6 @@
             this.labelYourRole.Size = new System.Drawing.Size(115, 25);
             this.labelYourRole.TabIndex = 19;
             this.labelYourRole.Text = "Ваша роль:";
-            this.labelYourRole.Click += new System.EventHandler(this.labelYourRole_Click);
             // 
             // labelAdmin
             // 
@@ -88,7 +87,6 @@
             this.labelAdmin.Size = new System.Drawing.Size(164, 26);
             this.labelAdmin.TabIndex = 20;
             this.labelAdmin.Text = "Пользователь";
-            this.labelAdmin.Click += new System.EventHandler(this.labelAdmin_Click);
             // 
             // panel1
             // 

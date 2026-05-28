@@ -23,7 +23,7 @@ namespace WarehouseApp.Forms
         {
             try
             {
-                lblDate.Text = $"Дата: {DateTime.Now:dd.MM.yyyy}";
+                lblDate.Text = $"{LanguageManager.Text("DatePrefix")}{DateTime.Now:dd.MM.yyyy}";
                 var end = DateTime.Today;
                 var start = end.AddDays(-30);
                 dtpFrom.Value = start;
@@ -79,7 +79,7 @@ namespace WarehouseApp.Forms
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colDate",
-                HeaderText = Properties.Resources.ReportColDate,
+                HeaderText = LanguageManager.Text("ColumnDate"),
                 Width = 120,
                 DataPropertyName = "Date",
                 DefaultCellStyle = { Format = "dd.MM.yyyy" }
@@ -88,26 +88,26 @@ namespace WarehouseApp.Forms
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colCustomer",
-                HeaderText = Properties.Resources.ReportColCustomer,
+                HeaderText = LanguageManager.Text("ColumnCustomer"),
                 Width = 200,
                 DataPropertyName = "Customer"
             });
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colAmount",
-                HeaderText = Properties.Resources.ReportColAmount,
+                HeaderText = LanguageManager.Text("ColumnAmount"),
                 Width = 150,
                 DataPropertyName = "Amount",
-                DefaultCellStyle = { Format = "0.00 ₽", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = { Format = "0.00", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colProfit",
-                HeaderText = Properties.Resources.ReportColProfit,
+                HeaderText = LanguageManager.Text("ColumnProfit"),
                 Width = 150,
                 DataPropertyName = "Profit",
-                DefaultCellStyle = { Format = "0.00 ₽", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = { Format = "0.00", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
         }
 
@@ -141,9 +141,15 @@ namespace WarehouseApp.Forms
                     {
                         Date = s.DateOfShipment,
                         Customer = (s.Clients != null ? s.Clients.NameClients : "Не указан"),
-                        Amount = s.PriceShipment,
-                        Profit = CalculateProfit(s)
+                        Amount = Options.ConvertFromBase(s.PriceShipment),
+                        Profit = Options.ConvertFromBase(CalculateProfit(s))
                     }).ToList();
+
+                    var symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+                    if (dgvHistory.Columns["colAmount"] != null)
+                        dgvHistory.Columns["colAmount"].HeaderText = $"{LanguageManager.Text("ColumnAmount")} ({symbol})";
+                    if (dgvHistory.Columns["colProfit"] != null)
+                        dgvHistory.Columns["colProfit"].HeaderText = $"{LanguageManager.Text("ColumnProfit")} ({symbol})";
 
                     dgvHistory.DataSource = reportData;
                 }

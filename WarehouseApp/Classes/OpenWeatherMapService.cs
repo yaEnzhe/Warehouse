@@ -1,4 +1,5 @@
 using System.Configuration;
+using NLog;
 
 namespace WarehouseApp.Classes
 {
@@ -7,6 +8,7 @@ namespace WarehouseApp.Classes
     /// </summary>
     public class OpenWeatherMapService : IWeatherService
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private const string ForecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
 
         /// <summary>
@@ -16,7 +18,10 @@ namespace WarehouseApp.Classes
         {
             var token = ConfigurationManager.AppSettings["OpenWeatherApiToken"];
             if (string.IsNullOrWhiteSpace(token))
+            {
+                logger.Warn("WEATHER_TOKEN_MISSING. Category: {Category}", "Api");
                 return "Прогноз погоды временно недоступен";
+            }
 
             try
             {
@@ -27,17 +32,26 @@ namespace WarehouseApp.Classes
                 {
                     var response = await client.GetAsync(url);
                     if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        logger.Warn("WEATHER_REGION_NOT_FOUND. Category: {Category}. Region: {Region}", "Api", region);
                         return "Указанный регион не найден. Проверьте правильность названия";
+                    }
 
                     if (!response.IsSuccessStatusCode)
+                    {
+                        logger.Warn("WEATHER_REQUEST_FAILED. Category: {Category}. StatusCode: {StatusCode}", "Api", response.StatusCode);
                         return "Прогноз погоды временно недоступен";
+                    }
 
                     var json = await response.Content.ReadAsStringAsync();
-                    return GetRecommendationFromJson(json);
+                    var recommendation = GetRecommendationFromJson(json);
+                    logger.Info("WEATHER_RECOMMENDATION_RECEIVED. Category: {Category}. Region: {Region}. Recommendation: {Recommendation}", "Api", region, recommendation);
+                    return recommendation;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "WEATHER_REQUEST_ERROR. Category: {Category}. Region: {Region}", "Api", region);
                 return "Прогноз погоды временно недоступен";
             }
         }

@@ -5,7 +5,7 @@ namespace WarehouseApp.Forms
     /// <summary>
     /// Форма тепловой карты склада.
     /// </summary>
-    public partial class WarehouseMapForm : Form
+    public partial class WarehouseMapForm : Form, ILocalizableForm
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<Products> products = new List<Products>();
@@ -16,8 +16,8 @@ namespace WarehouseApp.Forms
         {
             InitializeComponent();
             WarehouseApp.ResponsiveFormHelper.Enable(this);
-            cmbSort.SelectedIndex = 0;
             cellToolTip = new ToolTip();
+            ApplyLocalization();
             StartRefreshTimer();
             LoadProducts();
             DrawMap();
@@ -86,7 +86,7 @@ namespace WarehouseApp.Forms
 
         private List<Products> GetSortedProducts()
         {
-            if (cmbSort.SelectedItem?.ToString() == "остаткам")
+            if (cmbSort.SelectedIndex == 1)
                 return products.OrderBy(p => p.Stock).ThenBy(p => p.NameProduct).ToList();
 
             return products
@@ -137,9 +137,9 @@ namespace WarehouseApp.Forms
         {
             var expiration = product.ExpirationDate.HasValue
                 ? product.ExpirationDate.Value.ToString("dd.MM.yyyy")
-                : "нет срока";
+                : LanguageManager.Text("NoExpiration");
 
-            var daysLeft = "нет срока";
+            var daysLeft = LanguageManager.Text("NoExpiration");
             if (product.ExpirationDate.HasValue)
                 daysLeft = (product.ExpirationDate.Value.Date - DateTime.Today).Days.ToString();
 
@@ -148,7 +148,7 @@ namespace WarehouseApp.Forms
 
         private Color GetProductColor(Products product)
         {
-            if (cmbSort.SelectedItem?.ToString() == "остаткам")
+            if (cmbSort.SelectedIndex == 1)
                 return GetStockColor(product.Stock);
 
             return GetExpirationColor(product);
@@ -208,20 +208,17 @@ namespace WarehouseApp.Forms
 
         private void UpdateLegend()
         {
-            if (cmbSort.SelectedItem?.ToString() == "остаткам")
+            if (cmbSort.SelectedIndex == 1)
             {
-                lblLegend.Text = "• Красный: товара не осталось\n"
-                    + "• Оранжевый: товара ≤ 10\n"
-                    + "• Жёлтый: 11 ≤ товара ≤ 30\n"
-                    + "• Зелёный: 31 ≤ товара ≤ 100";
+                lblLegend.Text = LanguageManager.CurrentLanguage == "ENG"
+                    ? "• Red: out of stock\n• Orange: stock ≤ 10\n• Yellow: 11 ≤ stock ≤ 30\n• Green: 31 ≤ stock ≤ 100"
+                    : "• Красный: товара не осталось\n• Оранжевый: товара ≤ 10\n• Жёлтый: 11 ≤ товара ≤ 30\n• Зелёный: 31 ≤ товара ≤ 100";
                 return;
             }
 
-            lblLegend.Text = "• Красный: просрочено\n"
-                + "• Оранжевый: 0 ≤ дней осталось ≤ 7\n"
-                + "• Жёлтый: 7 ≤ дней осталось ≤ 30\n"
-                + "• Зелёный: > 30 дней\n"
-                + "• Серый: Нет в наличии";
+            lblLegend.Text = LanguageManager.CurrentLanguage == "ENG"
+                ? "• Red: expired\n• Orange: 0 ≤ days left ≤ 7\n• Yellow: 7 ≤ days left ≤ 30\n• Green: > 30 days\n• Gray: out of stock"
+                : "• Красный: просрочено\n• Оранжевый: 0 ≤ дней осталось ≤ 7\n• Жёлтый: 7 ≤ дней осталось ≤ 30\n• Зелёный: > 30 дней\n• Серый: Нет в наличии";
         }
 
         protected override void OnActivated(EventArgs e)
@@ -231,9 +228,17 @@ namespace WarehouseApp.Forms
             DrawMap();
         }
 
-        private void WarehouseMapForm_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Обновляет тексты формы под текущий язык.
+        /// </summary>
+        public void ApplyLocalization()
         {
-
+            LanguageManager.ApplyControls(this);
+            var selectedIndex = cmbSort.SelectedIndex < 0 ? 0 : cmbSort.SelectedIndex;
+            cmbSort.Items.Clear();
+            cmbSort.Items.AddRange(new object[] { LanguageManager.Text("SortExpiration"), LanguageManager.Text("SortStock") });
+            cmbSort.SelectedIndex = selectedIndex;
+            UpdateLegend();
         }
     }
 }

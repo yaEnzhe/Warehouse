@@ -15,6 +15,7 @@ namespace WarehouseApp
         {
             InitializeComponent();
             ResponsiveFormHelper.Enable(this);
+            LanguageManager.ApplyControls(this);
         }
 
         private void btnRegistration_Click(object sender, EventArgs e)

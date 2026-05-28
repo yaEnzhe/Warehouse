@@ -1,34 +1,31 @@
 
+using NLog;
+
 namespace WarehouseApp
 {
     internal static class Program
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
         [STAThread]
         static void Main()
         {
             try
             {
+                logger.Info("APPLICATION_START. Category: {Category}", "System");
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Database.SetInitializer(new MigrateDatabaseToLatestVersion<WarehouseContext, Configuration>());
 
-                using (var db = new WarehouseContext())
-                {
-                    var badRate = db.AppSettings.FirstOrDefault(s => s.Key == "ExchangeRate");
-                    if (badRate != null)
-                    {
-                        db.AppSettings.Remove(badRate);
-                        db.SaveChanges();
-                        System.Diagnostics.Debug.WriteLine("Старый курс удален");
-                    }
-                }
                 InitializeDatabase();
                 ConfigureServices();
+                LoadLanguageSettings();
                 LoadCurrencySettings();
                 Application.Run(AppServices.Get<LoginForm>());
             }
             catch (Exception ex)
             {
+                logger.Error(ex, "APPLICATION_START_ERROR. Category: {Category}", "System");
                 MessageBox.Show($"{Properties.Resources.StartupError}\n\n{ex.Message}");
             }
         }
@@ -56,6 +53,7 @@ namespace WarehouseApp
                     Password.HashPasswordBCrypt(administrator, adminPassword);
                     db.Users.Add(administrator);
                     db.SaveChanges();
+                    logger.Info("DEFAULT_ADMIN_CREATED. Category: {Category}", "System");
                 }
 
                 // Клиент
@@ -69,6 +67,7 @@ namespace WarehouseApp
                     };
                     db.Clients.Add(thisClient);
                     db.SaveChanges();
+                    logger.Info("DEFAULT_CLIENT_CREATED. Category: {Category}", "System");
                 }
 
                 // Категории
@@ -84,6 +83,7 @@ namespace WarehouseApp
                         db.Categories.Add(new Categories { IdCategories = Guid.NewGuid(), NameCategory = name });
                     }
                     db.SaveChanges();
+                    logger.Info("DEFAULT_CATEGORIES_CREATED. Category: {Category}", "System");
                 }
 
                 // Единицы измерения
@@ -97,6 +97,7 @@ namespace WarehouseApp
                         db.UnitOfMeasure.Add(new UnitOfMeasure { IdUnit = Guid.NewGuid(), NameUnit = name });
                     }
                     db.SaveChanges();
+                    logger.Info("DEFAULT_UNITS_CREATED. Category: {Category}", "System");
                 }
             }
         }
@@ -132,6 +133,27 @@ namespace WarehouseApp
         }
 
         /// <summary>
+        /// Загружает сохраненный язык интерфейса.
+        /// </summary>
+        public static void LoadLanguageSettings()
+        {
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var languageSetting = db.AppSettings.FirstOrDefault(s => s.Key == "Language");
+                    LanguageManager.SetLanguage(languageSetting?.Value ?? "RUS");
+                    logger.Info("LANGUAGE_LOADED. Category: {Category}. Language: {Language}", "System", LanguageManager.CurrentLanguage);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "LANGUAGE_LOAD_ERROR. Category: {Category}", "System");
+                LanguageManager.SetLanguage("RUS");
+            }
+        }
+
+        /// <summary>
         /// Загружает валюту и курс
         /// </summary>
         public static void LoadCurrencySettings()
@@ -142,57 +164,71 @@ namespace WarehouseApp
                 {
                     var currencySetting = db.AppSettings.FirstOrDefault(s => s.Key == "Currency");
                     var exchangeRateSetting = db.AppSettings.FirstOrDefault(s => s.Key == "ExchangeRate");
+                    var exchangeRateCurrencySetting = db.AppSettings.FirstOrDefault(s => s.Key == "ExchangeRateCurrency");
 
                     var currency = currencySetting?.Value ?? "RUB";
                     Options.CurrentCurrency = currency;
 
                     if (currency != "RUB")
                     {
-                        if (exchangeRateSetting != null && decimal.TryParse(exchangeRateSetting.Value, out decimal savedRate))
+                        if (exchangeRateSetting != null &&
+                            exchangeRateCurrencySetting?.Value == currency &&
+                            decimal.TryParse(exchangeRateSetting.Value, out decimal savedRate))
                         {
                             Options.CurrentExchangeRate = savedRate;
                         }
                         else
                         {
-                            var url = "https://www.cbr-xml-daily.ru/daily_json.js";
-                            using (var client = new WebClient())
-                            {
-                                var json = client.DownloadString(url);
-                                using (var doc = JsonDocument.Parse(json))
-                                {
-                                    if (doc.RootElement.TryGetProperty("Valute", out var valute) &&
-                                        valute.TryGetProperty(currency, out var currencyData) &&
-                                        currencyData.TryGetProperty("Value", out var valueElement))
-                                    {
-                                        Options.CurrentExchangeRate = valueElement.GetDecimal();
+                            Options.CurrentExchangeRate = new CurrencyRateService()
+                                .GetRateAsync(currency)
+                                .GetAwaiter()
+                                .GetResult();
 
-                                        if (exchangeRateSetting == null)
-                                        {
-                                            db.AppSettings.Add(new AppSetting
-                                            {
-                                                Id = Guid.NewGuid(),
-                                                Key = "ExchangeRate",
-                                                Value = Options.CurrentExchangeRate.ToString()
-                                            });
-                                        }
-                                        else
-                                        {
-                                            exchangeRateSetting.Value = Options.CurrentExchangeRate.ToString();
-                                        }
-                                        db.SaveChanges();
-                                    }
-                                }
+                            if (Options.CurrentExchangeRate <= 0)
+                                Options.CurrentExchangeRate = 1.0m;
+
+                            if (exchangeRateSetting == null)
+                            {
+                                db.AppSettings.Add(new AppSetting
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Key = "ExchangeRate",
+                                    Value = Options.CurrentExchangeRate.ToString()
+                                });
                             }
+                            else
+                            {
+                                exchangeRateSetting.Value = Options.CurrentExchangeRate.ToString();
+                            }
+
+                            if (exchangeRateCurrencySetting == null)
+                            {
+                                db.AppSettings.Add(new AppSetting
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Key = "ExchangeRateCurrency",
+                                    Value = currency
+                                });
+                            }
+                            else
+                            {
+                                exchangeRateCurrencySetting.Value = currency;
+                            }
+
+                            db.SaveChanges();
                         }
                     }
                     else
                     {
                         Options.CurrentExchangeRate = 1.0m;
                     }
+
+                    logger.Info("CURRENCY_SETTINGS_LOADED. Category: {Category}. Currency: {Currency}", "System", Options.CurrentCurrency);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                logger.Error(ex, "CURRENCY_SETTINGS_LOAD_ERROR. Category: {Category}", "System");
                 Options.CurrentExchangeRate = 1.0m;
                 Options.CurrentCurrency = "RUB";
             }

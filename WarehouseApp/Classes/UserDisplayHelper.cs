@@ -44,9 +44,9 @@ namespace WarehouseApp.Classes
             switch (role)
             {
                 case Roles.Administrator:
-                    return "Администратор";
+                    return LanguageManager.Text("Administrator");
                 case Roles.Storekeeper:
-                    return "Кладовщик";
+                    return LanguageManager.Text("Storekeeper");
                 default:
                     return string.Empty;
             }

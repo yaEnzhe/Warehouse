@@ -9,6 +9,8 @@ namespace WarehouseApp.Forms
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<SupplyRow> currentSupply = new List<SupplyRow>();
+        private bool contractorOperationBlocked;
+
         /// <summary>
         /// Класс для отражения в таблице данных перед сохранением в БД
         /// </summary>
@@ -42,8 +44,6 @@ namespace WarehouseApp.Forms
             /// </summary>
             public DateTime Expiration { get; set; }
         }
-        private readonly WarehouseContext context = new WarehouseContext();
-        private List<Products> productsList = new List<Products>();
         /// <summary>
         /// Конструктор для формы управления поставками
         /// </summary>
@@ -141,35 +141,35 @@ namespace WarehouseApp.Forms
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colArticle",
-                HeaderText = Properties.Resources.ColumnArticle,
+                HeaderText = LanguageManager.Text("ColumnArticle"),
                 DataPropertyName = "Article",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colName",
-                HeaderText = Properties.Resources.ColumnName,
+                HeaderText = LanguageManager.Text("ColumnName"),
                 DataPropertyName = "ProductName",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colQty",
-                HeaderText = Properties.Resources.ColumnQuantity,
+                HeaderText = LanguageManager.Text("ColumnQuantity"),
                 DataPropertyName = "Quantity",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colPrice",
-                HeaderText = Properties.Resources.ColumnPrice,
+                HeaderText = LanguageManager.Text("ColumnPrice"),
                 DataPropertyName = "Price",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colExp",
-                HeaderText = Properties.Resources.ColumnTerm,
+                HeaderText = LanguageManager.Text("ColumnTerm"),
                 DataPropertyName = "Expiration",
                 ReadOnly = true
             });
@@ -238,7 +238,6 @@ namespace WarehouseApp.Forms
                 return;
             }
             var selectedProduct = cmbProduct.SelectedItem as Products;
-            var productId = selectedProduct?.IdProducts ?? Guid.Empty;
             var productName = selectedProduct?.NameProduct ?? cmbProduct.Text;
             var newRow = new SupplyRow
             {
@@ -269,7 +268,6 @@ namespace WarehouseApp.Forms
         private void txtboxPrice_KeyPress(object sender, KeyPressEventArgs e)
         {
             var tb = sender as TextBox;
-            System.Diagnostics.Debug.WriteLine($"[Цена] Нажато: '{e.KeyChar}' | Код: {(int)e.KeyChar}");
             var isDigit = (e.KeyChar >= '0' && e.KeyChar <= '9');
             var isSeparator = (e.KeyChar == '.' || e.KeyChar == ',');
             var isControl = char.IsControl(e.KeyChar);
@@ -285,6 +283,12 @@ namespace WarehouseApp.Forms
         }
         private void btnProcessSupply_Click(object sender, EventArgs e)
         {
+            if (contractorOperationBlocked)
+            {
+                MessageBox.Show("Контрагент имеет запрещающий статус. Проведение поставки заблокировано.");
+                return;
+            }
+
             if (currentSupply.Count == 0)
             {
                 MessageBox.Show(Properties.Resources.EmptyProductList);
@@ -310,13 +314,14 @@ namespace WarehouseApp.Forms
 
                     foreach (var item in currentSupply)
                     {
+                        var priceInRub = Options.ConvertToBase(item.Price);
                         var supplyItem = new SupplyItem
                         {
                             Id = Guid.NewGuid(),
                             SupplyId = supply.Id,
                             ProductId = item.ProductId,
                             Quantity = item.Quantity,
-                            Price = item.Price,
+                            Price = priceInRub,
                             ExpirationDate = item.Expiration
                         };
                         supply.SupplyItems.Add(supplyItem);
@@ -324,7 +329,7 @@ namespace WarehouseApp.Forms
                         if (product != null)
                         {
                             product.Stock += item.Quantity;
-                            product.Price = item.Price;
+                            product.Price = priceInRub;
                             if (item.Expiration > DateTime.MinValue)
                             {
                                 product.ExpirationDate = item.Expiration;
@@ -365,8 +370,6 @@ namespace WarehouseApp.Forms
                         MessageBox.Show(Properties.Resources.EmptyOrInvalidFileFormat);
                         return;
                     }
-                    var successCount = 0;
-                    var errorCount = 0;
                     using (var db = new WarehouseContext())
                     {
                         var products = db.Products.ToList();
@@ -385,7 +388,7 @@ namespace WarehouseApp.Forms
                             }
                             if (foundProduct == null)
                             {
-                                errorCount = errorCount + 1;
+                                continue;
                             }
                             else
                             {
@@ -406,16 +409,7 @@ namespace WarehouseApp.Forms
                                         newRow.Price = item.Price;
                                         newRow.Expiration = expDate;
                                         currentSupply.Add(newRow);
-                                        successCount = successCount + 1;
                                     }
-                                    else
-                                    {
-                                        errorCount++; ;
-                                    }
-                                }
-                                else
-                                {
-                                    errorCount++; ;
                                 }
                             }
                         }
@@ -436,17 +430,24 @@ namespace WarehouseApp.Forms
         {
             var form = AppServices.Get<ContractorCheckForm>();
             FormNavigationHelper.ShowDialog(this, form);
+            ApplyContractorCheckResult(form.LastResult);
         }
 
-        private void labelYourRole_Click(object sender, EventArgs e)
+        private void ApplyContractorCheckResult(ContractorCheckResult result)
         {
+            if (result == null)
+                return;
 
+            contractorOperationBlocked = result.ShouldBlockOperation;
+            button3.Enabled = !contractorOperationBlocked;
+
+            if (contractorOperationBlocked)
+            {
+                logger.Warn("SUPPLY_BLOCKED_BY_CONTRACTOR_CHECK. Category: {Category}", "System");
+                MessageBox.Show("Контрагент имеет запрещающий статус. Проведение поставки заблокировано.");
+            }
         }
 
-        private void labelAdmin_Click(object sender, EventArgs e)
-        {
-
-        }
     }
     /// <summary>
     /// Данные для десериализации данных из JSON-файла

@@ -9,6 +9,8 @@ namespace WarehouseApp.Forms
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IWeatherService weatherService;
+        private bool contractorOperationBlocked;
+
         private class ShipmentViewItem
         {
             /// <summary>
@@ -61,41 +63,41 @@ namespace WarehouseApp.Forms
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnName,
+                HeaderText = LanguageManager.Text("ColumnName"),
                 DataPropertyName = "ProductName",
                 Width = 200
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnQuantity,
+                HeaderText = LanguageManager.Text("ColumnQuantity"),
                 DataPropertyName = "Quantity"
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnPricePerUnit,
+                HeaderText = $"{LanguageManager.Text("ColumnPricePerUnit")} ({Options.GetCurrencySymbol(Options.CurrentCurrency)})",
                 DataPropertyName = "PricePerUnit",
-                DefaultCellStyle = { Format = "C2" }
+                DefaultCellStyle = { Format = "0.00" }
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnTotalAmount,
+                HeaderText = $"{LanguageManager.Text("ColumnTotalAmount")} ({Options.GetCurrencySymbol(Options.CurrentCurrency)})",
                 DataPropertyName = "TotalSum",
                 ReadOnly = true,
-                DefaultCellStyle = { Format = "C2" }
+                DefaultCellStyle = { Format = "0.00" }
             });
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnAvailability,
+                HeaderText = LanguageManager.Text("ColumnAvailability"),
                 DataPropertyName = "CurrentStock",
                 ReadOnly = true,
                 DefaultCellStyle = { ForeColor = Color.Gray }
             });
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = "Метео-рекомендации",
+                HeaderText = LanguageManager.Text("ColumnWeather"),
                 DataPropertyName = "WeatherRecommendation",
                 Width = 150,
                 ReadOnly = true
@@ -117,7 +119,10 @@ namespace WarehouseApp.Forms
                     txtSearch.AutoCompleteCustomSource = source;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "SHIPMENT_AUTOCOMPLETE_LOAD_ERROR. Category: {Category}", "System");
+            }
         }
         private void buttonDeleteRow_Click(object sender, EventArgs e)
         {
@@ -130,9 +135,6 @@ namespace WarehouseApp.Forms
         {
             CloseShipmentForm();
         }
-
-
-        private void txtSearch_TextChanged(object sender, EventArgs e) { }
 
         private async void buttonToAddInTable_Click(object sender, EventArgs e)
         {
@@ -186,7 +188,7 @@ namespace WarehouseApp.Forms
                     {
                         ProductId = product.IdProducts,
                         ProductName = product.NameProduct,
-                        PricePerUnit = product.Price,
+                        PricePerUnit = Options.ConvertFromBase(product.Price),
                         Quantity = qty,
                         CurrentStock = product.Stock,
                         WeatherRecommendation = weatherRecommendation
@@ -202,6 +204,12 @@ namespace WarehouseApp.Forms
 
         private void buttonToHold_Click(object sender, EventArgs e)
         {
+            if (contractorOperationBlocked)
+            {
+                MessageBox.Show("Контрагент имеет запрещающий статус. Проведение отгрузки заблокировано.");
+                return;
+            }
+
             if (cartList.Count == 0)
             {
                 logger.Warn("EMPTY_PRODUCT_LIST. Category: {Category}", "System", "Список товаров пуст");
@@ -239,7 +247,7 @@ namespace WarehouseApp.Forms
                         DateOfShipment = datePicker.Value,
                         IdClients = client.IdClients,
 
-                        PriceShipment = cartList.Sum(x => x.TotalSum),
+                        PriceShipment = cartList.Sum(x => Options.ConvertToBase(x.TotalSum)),
                         Status = ShipmentStatus.Shipped
                     };
 
@@ -257,7 +265,7 @@ namespace WarehouseApp.Forms
                                 IdProducts = productDb.IdProducts,
 
                                 QuantityShipmentContents = item.Quantity,
-                                PriceShipmentContents = item.TotalSum
+                                PriceShipmentContents = Options.ConvertToBase(item.TotalSum)
                             };
 
                             db.ShipmentContents.Add(content);
@@ -300,22 +308,17 @@ namespace WarehouseApp.Forms
             if (cartList.Count > 0)
             {
                 logger.Warn("SHIPMENT_NOT_COMPLETED. Category: {Category}", "System", "Товар добавлен в список, но отгрузка не проведена");
-                MessageBox.Show("Внимание! Вы добавили товар в список, но не провели отгрузку", Properties.Resources.WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(LanguageManager.CurrentLanguage == "ENG" ? "Warning! You added products to the list but did not process the shipment" : "Внимание! Вы добавили товар в список, но не провели отгрузку", Properties.Resources.WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             Close();
-        }
-
-        private void txtCustomer_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private async Task<string> GetWeatherRecommendationAsync()
         {
             if (cmbRegion.SelectedIndex < 0)
             {
-                MessageBox.Show("Выберите регион получателя");
+                MessageBox.Show(LanguageManager.CurrentLanguage == "ENG" ? "Select recipient region" : "Выберите регион получателя");
                 cmbRegion.Focus();
                 return null;
             }
@@ -335,6 +338,22 @@ namespace WarehouseApp.Forms
         {
             var form = AppServices.Get<ContractorCheckForm>();
             FormNavigationHelper.ShowDialog(this, form);
+            ApplyContractorCheckResult(form.LastResult);
+        }
+
+        private void ApplyContractorCheckResult(ContractorCheckResult result)
+        {
+            if (result == null)
+                return;
+
+            contractorOperationBlocked = result.ShouldBlockOperation;
+            buttonToHold.Enabled = !contractorOperationBlocked;
+
+            if (contractorOperationBlocked)
+            {
+                logger.Warn("SHIPMENT_BLOCKED_BY_CONTRACTOR_CHECK. Category: {Category}", "System");
+                MessageBox.Show("Контрагент имеет запрещающий статус. Проведение отгрузки заблокировано.");
+            }
         }
     }
 }

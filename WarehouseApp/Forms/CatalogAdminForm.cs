@@ -20,7 +20,7 @@ namespace WarehouseApp.Forms
             InitializeComponent();
             WarehouseApp.ResponsiveFormHelper.Enable(this);
             isReadOnlyMode = readOnly;
-            txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
+            txtDate.Text = LanguageManager.Text("DatePrefix") + DateTime.Now.ToString("dd.MM.yyyy");
         }
 
         private void Catalog_Load(object sender, EventArgs e)
@@ -43,18 +43,18 @@ namespace WarehouseApp.Forms
                 dgv.AllowUserToAddRows = false;
                 dgv.AutoGenerateColumns = false;
 
-                dgv.Columns.Add("Article", "Артикул");
+                dgv.Columns.Add("Article", LanguageManager.Text("ColumnArticle"));
                 dgv.Columns["Article"].DataPropertyName = "Article";
                 dgv.Columns["Article"].ReadOnly = true;
 
-                dgv.Columns.Add("NameProduct", "Название");
+                dgv.Columns.Add("NameProduct", LanguageManager.Text("ColumnName"));
                 dgv.Columns["NameProduct"].DataPropertyName = "NameProduct";
                 dgv.Columns.Clear();
                 dgv.AutoGenerateColumns = false;
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colArticle",
-                    HeaderText = "Артикул",
+                    HeaderText = LanguageManager.Text("ColumnArticle"),
                     DataPropertyName = "Article",
                     Width = 80,
                     ReadOnly = true
@@ -62,7 +62,7 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colName",
-                    HeaderText = "Название",
+                    HeaderText = LanguageManager.Text("ColumnName"),
                     DataPropertyName = "Name",
                     Width = 150,
                     ReadOnly = true
@@ -70,7 +70,7 @@ namespace WarehouseApp.Forms
                 var comboCategory = new DataGridViewComboBoxColumn
                 {
                     Name = "colCategory",
-                    HeaderText = "Категория",
+                    HeaderText = LanguageManager.Text("Category"),
                     DataPropertyName = "CategoryId",
                     DisplayMember = "Name",
                     ValueMember = "Id",
@@ -83,7 +83,7 @@ namespace WarehouseApp.Forms
                 var comboUnit = new DataGridViewComboBoxColumn
                 {
                     Name = "colUnit",
-                    HeaderText = "Ед. изм.",
+                    HeaderText = LanguageManager.Text("ColumnUnit"),
                     DataPropertyName = "Unit",
                     DisplayMember = "Name",
                     ValueMember = "Name",
@@ -96,16 +96,16 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colPrice",
-                    HeaderText = "Цена",
+                    HeaderText = LanguageManager.Text("ColumnPrice"),
                     DataPropertyName = "Price",
                     Width = 90,
-                    DefaultCellStyle = { Format = "0.00 ₽"},
+                    DefaultCellStyle = { Format = "0.00"},
                     ReadOnly = true
                 });
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colStock",
-                    HeaderText = "Остаток",
+                    HeaderText = LanguageManager.Text("ColumnStock"),
                     DataPropertyName = "Stock",
                     Width = 70,
                     ReadOnly = true
@@ -113,7 +113,7 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colExp",
-                    HeaderText = "Срок годности",
+                    HeaderText = LanguageManager.Text("ColumnExpirationDate"),
                     DataPropertyName = "ExpirationDate",
                     Width = 110,
                     DefaultCellStyle = { Format = "dd.MM.yyyy" },
@@ -122,13 +122,12 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colStatus",
-                    HeaderText = "Статус",
+                    HeaderText = LanguageManager.Text("Status"),
                     DataPropertyName = "Status",
                     Width = 100,
                     ReadOnly = true
                 });
 
-                dgv.CellFormatting += dgv_CellFormatting;
                 dgv.DataError += dgv_DataError;
                 dgv.CellValidating += dgv_CellValidating;
                 dgv.CellClick += dgv_CellClick;
@@ -141,7 +140,7 @@ namespace WarehouseApp.Forms
                 var currentUser = UserContext.Current;
                 if (currentUser != null)
                 {
-                    lblUserRole.Text = $"Ваша роль: {UserDisplayHelper.GetRoleName(currentUser.Role)}";
+                    lblUserRole.Text = $"{LanguageManager.Text("YourRole")} {UserDisplayHelper.GetRoleName(currentUser.Role)}";
                     if (currentUser.Role == Enums.Roles.Storekeeper)
                     {
                         buttonForEdit.Visible = false;
@@ -227,7 +226,7 @@ namespace WarehouseApp.Forms
             if (buttonForEdit.Text == "Редактировать")
             {
                 dgv.ReadOnly = false;
-                buttonForEdit.Text = "Сохранить";
+                buttonForEdit.Text = LanguageManager.Text("Save");
                 if (dgv.Rows.Count > 0)
                 {
                     dgv.CurrentCell = dgv.Rows[0].Cells["colName"];
@@ -251,7 +250,7 @@ namespace WarehouseApp.Forms
                                 IdProducts = row.Id,
                                 Article = row.Article,
                                 NameProduct = row.Name,
-                                Price = row.Price,
+                                Price = Options.ConvertToBase(row.Price),
                                 Stock = row.Stock,
                                 IdCategories = row.CategoryId,
                                 IdUnitOfMeasure = Guid.Empty,
@@ -285,7 +284,7 @@ namespace WarehouseApp.Forms
             finally
             {
                 dgv.ReadOnly = true;
-                buttonForEdit.Text = "Редактировать";
+                buttonForEdit.Text = LanguageManager.Text("Edit");
             }
         }
         private void buttonToAddGood_Click(object sender, EventArgs e)
@@ -324,7 +323,7 @@ namespace WarehouseApp.Forms
                 LoadData();
                 ApplyFilters();
                 dgv.ReadOnly = false;
-                buttonForEdit.Text = "Сохранить";
+                buttonForEdit.Text = LanguageManager.Text("Save");
                 if (dgv.Columns["colName"] != null)
                     dgv.Columns["colName"].ReadOnly = false;
 
@@ -467,7 +466,6 @@ namespace WarehouseApp.Forms
             }
         }
 
-        private void dgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) { }
         private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e) { e.Cancel = true; }
         private void buttonForBack_Click(object sender, EventArgs e)
         {

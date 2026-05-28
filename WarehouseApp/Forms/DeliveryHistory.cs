@@ -43,7 +43,7 @@ namespace WarehouseApp.Forms
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colDate",
-                HeaderText = Properties.Resources.ColumnDate,
+                HeaderText = LanguageManager.Text("ColumnDate"),
                 DataPropertyName = "Date",
                 Width = 100,
                 DefaultCellStyle = { Format = "dd.MM.yyyy" }
@@ -51,23 +51,23 @@ namespace WarehouseApp.Forms
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colDocNum",
-                HeaderText = Properties.Resources.ColumnDocumentNumber,
+                HeaderText = LanguageManager.Text("ColumnDocumentNumber"),
                 DataPropertyName = "DocumentNumber",
                 Width = 100
             });
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colSum",
-                HeaderText = Properties.Resources.ColumnAmount,
+                HeaderText = LanguageManager.Text("ColumnAmount"),
                 DataPropertyName = "TotalSum",
                 Width = 100,
-                DefaultCellStyle = { Format = "0.00 ₽", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = { Format = "0.00", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
             var btnColumn = new DataGridViewButtonColumn
             {
                 Name = "colAction",
-                HeaderText = Properties.Resources.ColumnContents,
-                Text = "Открыть",
+                HeaderText = LanguageManager.Text("ColumnContents"),
+                Text = LanguageManager.Text("Open"),
                 UseColumnTextForButtonValue = true,
                 Width = 80
             };
@@ -98,10 +98,13 @@ namespace WarehouseApp.Forms
                             SupplyId = supply.Id,
                             Date = supply.Date,
                             DocumentNumber = docNumber,
-                            TotalSum = totalSum
+                            TotalSum = Options.ConvertFromBase(totalSum)
                         });
                     }
                 }
+                var symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+                if (dgvHistory.Columns["colSum"] != null)
+                    dgvHistory.Columns["colSum"].HeaderText = $"{LanguageManager.Text("ColumnAmount")} ({symbol})";
                 ApplyFilters();
             }
             catch (Exception ex)

@@ -142,7 +142,6 @@ namespace WarehouseApp.Forms
             this.Controls.Add(this.panelHeader);
             this.Controls.Add(this.btnBack);
             this.Name = "WarehouseMapForm";
-            this.Load += new System.EventHandler(this.WarehouseMapForm_Load);
             this.panelHeader.ResumeLayout(false);
             this.ResumeLayout(false);
 

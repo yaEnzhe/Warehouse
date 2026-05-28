@@ -1,4 +1,6 @@
 
+using NLog;
+
 namespace WarehouseApp
 {
     /// <summary>
@@ -6,6 +8,8 @@ namespace WarehouseApp
     /// </summary>
     internal static class FormNavigationHelper
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// Переносит размер и состояние окна на новую форму.
         /// </summary>
@@ -30,6 +34,8 @@ namespace WarehouseApp
         public static void Show(Form source, Form target)
         {
             ApplyWindowState(source, target);
+            ApplyLanguage(target);
+            logger.Info("FORM_OPENED. Category: {Category}. From: {FromForm}. To: {ToForm}", "Navigation", source?.GetType().Name, target?.GetType().Name);
             target.Show();
             target.BringToFront();
             target.Activate();
@@ -41,7 +47,17 @@ namespace WarehouseApp
         public static DialogResult ShowDialog(Form source, Form target)
         {
             ApplyWindowState(source, target);
+            ApplyLanguage(target);
+            logger.Info("FORM_DIALOG_OPENED. Category: {Category}. From: {FromForm}. To: {ToForm}", "Navigation", source?.GetType().Name, target?.GetType().Name);
             return target.ShowDialog();
+        }
+
+        private static void ApplyLanguage(Form target)
+        {
+            if (target is ILocalizableForm localizableForm)
+                localizableForm.ApplyLocalization();
+            else
+                LanguageManager.ApplyControls(target);
         }
     }
 }

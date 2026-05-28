@@ -41,6 +41,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmbCurrency = new System.Windows.Forms.ComboBox();
             this.btnWarehouseMap = new System.Windows.Forms.Button();
+            this.lblLanguage = new System.Windows.Forms.Label();
+            this.cmbLanguage = new System.Windows.Forms.ComboBox();
             this.panelHeadline.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,7 +56,7 @@
             this.txtDate.Multiline = true;
             this.txtDate.Name = "txtDate";
             this.txtDate.ReadOnly = true;
-            this.txtDate.Size = new System.Drawing.Size(260, 30);
+            this.txtDate.Size = new System.Drawing.Size(200, 30);
             this.txtDate.TabIndex = 17;
             this.txtDate.TabStop = false;
             this.txtDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -139,7 +141,7 @@
             this.labelYourRole.AutoSize = true;
             this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(550, 402);
+            this.labelYourRole.Location = new System.Drawing.Point(575, 402);
             this.labelYourRole.Name = "labelYourRole";
             this.labelYourRole.Size = new System.Drawing.Size(115, 25);
             this.labelYourRole.TabIndex = 19;
@@ -150,12 +152,11 @@
             this.labelStorekeeper.AutoSize = true;
             this.labelStorekeeper.BackColor = System.Drawing.Color.LightSeaGreen;
             this.labelStorekeeper.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelStorekeeper.Location = new System.Drawing.Point(671, 402);
+            this.labelStorekeeper.Location = new System.Drawing.Point(690, 402);
             this.labelStorekeeper.Name = "labelStorekeeper";
             this.labelStorekeeper.Size = new System.Drawing.Size(117, 25);
             this.labelStorekeeper.TabIndex = 20;
             this.labelStorekeeper.Text = "Кладовщик";
-            this.labelStorekeeper.Click += new System.EventHandler(this.labelStorekeeper_Click);
             // 
             // btnPostavki
             // 
@@ -173,20 +174,19 @@
             // 
             this.label1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(278, 399);
+            this.label1.Location = new System.Drawing.Point(218, 399);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 29);
+            this.label1.Size = new System.Drawing.Size(85, 29);
             this.label1.TabIndex = 22;
             this.label1.Text = "Валюта:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // cmbCurrency
             // 
             this.cmbCurrency.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmbCurrency.FormattingEnabled = true;
-            this.cmbCurrency.Location = new System.Drawing.Point(393, 399);
+            this.cmbCurrency.Location = new System.Drawing.Point(309, 399);
             this.cmbCurrency.Name = "cmbCurrency";
-            this.cmbCurrency.Size = new System.Drawing.Size(151, 33);
+            this.cmbCurrency.Size = new System.Drawing.Size(90, 33);
             this.cmbCurrency.TabIndex = 23;
             this.cmbCurrency.SelectedIndexChanged += new System.EventHandler(this.cmbCurrency_SelectedIndexChanged);
             // 
@@ -201,12 +201,35 @@
             this.btnWarehouseMap.Text = "СХЕМА СКЛАДА";
             this.btnWarehouseMap.UseVisualStyleBackColor = false;
             this.btnWarehouseMap.Click += new System.EventHandler(this.btnWarehouseMap_Click);
+            //
+            // lblLanguage
+            //
+            this.lblLanguage.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.lblLanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblLanguage.Location = new System.Drawing.Point(405, 399);
+            this.lblLanguage.Name = "lblLanguage";
+            this.lblLanguage.Size = new System.Drawing.Size(70, 29);
+            this.lblLanguage.TabIndex = 25;
+            this.lblLanguage.Text = "Язык:";
+            //
+            // cmbLanguage
+            //
+            this.cmbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbLanguage.FormattingEnabled = true;
+            this.cmbLanguage.Location = new System.Drawing.Point(481, 399);
+            this.cmbLanguage.Name = "cmbLanguage";
+            this.cmbLanguage.Size = new System.Drawing.Size(80, 30);
+            this.cmbLanguage.TabIndex = 26;
+            this.cmbLanguage.SelectedIndexChanged += new System.EventHandler(this.cmbLanguage_SelectedIndexChanged);
             // 
             // MainMenuStorekeeperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cmbLanguage);
+            this.Controls.Add(this.lblLanguage);
             this.Controls.Add(this.btnWarehouseMap);
             this.Controls.Add(this.cmbCurrency);
             this.Controls.Add(this.label1);
@@ -242,5 +265,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbCurrency;
         private System.Windows.Forms.Button btnWarehouseMap;
+        private System.Windows.Forms.Label lblLanguage;
+        private System.Windows.Forms.ComboBox cmbLanguage;
     }
 }

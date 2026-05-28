@@ -171,7 +171,6 @@
             this.label2.Size = new System.Drawing.Size(61, 25);
             this.label2.TabIndex = 6;
             this.label2.Text = "Кому";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // txtCustomer
             // 
