@@ -1,13 +1,4 @@
-﻿using NLog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using WarehouseApp.Enums;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -18,6 +9,8 @@ namespace WarehouseApp.Forms
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private List<SupplyRow> currentSupply = new List<SupplyRow>();
+        private bool contractorOperationBlocked;
+
         /// <summary>
         /// Класс для отражения в таблице данных перед сохранением в БД
         /// </summary>
@@ -51,14 +44,13 @@ namespace WarehouseApp.Forms
             /// </summary>
             public DateTime Expiration { get; set; }
         }
-        private readonly WarehouseContext context = new WarehouseContext();
-        private List<Products> productsList = new List<Products>();
         /// <summary>
         /// Конструктор для формы управления поставками
         /// </summary>
         public Supplies()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             SetupGridColumns();
             var currentUser = UserContext.Current;
             if (currentUser == null)
@@ -68,6 +60,7 @@ namespace WarehouseApp.Forms
                 Close();
                 return;
             }
+            labelAdmin.Text = UserDisplayHelper.GetRoleName(currentUser.Role);
             txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
             LoadProducts();
         }
@@ -119,7 +112,7 @@ namespace WarehouseApp.Forms
                     }
                     dgvSupply.DataSource = null;
                     dgvSupply.DataSource = list;
-                    string symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+                    var symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
                     if (dgvSupply.Columns["colPrice"] != null)
                     {
                         dgvSupply.Columns["colPrice"].HeaderText = $"Цена ({symbol})";
@@ -148,43 +141,43 @@ namespace WarehouseApp.Forms
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colArticle",
-                HeaderText = Properties.Resources.ColumnArticle,
+                HeaderText = LanguageManager.Text("ColumnArticle"),
                 DataPropertyName = "Article",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colName",
-                HeaderText = Properties.Resources.ColumnName,
+                HeaderText = LanguageManager.Text("ColumnName"),
                 DataPropertyName = "ProductName",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colQty",
-                HeaderText = Properties.Resources.ColumnQuantity,
+                HeaderText = LanguageManager.Text("ColumnQuantity"),
                 DataPropertyName = "Quantity",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colPrice",
-                HeaderText = Properties.Resources.ColumnPrice,
+                HeaderText = LanguageManager.Text("ColumnPrice"),
                 DataPropertyName = "Price",
                 ReadOnly = true
             });
             dgvSupply.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colExp",
-                HeaderText = Properties.Resources.ColumnTerm,
+                HeaderText = LanguageManager.Text("ColumnTerm"),
                 DataPropertyName = "Expiration",
                 ReadOnly = true
             });
         }
         private void btnhistori_Click(object sender, EventArgs e)
         {
-            DeliveryHistory deliveryHistory = new DeliveryHistory();
-            deliveryHistory.Show();
+            var deliveryHistory = AppServices.Get<DeliveryHistory>();
+            FormNavigationHelper.Show(this, deliveryHistory);
             Close();
         }
         private void btnBack_Click(object sender, EventArgs e)
@@ -200,16 +193,17 @@ namespace WarehouseApp.Forms
             switch (userRole)
             {
                 case Roles.Administrator:
-                    nextForm = new MainMenuAdminForm();
+                    nextForm = AppServices.Get<MainMenuAdminForm>();
                     break;
                 case Roles.Storekeeper:
-                    nextForm = new MainMenuStorekeeperForm();
+                    nextForm = AppServices.Get<MainMenuStorekeeperForm>();
                     break;
                 default:
                     logger.Warn("NAVIGATE_UNKNOWN_ROLE. Category: {Category}", currentUser.Login, $"{userRole}");
                     Application.Exit();
                     return;
             }
+            FormNavigationHelper.Show(this, nextForm);
             Close();
         }
         private void btnAddToSupply_Click(object sender, EventArgs e)
@@ -244,8 +238,7 @@ namespace WarehouseApp.Forms
                 return;
             }
             var selectedProduct = cmbProduct.SelectedItem as Products;
-            Guid productId = selectedProduct?.IdProducts ?? Guid.Empty;
-            string productName = selectedProduct?.NameProduct ?? cmbProduct.Text;
+            var productName = selectedProduct?.NameProduct ?? cmbProduct.Text;
             var newRow = new SupplyRow
             {
                 ProductId = selectedProduct?.IdProducts ?? Guid.Empty,
@@ -274,11 +267,10 @@ namespace WarehouseApp.Forms
 
         private void txtboxPrice_KeyPress(object sender, KeyPressEventArgs e)
         {
-            TextBox tb = sender as TextBox;
-            System.Diagnostics.Debug.WriteLine($"[Цена] Нажато: '{e.KeyChar}' | Код: {(int)e.KeyChar}");
-            bool isDigit = (e.KeyChar >= '0' && e.KeyChar <= '9');
-            bool isSeparator = (e.KeyChar == '.' || e.KeyChar == ',');
-            bool isControl = char.IsControl(e.KeyChar);
+            var tb = sender as TextBox;
+            var isDigit = (e.KeyChar >= '0' && e.KeyChar <= '9');
+            var isSeparator = (e.KeyChar == '.' || e.KeyChar == ',');
+            var isControl = char.IsControl(e.KeyChar);
             if (!isControl && !isDigit && !isSeparator)
             {
                 e.Handled = true;
@@ -291,6 +283,12 @@ namespace WarehouseApp.Forms
         }
         private void btnProcessSupply_Click(object sender, EventArgs e)
         {
+            if (contractorOperationBlocked)
+            {
+                MessageBox.Show("Контрагент имеет запрещающий статус. Проведение поставки заблокировано.");
+                return;
+            }
+
             if (currentSupply.Count == 0)
             {
                 MessageBox.Show(Properties.Resources.EmptyProductList);
@@ -316,13 +314,14 @@ namespace WarehouseApp.Forms
 
                     foreach (var item in currentSupply)
                     {
+                        var priceInRub = Options.ConvertToBase(item.Price);
                         var supplyItem = new SupplyItem
                         {
                             Id = Guid.NewGuid(),
                             SupplyId = supply.Id,
                             ProductId = item.ProductId,
                             Quantity = item.Quantity,
-                            Price = item.Price,
+                            Price = priceInRub,
                             ExpirationDate = item.Expiration
                         };
                         supply.SupplyItems.Add(supplyItem);
@@ -330,7 +329,7 @@ namespace WarehouseApp.Forms
                         if (product != null)
                         {
                             product.Stock += item.Quantity;
-                            product.Price = item.Price;
+                            product.Price = priceInRub;
                             if (item.Expiration > DateTime.MinValue)
                             {
                                 product.ExpirationDate = item.Expiration;
@@ -364,15 +363,13 @@ namespace WarehouseApp.Forms
 
                 try
                 {
-                    string json = File.ReadAllText(ofd.FileName);
+                    var json = File.ReadAllText(ofd.FileName);
                     var importItems = JsonSerializer.Deserialize<List<ImportDto>>(json);
                     if (importItems == null || importItems.Count == 0)
                     {
                         MessageBox.Show(Properties.Resources.EmptyOrInvalidFileFormat);
                         return;
                     }
-                    int successCount = 0;
-                    int errorCount = 0;
                     using (var db = new WarehouseContext())
                     {
                         var products = db.Products.ToList();
@@ -381,8 +378,8 @@ namespace WarehouseApp.Forms
                             Products foundProduct = null;
                             foreach (var p in products)
                             {
-                                string articleFromDb = p.Article.Trim().ToLower();
-                                string articleFromFile = item.Article.Trim().ToLower();
+                                var articleFromDb = p.Article.Trim().ToLower();
+                                var articleFromFile = item.Article.Trim().ToLower();
                                 if (articleFromDb == articleFromFile)
                                 {
                                     foundProduct = p;
@@ -391,20 +388,20 @@ namespace WarehouseApp.Forms
                             }
                             if (foundProduct == null)
                             {
-                                errorCount = errorCount + 1;
+                                continue;
                             }
                             else
                             {
-                                bool quantityOk = item.Quantity > 0;
-                                bool priceOk = item.Price > 0;
+                                var quantityOk = item.Quantity > 0;
+                                var priceOk = item.Price > 0;
 
                                 if (quantityOk && priceOk)
                                 {
-                                    DateTime expDate = item.ExpirationDate.Date;
-                                    DateTime today = DateTime.Now.Date;
+                                    var expDate = item.ExpirationDate.Date;
+                                    var today = DateTime.Now.Date;
                                     if (expDate >= today)
                                     {
-                                        SupplyRow newRow = new SupplyRow();
+                                        var newRow = new SupplyRow();
                                         newRow.ProductId = foundProduct.IdProducts;
                                         newRow.Article = foundProduct.Article;
                                         newRow.ProductName = foundProduct.NameProduct;
@@ -412,16 +409,7 @@ namespace WarehouseApp.Forms
                                         newRow.Price = item.Price;
                                         newRow.Expiration = expDate;
                                         currentSupply.Add(newRow);
-                                        successCount = successCount + 1;
                                     }
-                                    else
-                                    {
-                                        errorCount++; ;
-                                    }
-                                }
-                                else
-                                {
-                                    errorCount++; ;
                                 }
                             }
                         }
@@ -437,6 +425,29 @@ namespace WarehouseApp.Forms
                 }
             } 
         }
+
+        private void btnCheckContractor_Click(object sender, EventArgs e)
+        {
+            var form = AppServices.Get<ContractorCheckForm>();
+            FormNavigationHelper.ShowDialog(this, form);
+            ApplyContractorCheckResult(form.LastResult);
+        }
+
+        private void ApplyContractorCheckResult(ContractorCheckResult result)
+        {
+            if (result == null)
+                return;
+
+            contractorOperationBlocked = result.ShouldBlockOperation;
+            button3.Enabled = !contractorOperationBlocked;
+
+            if (contractorOperationBlocked)
+            {
+                logger.Warn("SUPPLY_BLOCKED_BY_CONTRACTOR_CHECK. Category: {Category}", "System");
+                MessageBox.Show("Контрагент имеет запрещающий статус. Проведение поставки заблокировано.");
+            }
+        }
+
     }
     /// <summary>
     /// Данные для десериализации данных из JSON-файла

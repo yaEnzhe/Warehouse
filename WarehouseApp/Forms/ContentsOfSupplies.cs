@@ -1,9 +1,4 @@
-﻿using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.ClassesContext;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -20,6 +15,7 @@ namespace WarehouseApp.Forms
         public ContentsOfSupplies(Guid supplyId)
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             this.supplyId = supplyId;
             SetupGrid();
             LoadSupplyData();
@@ -32,7 +28,7 @@ namespace WarehouseApp.Forms
             dgvItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colProduct",
-                HeaderText = Properties.Resources.ColumnProduct,
+                HeaderText = LanguageManager.Text("Product"),
                 DataPropertyName = "ProductName",
                 Width = 200,
                 ReadOnly = true
@@ -40,7 +36,7 @@ namespace WarehouseApp.Forms
             dgvItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colQty",
-                HeaderText = Properties.Resources.ColumnQuantity,
+                HeaderText = LanguageManager.Text("ColumnQuantity"),
                 DataPropertyName = "Quantity",
                 Width = 100,
                 ReadOnly = true
@@ -48,16 +44,16 @@ namespace WarehouseApp.Forms
             dgvItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colPrice",
-                HeaderText = Properties.Resources.ColumnPurchasePrice,
+                HeaderText = LanguageManager.Text("PurchasePrice"),
                 DataPropertyName = "Price",
                 Width = 120,
-                DefaultCellStyle = { Format = "0.00 ₽", Alignment = DataGridViewContentAlignment.MiddleRight },
+                DefaultCellStyle = { Format = "0.00", Alignment = DataGridViewContentAlignment.MiddleRight },
                 ReadOnly = true
             });
             dgvItems.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colExp",
-                HeaderText = Properties.Resources.ColumnExpirationDate,
+                HeaderText = LanguageManager.Text("ColumnExpirationDate"),
                 DataPropertyName = "ExpirationDisplay",
                 Width = 120,
                 ReadOnly = true
@@ -89,10 +85,10 @@ namespace WarehouseApp.Forms
                     }
                     else
                     {
-                        row.ProductName = "Товар удалён";
+                        row.ProductName = LanguageManager.Text("ProductDeleted");
                     }
                     row.Quantity = si.Quantity;
-                    row.Price = si.Price;
+                    row.Price = Options.ConvertFromBase(si.Price);
                     if (si.ExpirationDate.Year > 2000)
                     {
                         row.ExpirationDisplay = si.ExpirationDate.ToString("dd.MM.yyyy");
@@ -104,6 +100,9 @@ namespace WarehouseApp.Forms
 
                     items.Add(row);
                 }
+                var symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+                if (dgvItems.Columns["colPrice"] != null)
+                    dgvItems.Columns["colPrice"].HeaderText = $"{LanguageManager.Text("PurchasePrice")} ({symbol})";
                 dgvItems.DataSource = items;
             }
         }

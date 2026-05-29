@@ -78,7 +78,6 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.panelHeadline);
             this.Controls.Add(this.btnStart);
-            this.MaximizeBox = false;
             this.Name = "StartForm";
             this.panelHeadline.ResumeLayout(false);
             this.panelHeadline.PerformLayout();

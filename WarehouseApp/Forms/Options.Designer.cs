@@ -38,6 +38,9 @@
             this.lblprosent = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.txtDiscount = new System.Windows.Forms.TextBox();
+            this.lblLanguage = new System.Windows.Forms.Label();
+            this.cmbLanguage = new System.Windows.Forms.ComboBox();
+            this.lblLanguageArrow = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -63,9 +66,9 @@
             // btnClose
             // 
             this.btnClose.BackColor = System.Drawing.Color.Red;
-            this.btnClose.Location = new System.Drawing.Point(623, 23);
+            this.btnClose.Location = new System.Drawing.Point(623, 26);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(165, 55);
+            this.btnClose.Size = new System.Drawing.Size(165, 46);
             this.btnClose.TabIndex = 2;
             this.btnClose.Text = "Закрыть";
             this.btnClose.UseVisualStyleBackColor = false;
@@ -121,7 +124,7 @@
             this.lblprosent.BackColor = System.Drawing.Color.DarkGray;
             this.lblprosent.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblprosent.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.lblprosent.Location = new System.Drawing.Point(445, 227);
+            this.lblprosent.Location = new System.Drawing.Point(445, 225);
             this.lblprosent.Name = "lblprosent";
             this.lblprosent.Size = new System.Drawing.Size(263, 41);
             this.lblprosent.TabIndex = 11;
@@ -147,6 +150,38 @@
             this.txtDiscount.Name = "txtDiscount";
             this.txtDiscount.Size = new System.Drawing.Size(151, 34);
             this.txtDiscount.TabIndex = 13;
+            //
+            // lblLanguage
+            //
+            this.lblLanguage.BackColor = System.Drawing.Color.DarkGray;
+            this.lblLanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblLanguage.Location = new System.Drawing.Point(104, 286);
+            this.lblLanguage.Name = "lblLanguage";
+            this.lblLanguage.Size = new System.Drawing.Size(178, 41);
+            this.lblLanguage.TabIndex = 14;
+            this.lblLanguage.Text = " Язык:";
+            this.lblLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
+            // cmbLanguage
+            //
+            this.cmbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbLanguage.FormattingEnabled = true;
+            this.cmbLanguage.Location = new System.Drawing.Point(288, 286);
+            this.cmbLanguage.Name = "cmbLanguage";
+            this.cmbLanguage.Size = new System.Drawing.Size(323, 39);
+            this.cmbLanguage.TabIndex = 15;
+            //
+            // lblLanguageArrow
+            //
+            this.lblLanguageArrow.BackColor = System.Drawing.Color.DarkGray;
+            this.lblLanguageArrow.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblLanguageArrow.Location = new System.Drawing.Point(617, 286);
+            this.lblLanguageArrow.Name = "lblLanguageArrow";
+            this.lblLanguageArrow.Size = new System.Drawing.Size(91, 41);
+            this.lblLanguageArrow.TabIndex = 16;
+            this.lblLanguageArrow.Text = "    ▼";
+            this.lblLanguageArrow.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Options
             // 
@@ -154,6 +189,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblLanguageArrow);
+            this.Controls.Add(this.cmbLanguage);
+            this.Controls.Add(this.lblLanguage);
             this.Controls.Add(this.txtDiscount);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblprosent);
@@ -182,5 +220,8 @@
         private System.Windows.Forms.Label lblprosent;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtDiscount;
+        private System.Windows.Forms.Label lblLanguage;
+        private System.Windows.Forms.ComboBox cmbLanguage;
+        private System.Windows.Forms.Label lblLanguageArrow;
     }
 }

@@ -1,21 +1,16 @@
-﻿using NLog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text.Json;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
     /// <summary>
     /// Форма для валют и сроков годности
     /// </summary>
-    public partial class Options : Form
+    public partial class Options : Form, ILocalizableForm
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly ICurrencyRateService currencyRateService;
+        private readonly BindingSource settingsBindingSource = new BindingSource();
+        private readonly OptionsSettingsModel settings = new OptionsSettingsModel();
         /// <summary>
         /// Курс выбранной валюты
         /// </summary>
@@ -27,44 +22,74 @@ namespace WarehouseApp.Forms
         /// <summary>
         /// Конструктор для формы валют
         /// </summary>
-        public Options()
+        public Options(ICurrencyRateService currencyRateService = null)
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             cmbValute.Items.AddRange(new string[] { "RUB", "USD", "EUR", "KZT" });
+            cmbLanguage.Items.AddRange(new string[] { "RUS", "ENG" });
+            this.currencyRateService = currencyRateService ?? AppServices.Get<ICurrencyRateService>();
+            BindSettings();
+            Load += Options_Load;
+            ApplyLocalization();
         }
-        private void Options_Load(object sender, EventArgs e)
+
+        private void BindSettings()
+        {
+            settingsBindingSource.DataSource = settings;
+            cmbValute.DataBindings.Add("SelectedItem", settingsBindingSource, nameof(OptionsSettingsModel.Currency), false, DataSourceUpdateMode.OnPropertyChanged);
+            txtDiscount.DataBindings.Add("Text", settingsBindingSource, nameof(OptionsSettingsModel.DiscountPercent), false, DataSourceUpdateMode.OnPropertyChanged);
+            cmbLanguage.DataBindings.Add("SelectedItem", settingsBindingSource, nameof(OptionsSettingsModel.Language), false, DataSourceUpdateMode.OnPropertyChanged);
+        }
+
+        private async void Options_Load(object sender, EventArgs e)
         {
             using (var db = new WarehouseContext())
             {
                 var currencySetting = db.AppSettings.FirstOrDefault(s => s.Key == "Currency");
                 var discountSetting = db.AppSettings.FirstOrDefault(s => s.Key == "DiscountPercent");
+                var languageSetting = db.AppSettings.FirstOrDefault(s => s.Key == "Language");
                 if (currencySetting != null)
                 {
-                    cmbValute.SelectedItem = currencySetting.Value;
-                    CurrentCurrency = currencySetting.Value;
+                    settings.Currency = currencySetting.Value;
                 }
                 else
                 {
-                    cmbValute.SelectedItem = "RUB";
+                    settings.Currency = "RUB";
                 }
                 if (discountSetting != null)
                 {
-                    txtDiscount.Text = discountSetting.Value;
+                    settings.DiscountPercent = discountSetting.Value;
                 }
                 else
                 {
-                    txtDiscount.Text = "30";
+                    settings.DiscountPercent = "30";
                 }
+                settings.Language = languageSetting?.Value ?? LanguageManager.CurrentLanguage;
             }
-            if (cmbValute.SelectedItem.ToString() != "RUB")
+            settingsBindingSource.ResetBindings(false);
+            CurrentCurrency = settings.Currency;
+
+            if (settings.Currency != "RUB")
             {
-                LoadCurrencyRate(cmbValute.SelectedItem.ToString());
+                await UpdateCurrencyRateAsync(settings.Currency);
             }
         }
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
-            string selectedCurrency = cmbValute.SelectedItem.ToString();
-            string discountVal = txtDiscount.Text;
+            settingsBindingSource.EndEdit();
+
+            if (string.IsNullOrWhiteSpace(settings.Currency))
+            {
+                logger.Warn("CURRENCY_NOT_SELECTED. Category: {Category}", "System", "Валюта не выбрана");
+                MessageBox.Show(LanguageManager.CurrentLanguage == "ENG" ? "Select currency" : "Выберите валюту", Properties.Resources.WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbValute.Focus();
+                return;
+            }
+
+            var selectedCurrency = settings.Currency;
+            var discountVal = settings.DiscountPercent;
+            var selectedLanguage = settings.Language;
             if (!decimal.TryParse(discountVal, out decimal discount) || discount < 0 || discount > 100)
             {
                 logger.Warn("DISCOUNT_VALIDATION_ERROR. Category: {Category}", "System", "Введено некорректное значение скидки");
@@ -73,12 +98,18 @@ namespace WarehouseApp.Forms
             }
             using (var db = new WarehouseContext())
             {
+                await UpdateCurrencyRateAsync(selectedCurrency);
                 SaveSetting(db, "Currency", selectedCurrency);
                 SaveSetting(db, "DiscountPercent", discountVal);
+                SaveSetting(db, "Language", selectedLanguage);
                 SaveSetting(db, "ExchangeRate", CurrentExchangeRate.ToString());
+                SaveSetting(db, "ExchangeRateCurrency", selectedCurrency);
                 db.SaveChanges();
             }
             CurrentCurrency = selectedCurrency;
+            LanguageManager.SetLanguage(selectedLanguage);
+            LanguageManager.ApplyToOpenForms();
+            RefreshPriceForms();
 
             logger.Info("SETTINGS_SAVED. Category: {Category}", "System", "Параметры обновлены");
             MessageBox.Show(Properties.Resources.SettingsSaved);
@@ -88,7 +119,7 @@ namespace WarehouseApp.Forms
         {
             Close();
         }
-        private void LoadCurrencyRate(string currencyCode)
+        private async Task UpdateCurrencyRateAsync(string currencyCode)
         {
             if (currencyCode == "RUB")
             {
@@ -97,33 +128,54 @@ namespace WarehouseApp.Forms
             }
             try
             {
-                string url = "https://www.cbr-xml-daily.ru/daily_json.js";
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.UserAgent = "WarehouseApp";
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-                using (System.IO.StreamReader reader = new System.IO.StreamReader(response.GetResponseStream()))
+                var rate = await currencyRateService.GetRateAsync(currencyCode);
+                if (rate > 0)
                 {
-                    string json = reader.ReadToEnd();
-                    using (var doc = JsonDocument.Parse(json))
-                    {
-                        if (doc.RootElement.TryGetProperty("Valute", out var valute) &&
-                            valute.TryGetProperty(currencyCode, out var currency) &&
-                            currency.TryGetProperty("Value", out var valueElement))
-                        {
-                            CurrentExchangeRate = valueElement.GetDecimal();
-                        }
-                    }
+                    CurrentExchangeRate = rate;
+                    return;
                 }
+
+                CurrentExchangeRate = GetSavedExchangeRate(currencyCode);
             }
             catch (JsonException)
             {
                 logger.Warn("INVALID_JSON. Category: {Category}", "System", "Не корректный JSON");
-                CurrentExchangeRate = 1.0m;
+                CurrentExchangeRate = GetSavedExchangeRate(currencyCode);
             }
             catch (Exception ex)
             {
                 logger.Warn(ex,"CURRENCY_API_ERROR. Category: {Category}", "System");
-                CurrentExchangeRate = 1.0m;
+                CurrentExchangeRate = GetSavedExchangeRate(currencyCode);
+            }
+        }
+
+        private decimal GetSavedExchangeRate(string currencyCode)
+        {
+            using (var db = new WarehouseContext())
+            {
+                var setting = db.AppSettings.FirstOrDefault(s => s.Key == "ExchangeRate");
+                var currencySetting = db.AppSettings.FirstOrDefault(s => s.Key == "ExchangeRateCurrency");
+                if (setting != null &&
+                    currencySetting?.Value == currencyCode &&
+                    decimal.TryParse(setting.Value, out var savedRate) &&
+                    savedRate > 0)
+                {
+                    return savedRate;
+                }
+            }
+
+            return 1.0m;
+        }
+
+        private void RefreshPriceForms()
+        {
+            foreach (Form form in Application.OpenForms)
+            {
+                if (form is CatalogAdminForm catalogAdmin)
+                    catalogAdmin.ReloadData();
+
+                if (form is Supplies supplies)
+                    supplies.ReloadData();
             }
         }
         private void SaveSetting(WarehouseContext db, string key, string value)
@@ -169,6 +221,32 @@ namespace WarehouseApp.Forms
                 { "KZT", "₸" }
             };
             return symbols.TryGetValue(currencyCode, out var s) ? s : currencyCode;
+        }
+
+        /// <summary>
+        /// Обновляет тексты формы под текущий язык.
+        /// </summary>
+        public void ApplyLocalization()
+        {
+            LanguageManager.ApplyControls(this);
+        }
+
+        private class OptionsSettingsModel
+        {
+            /// <summary>
+            /// Выбранная валюта.
+            /// </summary>
+            public string Currency { get; set; }
+
+            /// <summary>
+            /// Процент скидки для товаров.
+            /// </summary>
+            public string DiscountPercent { get; set; }
+
+            /// <summary>
+            /// Выбранный язык интерфейса.
+            /// </summary>
+            public string Language { get; set; }
         }
     }
 }

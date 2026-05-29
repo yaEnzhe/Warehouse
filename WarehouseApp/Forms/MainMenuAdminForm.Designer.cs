@@ -39,6 +39,7 @@
             this.labelAdmin = new System.Windows.Forms.Label();
             this.btnPostavki = new System.Windows.Forms.Button();
             this.btnParametr = new System.Windows.Forms.Button();
+            this.btnWarehouseMap = new System.Windows.Forms.Button();
             this.panelHeadline.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,10 +61,11 @@
             // 
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.BackColor = System.Drawing.Color.Brown;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnExit.Location = new System.Drawing.Point(705, -4);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(96, 39);
+            this.btnExit.Size = new System.Drawing.Size(96, 36);
             this.btnExit.TabIndex = 2;
             this.btnExit.Text = "Выйти";
             this.btnExit.UseVisualStyleBackColor = false;
@@ -87,7 +89,7 @@
             this.btnActionHistory.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnActionHistory.BackColor = System.Drawing.Color.ForestGreen;
             this.btnActionHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnActionHistory.Location = new System.Drawing.Point(292, 235);
+            this.btnActionHistory.Location = new System.Drawing.Point(531, 239);
             this.btnActionHistory.Name = "btnActionHistory";
             this.btnActionHistory.Size = new System.Drawing.Size(199, 59);
             this.btnActionHistory.TabIndex = 5;
@@ -125,9 +127,9 @@
             this.panelHeadline.BackColor = System.Drawing.Color.LimeGreen;
             this.panelHeadline.Controls.Add(this.labelHeadline);
             this.panelHeadline.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panelHeadline.Location = new System.Drawing.Point(0, 3);
+            this.panelHeadline.Location = new System.Drawing.Point(0, 0);
             this.panelHeadline.Name = "panelHeadline";
-            this.panelHeadline.Size = new System.Drawing.Size(371, 29);
+            this.panelHeadline.Size = new System.Drawing.Size(371, 32);
             this.panelHeadline.TabIndex = 11;
             // 
             // labelYourRole
@@ -158,7 +160,7 @@
             this.btnPostavki.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnPostavki.Location = new System.Drawing.Point(531, 120);
             this.btnPostavki.Name = "btnPostavki";
-            this.btnPostavki.Size = new System.Drawing.Size(182, 55);
+            this.btnPostavki.Size = new System.Drawing.Size(199, 55);
             this.btnPostavki.TabIndex = 14;
             this.btnPostavki.Text = "ПОСТАВКИ";
             this.btnPostavki.UseVisualStyleBackColor = false;
@@ -175,11 +177,24 @@
             this.btnParametr.UseVisualStyleBackColor = false;
             this.btnParametr.Click += new System.EventHandler(this.btnParametr_Click);
             // 
+            // btnWarehouseMap
+            // 
+            this.btnWarehouseMap.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnWarehouseMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnWarehouseMap.Location = new System.Drawing.Point(98, 239);
+            this.btnWarehouseMap.Name = "btnWarehouseMap";
+            this.btnWarehouseMap.Size = new System.Drawing.Size(199, 59);
+            this.btnWarehouseMap.TabIndex = 16;
+            this.btnWarehouseMap.Text = "СХЕМА СКЛАДА";
+            this.btnWarehouseMap.UseVisualStyleBackColor = false;
+            this.btnWarehouseMap.Click += new System.EventHandler(this.btnWarehouseMap_Click);
+            // 
             // MainMenuAdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnWarehouseMap);
             this.Controls.Add(this.btnParametr);
             this.Controls.Add(this.btnPostavki);
             this.Controls.Add(this.labelAdmin);
@@ -190,7 +205,6 @@
             this.Controls.Add(this.btnProducts);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.txtWelcome);
-            this.MaximizeBox = false;
             this.Name = "MainMenuAdminForm";
             this.panelHeadline.ResumeLayout(false);
             this.panelHeadline.PerformLayout();
@@ -211,5 +225,6 @@
         private System.Windows.Forms.Label labelAdmin;
         private System.Windows.Forms.Button btnPostavki;
         private System.Windows.Forms.Button btnParametr;
+        private System.Windows.Forms.Button btnWarehouseMap;
     }
 }

@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <LangVersion>10.0</LangVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -98,18 +99,30 @@
   <ItemGroup>
     <Compile Include="ClassesContext\WarehouseContext.cs" />
     <Compile Include="Classes\ActionHistory.cs" />
+    <Compile Include="Classes\AppServices.cs" />
     <Compile Include="Classes\AppSetting.cs" />
     <Compile Include="Classes\Categories.cs" />
     <Compile Include="Classes\Clients.cs" />
+    <Compile Include="Classes\ContractorCheckResult.cs" />
     <Compile Include="Classes\CurrentUser.cs" />
+    <Compile Include="Classes\CurrencyRateService.cs" />
+    <Compile Include="Classes\DadataContractorCheckService.cs" />
+    <Compile Include="Classes\IContractorCheckService.cs" />
+    <Compile Include="Classes\ICurrencyRateService.cs" />
+    <Compile Include="Classes\ILocalizableForm.cs" />
+    <Compile Include="Classes\IWeatherService.cs" />
+    <Compile Include="Classes\LanguageManager.cs" />
+    <Compile Include="Classes\OpenWeatherMapService.cs" />
     <Compile Include="Classes\Password.cs" />
     <Compile Include="Classes\Products.cs" />
     <Compile Include="Classes\Shipment.cs" />
     <Compile Include="Classes\ShipmentContents.cs" />
+    <Compile Include="Classes\SimpleContainer.cs" />
     <Compile Include="Classes\Supplies.cs" />
     <Compile Include="Classes\SupplyItem.cs" />
     <Compile Include="Classes\SystemLog.cs" />
     <Compile Include="Classes\UnitOfMeasure.cs" />
+    <Compile Include="Classes\UserDisplayHelper.cs" />
     <Compile Include="Enums\LogLevels.cs" />
     <Compile Include="Enums\ShipmentStatus.cs" />
     <Compile Include="Forms\CatalogAdminForm.cs">
@@ -137,12 +150,19 @@
     <Compile Include="Forms\ContentsOfSupplies.Designer.cs">
       <DependentUpon>ContentsOfSupplies.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ContractorCheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ContractorCheckForm.Designer.cs">
+      <DependentUpon>ContractorCheckForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\DeliveryHistory.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\DeliveryHistory.Designer.cs">
       <DependentUpon>DeliveryHistory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FormNavigationHelper.cs" />
     <Compile Include="Forms\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,9 +216,16 @@
     <Compile Include="Forms\Supplies.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\WarehouseMapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\WarehouseMapForm.Designer.cs">
+      <DependentUpon>WarehouseMapForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Supplies.Designer.cs">
       <DependentUpon>Supplies.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalUsings.cs" />
     <Compile Include="Migrations\202603291034238_InitialCreate.cs" />
     <Compile Include="Migrations\202603291034238_InitialCreate.Designer.cs">
       <DependentUpon>202603291034238_InitialCreate.cs</DependentUpon>
@@ -241,6 +268,7 @@
     <Compile Include="Forms\RegistrationForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Forms\ResponsiveFormHelper.cs" />
     <Compile Include="Forms\RegistrationForm.Designer.cs">
       <DependentUpon>RegistrationForm.cs</DependentUpon>
     </Compile>
@@ -266,6 +294,9 @@
     <EmbeddedResource Include="Forms\ContentsOfSupplies.resx">
       <DependentUpon>ContentsOfSupplies.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ContractorCheckForm.resx">
+      <DependentUpon>ContractorCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\DeliveryHistory.resx">
       <DependentUpon>DeliveryHistory.cs</DependentUpon>
     </EmbeddedResource>
@@ -284,6 +315,9 @@
     <EmbeddedResource Include="Forms\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ShipmentFormStorekeeper.resx">
+      <DependentUpon>ShipmentFormStorekeeper.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\StartForm.resx">
       <DependentUpon>StartForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -292,6 +326,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Supplies.resx">
       <DependentUpon>Supplies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\WarehouseMapForm.resx">
+      <DependentUpon>WarehouseMapForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202603291034238_InitialCreate.resx">
       <DependentUpon>202603291034238_InitialCreate.cs</DependentUpon>

@@ -1,11 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
 using NLog;
 
 namespace WarehouseApp.Forms
@@ -18,14 +10,17 @@ namespace WarehouseApp.Forms
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private bool isReadOnlyMode;
         private BindingList<ProductRow> allProducts;
+        private Guid? pendingNewProductId;
+        private bool restoringPendingProductSelection;
         /// <summary>
         /// Конструктор для формы каталога товара.
         /// </summary>
         public CatalogAdminForm(bool readOnly = false)
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             isReadOnlyMode = readOnly;
-            txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
+            txtDate.Text = LanguageManager.Text("DatePrefix") + DateTime.Now.ToString("dd.MM.yyyy");
         }
 
         private void Catalog_Load(object sender, EventArgs e)
@@ -48,18 +43,18 @@ namespace WarehouseApp.Forms
                 dgv.AllowUserToAddRows = false;
                 dgv.AutoGenerateColumns = false;
 
-                dgv.Columns.Add("Article", "Артикул");
+                dgv.Columns.Add("Article", LanguageManager.Text("ColumnArticle"));
                 dgv.Columns["Article"].DataPropertyName = "Article";
                 dgv.Columns["Article"].ReadOnly = true;
 
-                dgv.Columns.Add("NameProduct", "Название");
+                dgv.Columns.Add("NameProduct", LanguageManager.Text("ColumnName"));
                 dgv.Columns["NameProduct"].DataPropertyName = "NameProduct";
                 dgv.Columns.Clear();
                 dgv.AutoGenerateColumns = false;
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colArticle",
-                    HeaderText = "Артикул",
+                    HeaderText = LanguageManager.Text("ColumnArticle"),
                     DataPropertyName = "Article",
                     Width = 80,
                     ReadOnly = true
@@ -67,7 +62,7 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colName",
-                    HeaderText = "Название",
+                    HeaderText = LanguageManager.Text("ColumnName"),
                     DataPropertyName = "Name",
                     Width = 150,
                     ReadOnly = true
@@ -75,7 +70,7 @@ namespace WarehouseApp.Forms
                 var comboCategory = new DataGridViewComboBoxColumn
                 {
                     Name = "colCategory",
-                    HeaderText = "Категория",
+                    HeaderText = LanguageManager.Text("Category"),
                     DataPropertyName = "CategoryId",
                     DisplayMember = "Name",
                     ValueMember = "Id",
@@ -88,7 +83,7 @@ namespace WarehouseApp.Forms
                 var comboUnit = new DataGridViewComboBoxColumn
                 {
                     Name = "colUnit",
-                    HeaderText = "Ед. изм.",
+                    HeaderText = LanguageManager.Text("ColumnUnit"),
                     DataPropertyName = "Unit",
                     DisplayMember = "Name",
                     ValueMember = "Name",
@@ -101,16 +96,16 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colPrice",
-                    HeaderText = "Цена",
+                    HeaderText = LanguageManager.Text("ColumnPrice"),
                     DataPropertyName = "Price",
                     Width = 90,
-                    DefaultCellStyle = { Format = "0.00 ₽"},
+                    DefaultCellStyle = { Format = "0.00"},
                     ReadOnly = true
                 });
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colStock",
-                    HeaderText = "Остаток",
+                    HeaderText = LanguageManager.Text("ColumnStock"),
                     DataPropertyName = "Stock",
                     Width = 70,
                     ReadOnly = true
@@ -118,7 +113,7 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colExp",
-                    HeaderText = "Срок годности",
+                    HeaderText = LanguageManager.Text("ColumnExpirationDate"),
                     DataPropertyName = "ExpirationDate",
                     Width = 110,
                     DefaultCellStyle = { Format = "dd.MM.yyyy" },
@@ -127,17 +122,17 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(new DataGridViewTextBoxColumn
                 {
                     Name = "colStatus",
-                    HeaderText = "Статус",
+                    HeaderText = LanguageManager.Text("Status"),
                     DataPropertyName = "Status",
                     Width = 100,
                     ReadOnly = true
                 });
 
-                dgv.CellFormatting += dgv_CellFormatting;
                 dgv.DataError += dgv_DataError;
                 dgv.CellValidating += dgv_CellValidating;
                 dgv.CellClick += dgv_CellClick;
                 dgv.CellBeginEdit += dgv_CellBeginEdit;
+                dgv.SelectionChanged += dgv_SelectionChanged;
                 LoadData();
                 dgv.ReadOnly = true;
                 LoadFilterControls();
@@ -145,8 +140,7 @@ namespace WarehouseApp.Forms
                 var currentUser = UserContext.Current;
                 if (currentUser != null)
                 {
-                    string roleName = currentUser.Role.ToString();
-                    lblUserRole.Text = $"Ваша роль: {roleName}";
+                    lblUserRole.Text = $"{LanguageManager.Text("YourRole")} {UserDisplayHelper.GetRoleName(currentUser.Role)}";
                     if (currentUser.Role == Enums.Roles.Storekeeper)
                     {
                         buttonForEdit.Visible = false;
@@ -163,13 +157,23 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.StartupError);
                 Close();
             }
+            BeginInvoke(new Action(ClearCatalogSelection));
         }
+
+        private void ClearCatalogSelection()
+        {
+            dgv.ClearSelection();
+            dgv.CurrentCell = null;
+        }
+
         private void LoadData()
         {
             try
             {
                 using (var db = new WarehouseContext())
                 {
+                    FixRulerArticle(db);
+
                     var products = db.Products
                         .Include("Category")
                         .Include("UnitOfMeasure")
@@ -201,12 +205,28 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.DataLoadErrorText);
             }
         }
+
+        private void FixRulerArticle(WarehouseContext db)
+        {
+            var ruler = db.Products
+                .FirstOrDefault(p => p.NameProduct == "Линейка" && p.Article != null);
+
+            if (ruler == null)
+                return;
+
+            if (!Guid.TryParse(ruler.Article, out Guid oldArticle))
+                return;
+
+            ruler.Article = db.GenerateNextArticle();
+            db.SaveChanges();
+        }
+
         private void buttonForEdit_Click(object sender, EventArgs e)
         { 
             if (buttonForEdit.Text == "Редактировать")
             {
                 dgv.ReadOnly = false;
-                buttonForEdit.Text = "Сохранить";
+                buttonForEdit.Text = LanguageManager.Text("Save");
                 if (dgv.Rows.Count > 0)
                 {
                     dgv.CurrentCell = dgv.Rows[0].Cells["colName"];
@@ -230,7 +250,7 @@ namespace WarehouseApp.Forms
                                 IdProducts = row.Id,
                                 Article = row.Article,
                                 NameProduct = row.Name,
-                                Price = row.Price,
+                                Price = Options.ConvertToBase(row.Price),
                                 Stock = row.Stock,
                                 IdCategories = row.CategoryId,
                                 IdUnitOfMeasure = Guid.Empty,
@@ -252,6 +272,7 @@ namespace WarehouseApp.Forms
                 }
                 logger.Info("SAVE_SUCCESS. Category: {Category}. Message: {Message}", "System", "Данные успешно сохранены");
                 MessageBox.Show(Properties.Resources.SuccessMessage);
+                pendingNewProductId = null;
                 LoadData();
                 ApplyFilters();
             }
@@ -263,7 +284,7 @@ namespace WarehouseApp.Forms
             finally
             {
                 dgv.ReadOnly = true;
-                buttonForEdit.Text = "Редактировать";
+                buttonForEdit.Text = LanguageManager.Text("Edit");
             }
         }
         private void buttonToAddGood_Click(object sender, EventArgs e)
@@ -281,7 +302,7 @@ namespace WarehouseApp.Forms
                         MessageBox.Show(Properties.Resources.NoCategoriesError);
                         return;
                     }
-                    string newArticle = db.GenerateNextArticle();
+                    var newArticle = db.GenerateNextArticle();
                     var newProd = new Products
                     {
                         IdProducts = Guid.NewGuid(),
@@ -297,11 +318,12 @@ namespace WarehouseApp.Forms
 
                     db.Products.Add(newProd);
                     db.SaveChanges();
+                    pendingNewProductId = newProd.IdProducts;
                 }
                 LoadData();
                 ApplyFilters();
                 dgv.ReadOnly = false;
-                buttonForEdit.Text = "Сохранить";
+                buttonForEdit.Text = LanguageManager.Text("Save");
                 if (dgv.Columns["colName"] != null)
                     dgv.Columns["colName"].ReadOnly = false;
 
@@ -322,6 +344,44 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.CreateErrorText);
             }
         }
+
+        private void dgv_SelectionChanged(object sender, EventArgs e)
+        {
+            if (!pendingNewProductId.HasValue || restoringPendingProductSelection || dgv.CurrentRow == null)
+                return;
+
+            if (dgv.CurrentRow.DataBoundItem is ProductRow row && row.Id == pendingNewProductId.Value)
+                return;
+
+            RestorePendingProductSelection();
+        }
+
+        private void RestorePendingProductSelection()
+        {
+            if (!pendingNewProductId.HasValue)
+                return;
+
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (row.DataBoundItem is ProductRow product && product.Id == pendingNewProductId.Value)
+                {
+                    restoringPendingProductSelection = true;
+                    try
+                    {
+                        dgv.ClearSelection();
+                        row.Selected = true;
+                        dgv.CurrentCell = row.Cells["colName"];
+                        dgv.FirstDisplayedScrollingRowIndex = row.Index;
+                    }
+                    finally
+                    {
+                        restoringPendingProductSelection = false;
+                    }
+                    break;
+                }
+            }
+        }
+
         private void buttonForDelete_Click(object sender, EventArgs e)
         {
             if (dgv.CurrentRow == null) return;
@@ -351,6 +411,9 @@ namespace WarehouseApp.Forms
                             logger.Info("DELETE_SUCCESS", $"Товар '{productRow.Name}' удалён");
                         }
                     }
+                    if (pendingNewProductId == productRow.Id)
+                        pendingNewProductId = null;
+
                     LoadData();
                     ApplyFilters();
                 }
@@ -365,7 +428,7 @@ namespace WarehouseApp.Forms
         {
             if (e.ColumnIndex == dgv.Columns["colPrice"].Index || e.ColumnIndex == dgv.Columns["colStock"].Index)
             {
-                string input = e.FormattedValue?.ToString()?.Trim();
+                var input = e.FormattedValue?.ToString()?.Trim();
                 if (string.IsNullOrEmpty(input)) return;
 
                 if (e.ColumnIndex == dgv.Columns["colPrice"].Index)
@@ -403,7 +466,6 @@ namespace WarehouseApp.Forms
             }
         }
 
-        private void dgv_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) { }
         private void dgv_DataError(object sender, DataGridViewDataErrorEventArgs e) { e.Cancel = true; }
         private void buttonForBack_Click(object sender, EventArgs e)
         {
@@ -417,6 +479,7 @@ namespace WarehouseApp.Forms
                 }
                 else if (MessageBox.Show(Properties.Resources.ExitWithoutSavingQuestion, Properties.Resources.ExitTitle, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
+                    DeletePendingNewProduct();
                     Close();
                 }
             }
@@ -425,6 +488,31 @@ namespace WarehouseApp.Forms
                 Close();
             }
         }
+
+        private void DeletePendingNewProduct()
+        {
+            if (!pendingNewProductId.HasValue)
+                return;
+
+            try
+            {
+                using (var db = new WarehouseContext())
+                {
+                    var product = db.Products.Find(pendingNewProductId.Value);
+                    if (product != null)
+                    {
+                        db.Products.Remove(product);
+                        db.SaveChanges();
+                    }
+                }
+                pendingNewProductId = null;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "DELETE_PENDING_PRODUCT_ERROR. Category: {Category}", "System");
+            }
+        }
+
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
@@ -457,7 +545,7 @@ namespace WarehouseApp.Forms
             {
                 if (inputForm.ShowDialog() == DialogResult.OK)
                 {
-                    string newName = inputForm.txtName.Text.Trim();
+                    var newName = inputForm.txtName.Text.Trim();
 
                     if (!string.IsNullOrWhiteSpace(newName))
                     {
@@ -499,16 +587,16 @@ namespace WarehouseApp.Forms
                 return "Списан";
             if (!row.ExpirationDate.HasValue)
                 return "Активен";
-            bool isDiscountActive = false;
+            var isDiscountActive = false;
             if (row.ProductionDate.HasValue && row.ProductionDate.Value < row.ExpirationDate.Value)
             {
                 TimeSpan total = row.ExpirationDate.Value - row.ProductionDate.Value;
-                DateTime discountStart = row.ExpirationDate.Value.Subtract(TimeSpan.FromDays(total.Days / 3));
+                var discountStart = row.ExpirationDate.Value.Subtract(TimeSpan.FromDays(total.Days / 3));
                 isDiscountActive = DateTime.Today >= discountStart;
             }
             else
             {
-                DateTime discountStart = row.ExpirationDate.Value.AddDays(-30);
+                var discountStart = row.ExpirationDate.Value.AddDays(-30);
                 isDiscountActive = DateTime.Today >= discountStart;
             }
             return isDiscountActive ? "Скидка 30%" : "Активен";
@@ -531,9 +619,9 @@ namespace WarehouseApp.Forms
         {
             if (allProducts == null) return;
 
-            string searchText = textBoxSearch.Text.ToLower().Trim();
-            string categoryFilter = cmbFilterCategory.SelectedItem?.ToString();
-            string statusFilter = cmbFilterStatus.SelectedItem?.ToString();
+            var searchText = textBoxSearch.Text.ToLower().Trim();
+            var categoryFilter = cmbFilterCategory.SelectedItem?.ToString();
+            var statusFilter = cmbFilterStatus.SelectedItem?.ToString();
 
             var filtered = new List<ProductRow>();
 
@@ -541,20 +629,20 @@ namespace WarehouseApp.Forms
             {
                 row.Status = CalculateStatus(row);
 
-                bool matchSearch = string.IsNullOrEmpty(searchText) ||
+                var matchSearch = string.IsNullOrEmpty(searchText) ||
                     row.Name.ToLower().Contains(searchText) ||
                     row.Article.ToLower().Contains(searchText);
                 if (!matchSearch) continue;
 
-                bool matchCategory = categoryFilter == "Все" || row.CategoryName == categoryFilter;
+                var matchCategory = categoryFilter == "Все" || row.CategoryName == categoryFilter;
                 if (!matchCategory) continue;
 
-                bool matchStatus = statusFilter == "Все" || row.Status == statusFilter;
+                var matchStatus = statusFilter == "Все" || row.Status == statusFilter;
                 if (!matchStatus) continue;
 
                 filtered.Add(row);
             }
-            string symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+            var symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
             if (dgv.Columns["colPrice"] != null)
             {
                 dgv.Columns["colPrice"].HeaderText = $"Цена ({symbol})";
@@ -587,7 +675,16 @@ namespace WarehouseApp.Forms
         }
         private void dgv_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            string colName = dgv.Columns[e.ColumnIndex].Name;
+            var colName = dgv.Columns[e.ColumnIndex].Name;
+            if (pendingNewProductId.HasValue &&
+                dgv.Rows[e.RowIndex].DataBoundItem is ProductRow row &&
+                row.Id != pendingNewProductId.Value)
+            {
+                e.Cancel = true;
+                RestorePendingProductSelection();
+                return;
+            }
+
             if (colName == "colStock" || colName == "colExp")
             {
                 e.Cancel = true;
@@ -623,18 +720,58 @@ namespace WarehouseApp.Forms
     public class ProductRow
     {
         /// <summary>
-        /// Значения, которые хранятся в таблице
+        /// Идентификатор товара.
         /// </summary>
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Артикул товара.
+        /// </summary>
         public string Article { get; set; }
+
+        /// <summary>
+        /// Наименование товара.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Идентификатор категории.
+        /// </summary>
         public Guid CategoryId { get; set; }
+
+        /// <summary>
+        /// Название категории.
+        /// </summary>
         public string CategoryName { get; set; }
+
+        /// <summary>
+        /// Единица измерения.
+        /// </summary>
         public string Unit { get; set; }
+
+        /// <summary>
+        /// Цена товара.
+        /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Остаток товара на складе.
+        /// </summary>
         public int Stock { get; set; }
+
+        /// <summary>
+        /// Дата окончания срока годности.
+        /// </summary>
         public DateTime? ExpirationDate { get; set; }
+
+        /// <summary>
+        /// Дата производства товара.
+        /// </summary>
         public DateTime? ProductionDate { get; set; }
+
+        /// <summary>
+        /// Отображаемый статус товара.
+        /// </summary>
         public string Status { get; set; }
     }
 
@@ -643,15 +780,30 @@ namespace WarehouseApp.Forms
     /// </summary>
     public class CategoryItem
     {
+        /// <summary>
+        /// Идентификатор категории.
+        /// </summary>
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Название категории.
+        /// </summary>
         public string Name { get; set; }
     }
+
     /// <summary>
     /// Класс для привязки единиц измерения
     /// </summary>
     public class UnitItem
     {
+        /// <summary>
+        /// Идентификатор единицы измерения.
+        /// </summary>
         public Guid Id { get; set; }
+
+        /// <summary>
+        /// Название единицы измерения.
+        /// </summary>
         public string Name { get; set; }
     }
 }

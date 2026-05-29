@@ -40,6 +40,9 @@
             this.btnPostavki = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbCurrency = new System.Windows.Forms.ComboBox();
+            this.btnWarehouseMap = new System.Windows.Forms.Button();
+            this.lblLanguage = new System.Windows.Forms.Label();
+            this.cmbLanguage = new System.Windows.Forms.ComboBox();
             this.panelHeadline.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +56,7 @@
             this.txtDate.Multiline = true;
             this.txtDate.Name = "txtDate";
             this.txtDate.ReadOnly = true;
-            this.txtDate.Size = new System.Drawing.Size(260, 30);
+            this.txtDate.Size = new System.Drawing.Size(200, 30);
             this.txtDate.TabIndex = 17;
             this.txtDate.TabStop = false;
             this.txtDate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -63,7 +66,7 @@
             this.btnShipment.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnShipment.BackColor = System.Drawing.Color.ForestGreen;
             this.btnShipment.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnShipment.Location = new System.Drawing.Point(321, 236);
+            this.btnShipment.Location = new System.Drawing.Point(135, 237);
             this.btnShipment.Name = "btnShipment";
             this.btnShipment.Size = new System.Drawing.Size(167, 55);
             this.btnShipment.TabIndex = 13;
@@ -88,10 +91,11 @@
             // 
             this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.BackColor = System.Drawing.Color.Brown;
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnExit.Location = new System.Drawing.Point(695, -5);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(105, 39);
+            this.btnExit.Size = new System.Drawing.Size(105, 35);
             this.btnExit.TabIndex = 11;
             this.btnExit.Text = "Выйти";
             this.btnExit.UseVisualStyleBackColor = false;
@@ -116,9 +120,9 @@
             this.panelHeadline.BackColor = System.Drawing.Color.LimeGreen;
             this.panelHeadline.Controls.Add(this.labelHeadline);
             this.panelHeadline.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.panelHeadline.Location = new System.Drawing.Point(0, 1);
+            this.panelHeadline.Location = new System.Drawing.Point(1, -5);
             this.panelHeadline.Name = "panelHeadline";
-            this.panelHeadline.Size = new System.Drawing.Size(371, 29);
+            this.panelHeadline.Size = new System.Drawing.Size(371, 35);
             this.panelHeadline.TabIndex = 18;
             // 
             // labelHeadline
@@ -126,7 +130,7 @@
             this.labelHeadline.AutoSize = true;
             this.labelHeadline.BackColor = System.Drawing.Color.LimeGreen;
             this.labelHeadline.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelHeadline.Location = new System.Drawing.Point(62, 0);
+            this.labelHeadline.Location = new System.Drawing.Point(62, 7);
             this.labelHeadline.Name = "labelHeadline";
             this.labelHeadline.Size = new System.Drawing.Size(248, 22);
             this.labelHeadline.TabIndex = 10;
@@ -137,7 +141,7 @@
             this.labelYourRole.AutoSize = true;
             this.labelYourRole.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.labelYourRole.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelYourRole.Location = new System.Drawing.Point(550, 398);
+            this.labelYourRole.Location = new System.Drawing.Point(575, 402);
             this.labelYourRole.Name = "labelYourRole";
             this.labelYourRole.Size = new System.Drawing.Size(115, 25);
             this.labelYourRole.TabIndex = 19;
@@ -148,7 +152,7 @@
             this.labelStorekeeper.AutoSize = true;
             this.labelStorekeeper.BackColor = System.Drawing.Color.LightSeaGreen;
             this.labelStorekeeper.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelStorekeeper.Location = new System.Drawing.Point(671, 398);
+            this.labelStorekeeper.Location = new System.Drawing.Point(690, 402);
             this.labelStorekeeper.Name = "labelStorekeeper";
             this.labelStorekeeper.Size = new System.Drawing.Size(117, 25);
             this.labelStorekeeper.TabIndex = 20;
@@ -170,9 +174,9 @@
             // 
             this.label1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(278, 399);
+            this.label1.Location = new System.Drawing.Point(218, 399);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 29);
+            this.label1.Size = new System.Drawing.Size(85, 29);
             this.label1.TabIndex = 22;
             this.label1.Text = "Валюта:";
             // 
@@ -180,17 +184,53 @@
             // 
             this.cmbCurrency.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmbCurrency.FormattingEnabled = true;
-            this.cmbCurrency.Location = new System.Drawing.Point(393, 394);
+            this.cmbCurrency.Location = new System.Drawing.Point(309, 399);
             this.cmbCurrency.Name = "cmbCurrency";
-            this.cmbCurrency.Size = new System.Drawing.Size(151, 33);
+            this.cmbCurrency.Size = new System.Drawing.Size(90, 33);
             this.cmbCurrency.TabIndex = 23;
             this.cmbCurrency.SelectedIndexChanged += new System.EventHandler(this.cmbCurrency_SelectedIndexChanged);
+            // 
+            // btnWarehouseMap
+            // 
+            this.btnWarehouseMap.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnWarehouseMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnWarehouseMap.Location = new System.Drawing.Point(528, 237);
+            this.btnWarehouseMap.Name = "btnWarehouseMap";
+            this.btnWarehouseMap.Size = new System.Drawing.Size(172, 55);
+            this.btnWarehouseMap.TabIndex = 24;
+            this.btnWarehouseMap.Text = "СХЕМА СКЛАДА";
+            this.btnWarehouseMap.UseVisualStyleBackColor = false;
+            this.btnWarehouseMap.Click += new System.EventHandler(this.btnWarehouseMap_Click);
+            //
+            // lblLanguage
+            //
+            this.lblLanguage.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.lblLanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblLanguage.Location = new System.Drawing.Point(405, 399);
+            this.lblLanguage.Name = "lblLanguage";
+            this.lblLanguage.Size = new System.Drawing.Size(70, 29);
+            this.lblLanguage.TabIndex = 25;
+            this.lblLanguage.Text = "Язык:";
+            //
+            // cmbLanguage
+            //
+            this.cmbLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbLanguage.FormattingEnabled = true;
+            this.cmbLanguage.Location = new System.Drawing.Point(481, 399);
+            this.cmbLanguage.Name = "cmbLanguage";
+            this.cmbLanguage.Size = new System.Drawing.Size(80, 30);
+            this.cmbLanguage.TabIndex = 26;
+            this.cmbLanguage.SelectedIndexChanged += new System.EventHandler(this.cmbLanguage_SelectedIndexChanged);
             // 
             // MainMenuStorekeeperForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.cmbLanguage);
+            this.Controls.Add(this.lblLanguage);
+            this.Controls.Add(this.btnWarehouseMap);
             this.Controls.Add(this.cmbCurrency);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnPostavki);
@@ -202,7 +242,6 @@
             this.Controls.Add(this.btnProducts);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.txtWelcome);
-            this.MaximizeBox = false;
             this.Name = "MainMenuStorekeeperForm";
             this.panelHeadline.ResumeLayout(false);
             this.panelHeadline.PerformLayout();
@@ -225,5 +264,8 @@
         private System.Windows.Forms.Button btnPostavki;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbCurrency;
+        private System.Windows.Forms.Button btnWarehouseMap;
+        private System.Windows.Forms.Label lblLanguage;
+        private System.Windows.Forms.ComboBox cmbLanguage;
     }
 }

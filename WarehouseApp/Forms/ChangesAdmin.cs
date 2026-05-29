@@ -1,8 +1,3 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
 using NLog;
 
 namespace WarehouseApp.Forms
@@ -19,15 +14,18 @@ namespace WarehouseApp.Forms
         public ChangesAdmin()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
+            if (UserContext.Current != null)
+                labelAdmin.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
         }
 
         private void Changes_Load(object sender, EventArgs e)
         {
             try
             {
-                lblDate.Text = $"Дата: {DateTime.Now:dd.MM.yyyy}";
-                DateTime end = DateTime.Today;
-                DateTime start = end.AddDays(-30);
+                lblDate.Text = $"{LanguageManager.Text("DatePrefix")}{DateTime.Now:dd.MM.yyyy}";
+                var end = DateTime.Today;
+                var start = end.AddDays(-30);
                 dtpFrom.Value = start;
                 dtpTo.Value = end;
                 LoadCustomers();
@@ -81,7 +79,7 @@ namespace WarehouseApp.Forms
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colDate",
-                HeaderText = Properties.Resources.ReportColDate,
+                HeaderText = LanguageManager.Text("ColumnDate"),
                 Width = 120,
                 DataPropertyName = "Date",
                 DefaultCellStyle = { Format = "dd.MM.yyyy" }
@@ -90,26 +88,26 @@ namespace WarehouseApp.Forms
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colCustomer",
-                HeaderText = Properties.Resources.ReportColCustomer,
+                HeaderText = LanguageManager.Text("ColumnCustomer"),
                 Width = 200,
                 DataPropertyName = "Customer"
             });
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colAmount",
-                HeaderText = Properties.Resources.ReportColAmount,
+                HeaderText = LanguageManager.Text("ColumnAmount"),
                 Width = 150,
                 DataPropertyName = "Amount",
-                DefaultCellStyle = { Format = "0.00 ₽", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = { Format = "0.00", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
 
             dgvHistory.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "colProfit",
-                HeaderText = Properties.Resources.ReportColProfit,
+                HeaderText = LanguageManager.Text("ColumnProfit"),
                 Width = 150,
                 DataPropertyName = "Profit",
-                DefaultCellStyle = { Format = "0.00 ₽", Alignment = DataGridViewContentAlignment.MiddleRight }
+                DefaultCellStyle = { Format = "0.00", Alignment = DataGridViewContentAlignment.MiddleRight }
             });
         }
 
@@ -119,10 +117,10 @@ namespace WarehouseApp.Forms
             {
                 using (var db = new WarehouseContext())
                 {
-                    string selectedCustomer = cmbCustomer.SelectedItem?.ToString();
-                    string selectedCategory = cmbCategory.SelectedItem?.ToString();
-                    DateTime start = startDate.Date;
-                    DateTime end = endDate.Date.AddDays(1).AddTicks(-1);
+                    var selectedCustomer = cmbCustomer.SelectedItem?.ToString();
+                    var selectedCategory = cmbCategory.SelectedItem?.ToString();
+                    var start = startDate.Date;
+                    var end = endDate.Date.AddDays(1).AddTicks(-1);
                     var query = db.Shipments
                         .Include("Clients")
                         .Include("ShipmentContents.Product.Category")
@@ -143,9 +141,15 @@ namespace WarehouseApp.Forms
                     {
                         Date = s.DateOfShipment,
                         Customer = (s.Clients != null ? s.Clients.NameClients : "Не указан"),
-                        Amount = s.PriceShipment,
-                        Profit = CalculateProfit(s)
+                        Amount = Options.ConvertFromBase(s.PriceShipment),
+                        Profit = Options.ConvertFromBase(CalculateProfit(s))
                     }).ToList();
+
+                    var symbol = Options.GetCurrencySymbol(Options.CurrentCurrency);
+                    if (dgvHistory.Columns["colAmount"] != null)
+                        dgvHistory.Columns["colAmount"].HeaderText = $"{LanguageManager.Text("ColumnAmount")} ({symbol})";
+                    if (dgvHistory.Columns["colProfit"] != null)
+                        dgvHistory.Columns["colProfit"].HeaderText = $"{LanguageManager.Text("ColumnProfit")} ({symbol})";
 
                     dgvHistory.DataSource = reportData;
                 }
@@ -166,7 +170,7 @@ namespace WarehouseApp.Forms
                         .Where(sc => sc.IdShipment == shipment.IdShipment)
                         .ToList();
 
-                    decimal totalProfit = 0;
+                    var totalProfit = 0m;
 
                     foreach (var content in contents)
                     {
@@ -174,9 +178,9 @@ namespace WarehouseApp.Forms
 
                         if (product != null)
                         {
-                            decimal revenue = content.PriceShipmentContents;
-                            decimal cost = product.Price * content.QuantityShipmentContents;
-                            decimal itemProfit = revenue - cost;
+                            var revenue = content.PriceShipmentContents;
+                            var cost = product.Price * content.QuantityShipmentContents;
+                            var itemProfit = revenue - cost;
                             totalProfit += itemProfit;
                         }
                     }
@@ -191,8 +195,8 @@ namespace WarehouseApp.Forms
 
         private void DatePickers_ValueChanged(object sender, EventArgs e)
         {
-            DateTime start = dtpFrom.Value.Date;
-            DateTime end = dtpTo.Value.Date;
+            var start = dtpFrom.Value.Date;
+            var end = dtpTo.Value.Date;
 
             if (!ValidatePeriod(start, end, out string error))
             {
@@ -214,8 +218,8 @@ namespace WarehouseApp.Forms
         }
         private void Filters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DateTime start = dtpFrom.Value.Date;
-            DateTime end = dtpTo.Value.Date;
+            var start = dtpFrom.Value.Date;
+            var end = dtpTo.Value.Date;
             LoadReportData(start, end);
         }
 
@@ -288,7 +292,7 @@ namespace WarehouseApp.Forms
                             if (column.Visible)
                             {
                                 var value = row.Cells[column.Index].Value;
-                                string cellValue = value?.ToString()?.Replace(";", ",") ?? "";
+                                var cellValue = value?.ToString()?.Replace(";", ",") ?? "";
                                 cells.Add(cellValue);
                             }
                         }

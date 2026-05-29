@@ -1,10 +1,4 @@
-﻿using NLog;
-using System;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using WarehouseApp.Enums;
+using NLog;
 
 namespace WarehouseApp
 {
@@ -20,6 +14,8 @@ namespace WarehouseApp
         public RegistrationForm()
         {
             InitializeComponent();
+            ResponsiveFormHelper.Enable(this);
+            LanguageManager.ApplyControls(this);
         }
 
         private void btnRegistration_Click(object sender, EventArgs e)
@@ -94,41 +90,22 @@ namespace WarehouseApp
 
         private void txtPatronymic_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == ' ')
-            {
-                e.Handled = true;
-            }
-
-            if (!char.IsLetter(e.KeyChar))
-            {
-                e.Handled = true;
-            }
+            e.Handled = !IsNameInputAllowed(e.KeyChar);
         }
 
         private void txtSurname_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == ' ')
-            {
-                e.Handled = true;
-            }
-
-            if (!char.IsLetter(e.KeyChar))
-            {
-                e.Handled = true;
-            }
+            e.Handled = !IsNameInputAllowed(e.KeyChar);
         }
 
         private void txtName_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == ' ')
-            {
-                e.Handled = true;
-            }
+            e.Handled = !IsNameInputAllowed(e.KeyChar);
+        }
 
-            if (!char.IsLetter(e.KeyChar))
-            {
-                e.Handled = true;
-            }
+        private bool IsNameInputAllowed(char keyChar)
+        {
+            return char.IsControl(keyChar) || char.IsLetter(keyChar);
         }
 
         private void txtNameHeadline_Enter(object sender, EventArgs e)

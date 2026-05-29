@@ -1,10 +1,4 @@
-﻿using NLog;
-using System;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using WarehouseApp.Forms;
+using NLog;
 
 namespace WarehouseApp
 {
@@ -20,12 +14,14 @@ namespace WarehouseApp
         public LoginForm()
         {
             InitializeComponent();
+            ResponsiveFormHelper.Enable(this);
+            LanguageManager.ApplyControls(this);
         }
 
         private void btnRegistration_Click(object sender, EventArgs e)
         {
-            var registration = new RegistrationForm();
-            registration.ShowDialog();
+            var registration = AppServices.Get<RegistrationForm>();
+            FormNavigationHelper.ShowDialog(this, registration);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -40,16 +36,16 @@ namespace WarehouseApp
                     logger.Info("LOGIN_SUCCESS. Category: {Category}", thisUser.Login, $"Успешный вход. Роль: {thisUser.Role}");
                     if (thisUser.Role == Enums.Roles.Administrator)
                     {
-                        var mainMenuAdminForm = new MainMenuAdminForm();
+                        var mainMenuAdminForm = AppServices.Get<MainMenuAdminForm>();
                         Hide();
-                        mainMenuAdminForm.ShowDialog();
+                        FormNavigationHelper.ShowDialog(this, mainMenuAdminForm);
                         Close();
                     }
                     else if (thisUser.Role == Enums.Roles.Storekeeper)
                     {
-                        var mainMenuStorekeeperForm = new MainMenuStorekeeperForm();
+                        var mainMenuStorekeeperForm = AppServices.Get<MainMenuStorekeeperForm>();
                         Hide();
-                        mainMenuStorekeeperForm.ShowDialog();
+                        FormNavigationHelper.ShowDialog(this, mainMenuStorekeeperForm);
                         Close();
                     }
                 }

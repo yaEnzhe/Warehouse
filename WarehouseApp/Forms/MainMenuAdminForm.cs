@@ -1,14 +1,11 @@
-﻿using NLog;
-using System;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
     /// <summary>
     /// класс главной формы администратора
     /// </summary>
-    public partial class MainMenuAdminForm : Form
+    public partial class MainMenuAdminForm : Form, ILocalizableForm
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         /// <summary>
@@ -22,6 +19,7 @@ namespace WarehouseApp.Forms
         public MainMenuAdminForm()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
             if (UserContext.Current == null)
             {
                 logger.Warn("SESSION_EXPIRED. Category: {Category}", "System", "Ошибка авторизации");
@@ -29,18 +27,15 @@ namespace WarehouseApp.Forms
                 Close();
                 return;
             }
-            string userLogin = UserContext.Current.Login;
-            string userFullName = $"{UserContext.Current.Surname} {UserContext.Current.Name}";
-            string currentRole = UserContext.Current.Role.ToString();
-            txtDate.Text = "Дата: " + DateTime.Now.ToString("dd.MM.yyyy");
-            txtWelcome.Text = $"{Properties.Resources.Welcome}{userFullName}";
+            ApplyLocalization();
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
             UserContext.Current = null;
             Hide();
-            LoginForm loginForm = new LoginForm();
+            var loginForm = AppServices.Get<LoginForm>();
+            FormNavigationHelper.ApplyWindowState(this, loginForm);
             loginForm.FormClosed += (s, args) => Application.Exit();
             loginForm.ShowDialog();
             Close();
@@ -48,31 +43,54 @@ namespace WarehouseApp.Forms
 
         private void btnProducts_Click(object sender, EventArgs e)
         {
-            var catalog = new CatalogAdminForm();
-            catalog.ShowDialog();
+            var catalog = AppServices.Get<CatalogAdminForm>();
+            FormNavigationHelper.ShowDialog(this, catalog);
         }
 
         private void btnShipment_Click(object sender, EventArgs e)
         {
-            var shipmentForm = new ShipmentFormAdmin();
-            shipmentForm.ShowDialog();
+            var shipmentForm = AppServices.Get<ShipmentFormAdmin>();
+            FormNavigationHelper.ShowDialog(this, shipmentForm);
         }
 
         private void btnActionHistory_Click(object sender, EventArgs e)
         {
-            var changesForm = new ChangesAdmin();
-            changesForm.ShowDialog();
+            var changesForm = AppServices.Get<ChangesAdmin>();
+            FormNavigationHelper.ShowDialog(this, changesForm);
         }
         private void btnParametr_Click(object sender, EventArgs e)
         {
-            Options options = new Options();
-            options.Show();
+            var options = AppServices.Get<Options>();
+            FormNavigationHelper.Show(this, options);
         }
 
         private void btnPostavki_Click(object sender, EventArgs e)
         {
-            Supplies supplies = new Supplies();
-            supplies.Show();
+            var supplies = AppServices.Get<Supplies>();
+            FormNavigationHelper.Show(this, supplies);
+        }
+
+        private void btnWarehouseMap_Click(object sender, EventArgs e)
+        {
+            using (var warehouseMap = AppServices.Get<WarehouseMapForm>())
+            {
+                FormNavigationHelper.ShowDialog(this, warehouseMap);
+            }
+        }
+
+        /// <summary>
+        /// Обновляет тексты формы под текущий язык.
+        /// </summary>
+        public void ApplyLocalization()
+        {
+            LanguageManager.ApplyControls(this);
+
+            if (UserContext.Current != null)
+            {
+                txtDate.Text = LanguageManager.Text("DatePrefix") + DateTime.Now.ToString("dd.MM.yyyy");
+                txtWelcome.Text = $"{LanguageManager.Text("Welcome")}{UserDisplayHelper.GetShortName(UserContext.Current)}";
+                labelAdmin.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
+            }
         }
     }
 }

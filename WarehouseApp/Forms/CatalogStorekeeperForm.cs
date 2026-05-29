@@ -1,12 +1,4 @@
-﻿using NLog;
-using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -23,10 +15,14 @@ namespace WarehouseApp.Forms
         public CatalogStorekeeperForm()
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
         }
 
         private void CatalogStorekeeperForm_Load(object sender, EventArgs e)
         {
+            if (UserContext.Current != null)
+                labelStorekeeper.Text = UserDisplayHelper.GetRoleName(UserContext.Current.Role);
+
             using (var db = new WarehouseContext())
             {
                 dgv.BorderStyle = BorderStyle.None;
@@ -41,14 +37,14 @@ namespace WarehouseApp.Forms
                 dgv.RowHeadersVisible = false;
                 dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect; 
                 dgv.AutoGenerateColumns = false;
-                dgv.Columns.Add("Article", "Артикул");
+                dgv.Columns.Add("Article", LanguageManager.Text("ColumnArticle"));
                 dgv.Columns["Article"].DataPropertyName = "Article";
-                dgv.Columns.Add("NameProduct", "Название");
+                dgv.Columns.Add("NameProduct", LanguageManager.Text("ColumnName"));
                 dgv.Columns["NameProduct"].DataPropertyName = "NameProduct";
                 dgv.Columns["NameProduct"].Width = 200; 
                 var comboCol = new DataGridViewComboBoxColumn();
                 comboCol.Name = "Category";
-                comboCol.HeaderText = "Категория";
+                comboCol.HeaderText = LanguageManager.Text("Category");
                 comboCol.DataSource = db.Categories.ToList();
                 comboCol.DisplayMember = "NameCategory";
                 comboCol.ValueMember = "IdCategories";
@@ -57,21 +53,29 @@ namespace WarehouseApp.Forms
                 dgv.Columns.Add(comboCol);
                 var comboUnit = new DataGridViewComboBoxColumn();
                 comboUnit.Name = "UnitOfMeasure";
-                comboUnit.HeaderText = "Ед. изм.";
+                comboUnit.HeaderText = LanguageManager.Text("ColumnUnit");
                 comboUnit.DataSource = db.UnitOfMeasure.ToList();
                 comboUnit.DisplayMember = "NameUnit";
                 comboUnit.ValueMember = "IdUnit"; 
                 comboUnit.DataPropertyName = "IdUnit";
                 comboUnit.DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing; 
                 dgv.Columns.Add(comboUnit);
-                dgv.Columns.Add("Price", "Цена");
+                dgv.Columns.Add("Price", LanguageManager.Text("ColumnPrice"));
                 dgv.Columns["Price"].DataPropertyName = "Price";
-                dgv.Columns.Add("Stock", "Остаток");
+                dgv.Columns.Add("Stock", LanguageManager.Text("ColumnStock"));
                 dgv.Columns["Stock"].DataPropertyName = "Stock";
                 dgv.DataError += dgv_DataError;
                 LoadData();
             }
+            BeginInvoke(new Action(ClearCatalogSelection));
         }
+
+        private void ClearCatalogSelection()
+        {
+            dgv.ClearSelection();
+            dgv.CurrentCell = null;
+        }
+
         private void LoadData()
         {
             try

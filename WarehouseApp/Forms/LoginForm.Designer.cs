@@ -142,7 +142,6 @@
             this.Controls.Add(this.txtWarehouseHeadline);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtLogin);
-            this.MaximizeBox = false;
             this.Name = "LoginForm";
             this.ResumeLayout(false);
             this.PerformLayout();

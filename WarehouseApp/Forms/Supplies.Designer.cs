@@ -42,13 +42,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbProduct = new System.Windows.Forms.ComboBox();
-            this.lblCat = new System.Windows.Forms.Label();
             this.txtboxcolichestvo = new System.Windows.Forms.TextBox();
             this.dgvSupply = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtboxPrice = new System.Windows.Forms.TextBox();
             this.dtpExpirationDate = new System.Windows.Forms.DateTimePicker();
+            this.btnCheckContractor = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvSupply)).BeginInit();
             this.SuspendLayout();
@@ -82,9 +82,9 @@
             // 
             this.labelAdmin.BackColor = System.Drawing.Color.LightSeaGreen;
             this.labelAdmin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelAdmin.Location = new System.Drawing.Point(624, 8);
+            this.labelAdmin.Location = new System.Drawing.Point(634, 9);
             this.labelAdmin.Name = "labelAdmin";
-            this.labelAdmin.Size = new System.Drawing.Size(164, 25);
+            this.labelAdmin.Size = new System.Drawing.Size(164, 26);
             this.labelAdmin.TabIndex = 20;
             this.labelAdmin.Text = "Пользователь";
             // 
@@ -164,7 +164,7 @@
             this.btnAddToSupply.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.btnAddToSupply.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddToSupply.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnAddToSupply.Location = new System.Drawing.Point(65, 379);
+            this.btnAddToSupply.Location = new System.Drawing.Point(30, 379);
             this.btnAddToSupply.Name = "btnAddToSupply";
             this.btnAddToSupply.Size = new System.Drawing.Size(263, 34);
             this.btnAddToSupply.TabIndex = 29;
@@ -176,9 +176,9 @@
             // 
             this.label1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(37, 173);
+            this.label1.Location = new System.Drawing.Point(30, 173);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(164, 25);
+            this.label1.Size = new System.Drawing.Size(171, 25);
             this.label1.TabIndex = 30;
             this.label1.Text = "Товар:";
             // 
@@ -186,9 +186,9 @@
             // 
             this.label2.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(37, 219);
+            this.label2.Location = new System.Drawing.Point(30, 219);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(164, 25);
+            this.label2.Size = new System.Drawing.Size(171, 25);
             this.label2.TabIndex = 31;
             this.label2.Text = "Количество:";
             // 
@@ -196,9 +196,9 @@
             // 
             this.label3.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(37, 314);
+            this.label3.Location = new System.Drawing.Point(30, 301);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(164, 25);
+            this.label3.Size = new System.Drawing.Size(171, 25);
             this.label3.TabIndex = 32;
             this.label3.Text = "Срок годности:";
             // 
@@ -209,19 +209,8 @@
             this.cmbProduct.FormattingEnabled = true;
             this.cmbProduct.Location = new System.Drawing.Point(207, 173);
             this.cmbProduct.Name = "cmbProduct";
-            this.cmbProduct.Size = new System.Drawing.Size(159, 28);
+            this.cmbProduct.Size = new System.Drawing.Size(194, 28);
             this.cmbProduct.TabIndex = 33;
-            // 
-            // lblCat
-            // 
-            this.lblCat.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.lblCat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCat.Location = new System.Drawing.Point(363, 173);
-            this.lblCat.Name = "lblCat";
-            this.lblCat.Size = new System.Drawing.Size(38, 28);
-            this.lblCat.TabIndex = 34;
-            this.lblCat.Text = "▼";
-            this.lblCat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtboxcolichestvo
             // 
@@ -265,9 +254,9 @@
             // 
             this.label4.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(37, 264);
+            this.label4.Location = new System.Drawing.Point(30, 264);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(164, 25);
+            this.label4.Size = new System.Drawing.Size(171, 25);
             this.label4.TabIndex = 39;
             this.label4.Text = "Цена закупки:";
             // 
@@ -288,23 +277,37 @@
             // dtpExpirationDate
             // 
             this.dtpExpirationDate.CalendarFont = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dtpExpirationDate.Location = new System.Drawing.Point(207, 314);
+            this.dtpExpirationDate.Location = new System.Drawing.Point(207, 304);
             this.dtpExpirationDate.Name = "dtpExpirationDate";
-            this.dtpExpirationDate.Size = new System.Drawing.Size(177, 22);
+            this.dtpExpirationDate.Size = new System.Drawing.Size(194, 22);
             this.dtpExpirationDate.TabIndex = 50;
+            // 
+            // btnCheckContractor
+            // 
+            this.btnCheckContractor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(229)))), ((int)(((byte)(190)))));
+            this.btnCheckContractor.FlatAppearance.BorderSize = 0;
+            this.btnCheckContractor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCheckContractor.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnCheckContractor.Location = new System.Drawing.Point(30, 333);
+            this.btnCheckContractor.Name = "btnCheckContractor";
+            this.btnCheckContractor.Size = new System.Drawing.Size(298, 40);
+            this.btnCheckContractor.TabIndex = 51;
+            this.btnCheckContractor.Text = "Проверка контрагента";
+            this.btnCheckContractor.UseVisualStyleBackColor = false;
+            this.btnCheckContractor.Click += new System.EventHandler(this.btnCheckContractor_Click);
             // 
             // Supplies
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnCheckContractor);
             this.Controls.Add(this.dtpExpirationDate);
             this.Controls.Add(this.txtboxPrice);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.dgvSupply);
             this.Controls.Add(this.txtboxcolichestvo);
-            this.Controls.Add(this.lblCat);
             this.Controls.Add(this.cmbProduct);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -342,12 +345,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbProduct;
-        private System.Windows.Forms.Label lblCat;
         private System.Windows.Forms.TextBox txtboxcolichestvo;
         private System.Windows.Forms.DataGridView dgvSupply;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtboxPrice;
         private System.Windows.Forms.DateTimePicker dtpExpirationDate;
+        private System.Windows.Forms.Button btnCheckContractor;
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 namespace WarehouseApp.Forms
 {
+    /// <summary>
+    /// Управляет открытием формы авторизации.
+    /// </summary>
     public static class LoginFormManager
     {
         private static LoginForm loginForm = null;

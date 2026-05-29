@@ -124,7 +124,7 @@
             this.buttonToAddInTable.BackColor = System.Drawing.Color.DarkSeaGreen;
             this.buttonToAddInTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonToAddInTable.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonToAddInTable.Location = new System.Drawing.Point(80, 100);
+            this.buttonToAddInTable.Location = new System.Drawing.Point(78, 102);
             this.buttonToAddInTable.Name = "buttonToAddInTable";
             this.buttonToAddInTable.Size = new System.Drawing.Size(171, 37);
             this.buttonToAddInTable.TabIndex = 24;
@@ -181,24 +181,24 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.panel2.Controls.Add(this.labelPeriod);
-            this.panel2.Location = new System.Drawing.Point(406, 160);
+            this.panel2.Location = new System.Drawing.Point(402, 165);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(86, 35);
+            this.panel2.Size = new System.Drawing.Size(96, 32);
             this.panel2.TabIndex = 37;
             // 
             // labelPeriod
             // 
             this.labelPeriod.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelPeriod.Location = new System.Drawing.Point(3, 1);
+            this.labelPeriod.Location = new System.Drawing.Point(3, 2);
             this.labelPeriod.Name = "labelPeriod";
-            this.labelPeriod.Size = new System.Drawing.Size(79, 22);
+            this.labelPeriod.Size = new System.Drawing.Size(90, 25);
             this.labelPeriod.TabIndex = 3;
             this.labelPeriod.Text = "Период:";
             // 
             // label4
             // 
             this.label4.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.label4.Location = new System.Drawing.Point(494, 167);
+            this.label4.Location = new System.Drawing.Point(504, 167);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(30, 27);
             this.label4.TabIndex = 28;
@@ -208,7 +208,7 @@
             // dtpFrom
             // 
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFrom.Location = new System.Drawing.Point(527, 170);
+            this.dtpFrom.Location = new System.Drawing.Point(537, 170);
             this.dtpFrom.Name = "dtpFrom";
             this.dtpFrom.ShowCheckBox = true;
             this.dtpFrom.Size = new System.Drawing.Size(110, 22);
@@ -218,7 +218,7 @@
             // label1
             // 
             this.label1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.label1.Location = new System.Drawing.Point(643, 167);
+            this.label1.Location = new System.Drawing.Point(653, 167);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(28, 27);
             this.label1.TabIndex = 39;
@@ -228,7 +228,7 @@
             // dtpTo
             // 
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTo.Location = new System.Drawing.Point(677, 170);
+            this.dtpTo.Location = new System.Drawing.Point(687, 170);
             this.dtpTo.Name = "dtpTo";
             this.dtpTo.ShowCheckBox = true;
             this.dtpTo.Size = new System.Drawing.Size(110, 22);

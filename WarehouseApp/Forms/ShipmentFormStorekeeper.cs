@@ -1,13 +1,4 @@
-﻿using NLog;
-using System;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using WarehouseApp.Classes;
-using WarehouseApp.ClassesContext;
-using WarehouseApp.Enums;
+using NLog;
 
 namespace WarehouseApp.Forms
 {
@@ -16,6 +7,9 @@ namespace WarehouseApp.Forms
     /// </summary>
     public partial class ShipmentFormStorekeeper : Form
     {
+        private readonly IWeatherService weatherService;
+        private bool contractorOperationBlocked;
+
         private class ShipmentViewItem
         {
             /// <summary>
@@ -43,15 +37,21 @@ namespace WarehouseApp.Forms
             /// </summary>
 
             public decimal TotalSum => PricePerUnit * Quantity;
+            /// <summary>
+            /// Рекомендация по погоде для региона получателя.
+            /// </summary>
+            public string WeatherRecommendation { get; set; }
         }
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private BindingList<ShipmentViewItem> cartList;
         /// <summary>
         /// Конструктор для формы отгрузок
         /// </summary>
-        public ShipmentFormStorekeeper()
+        public ShipmentFormStorekeeper(IWeatherService weatherService = null)
         {
             InitializeComponent();
+            WarehouseApp.ResponsiveFormHelper.Enable(this);
+            this.weatherService = weatherService ?? AppServices.Get<IWeatherService>();
             cartList = new BindingList<ShipmentViewItem>();
         }
 
@@ -63,37 +63,44 @@ namespace WarehouseApp.Forms
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnName,
+                HeaderText = LanguageManager.Text("ColumnName"),
                 DataPropertyName = "ProductName",
                 Width = 200
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnQuantity,
+                HeaderText = LanguageManager.Text("ColumnQuantity"),
                 DataPropertyName = "Quantity"
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnPricePerUnit,
+                HeaderText = $"{LanguageManager.Text("ColumnPricePerUnit")} ({Options.GetCurrencySymbol(Options.CurrentCurrency)})",
                 DataPropertyName = "PricePerUnit",
-                DefaultCellStyle = { Format = "C2" }
+                DefaultCellStyle = { Format = "0.00" }
             });
 
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnTotalAmount,
+                HeaderText = $"{LanguageManager.Text("ColumnTotalAmount")} ({Options.GetCurrencySymbol(Options.CurrentCurrency)})",
                 DataPropertyName = "TotalSum",
                 ReadOnly = true,
-                DefaultCellStyle = { Format = "C2" }
+                DefaultCellStyle = { Format = "0.00" }
             });
             dgv.Columns.Add(new DataGridViewTextBoxColumn
             {
-                HeaderText = Properties.Resources.ColumnAvailability,
+                HeaderText = LanguageManager.Text("ColumnAvailability"),
                 DataPropertyName = "CurrentStock",
                 ReadOnly = true,
                 DefaultCellStyle = { ForeColor = Color.Gray }
+            });
+            dgv.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                HeaderText = LanguageManager.Text("ColumnWeather"),
+                DataPropertyName = "WeatherRecommendation",
+                Width = 150,
+                ReadOnly = true
             });
             dgv.ReadOnly = true;
             foreach (DataGridViewColumn col in dgv.Columns)
@@ -121,7 +128,10 @@ namespace WarehouseApp.Forms
                     txtSearch.AutoCompleteCustomSource = source;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "SHIPMENT_AUTOCOMPLETE_LOAD_ERROR. Category: {Category}", "System");
+            }
         }
         private void buttonDeleteRow_Click(object sender, EventArgs e)
         {
@@ -132,16 +142,19 @@ namespace WarehouseApp.Forms
         }
         private void buttonBack_Click(object sender, EventArgs e)
         {
-            Close();
+            CloseShipmentForm();
         }
 
-
-        private void txtSearch_TextChanged(object sender, EventArgs e) { }
-
-        private void buttonToAddInTable_Click(object sender, EventArgs e)
+        private async void buttonToAddInTable_Click(object sender, EventArgs e)
         {
-            string productName = txtSearch.Text.Trim();
-            if (string.IsNullOrEmpty(productName)) return;
+            var productName = txtSearch.Text.Trim();
+            if (string.IsNullOrEmpty(productName))
+            {
+                logger.Warn("EMPTY_PRODUCT_SEARCH. Category: {Category}", "System", "Поле поиска товара не заполнено");
+                MessageBox.Show(Properties.Resources.FillAllFields);
+                txtSearch.Focus();
+                return;
+            }
 
             if (!int.TryParse(txtQuantity.Text, out int qty) || qty <= 0)
             {
@@ -149,6 +162,10 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.NegativeStockWarning);
                 return;
             }
+
+            var weatherRecommendation = await GetWeatherRecommendationAsync();
+            if (weatherRecommendation == null)
+                return;
 
             using (var db = new WarehouseContext())
             {
@@ -160,7 +177,7 @@ namespace WarehouseApp.Forms
                     return;
                 }
 
-                int alreadyInCart = cartList.Where(x => x.ProductId == product.IdProducts).Sum(x => x.Quantity);
+                var alreadyInCart = cartList.Where(x => x.ProductId == product.IdProducts).Sum(x => x.Quantity);
                 if (product.Stock < (qty + alreadyInCart))
                 {
                     logger.Warn("INSUFFICIENT_STOCK. Category: {Category}", "System", "Недостаточное количество товара на складе");
@@ -180,9 +197,10 @@ namespace WarehouseApp.Forms
                     {
                         ProductId = product.IdProducts,
                         ProductName = product.NameProduct,
-                        PricePerUnit = product.Price,
+                        PricePerUnit = Options.ConvertFromBase(product.Price),
                         Quantity = qty,
-                        CurrentStock = product.Stock
+                        CurrentStock = product.Stock,
+                        WeatherRecommendation = weatherRecommendation
                     });
                 }
 
@@ -195,7 +213,13 @@ namespace WarehouseApp.Forms
 
         private void buttonToHold_Click(object sender, EventArgs e)
         {
-            DateTime shipmentDate = datePicker.Value;
+            if (contractorOperationBlocked)
+            {
+                MessageBox.Show("Контрагент имеет запрещающий статус. Проведение отгрузки заблокировано.");
+                return;
+            }
+
+            var shipmentDate = datePicker.Value;
 
             if (shipmentDate < DateTime.Today)
             {
@@ -215,7 +239,7 @@ namespace WarehouseApp.Forms
                 MessageBox.Show(Properties.Resources.EmptyProductList);
                 return;
             }
-            string clientName = txtCustomer.Text.Trim();
+            var clientName = txtCustomer.Text.Trim();
             if (string.IsNullOrEmpty(clientName))
             {
                 logger.Warn("EMPTY_PRODUCT_LIST. Category: {Category}", "System", "Список товаров пуст");
@@ -253,7 +277,7 @@ namespace WarehouseApp.Forms
                         IdShipment = Guid.NewGuid(),
                         DateOfShipment = datePicker.Value,
                         IdClients = client.IdClients,
-                        PriceShipment = cartList.Sum(x => x.TotalSum),
+                        PriceShipment = cartList.Sum(x => Options.ConvertToBase(x.TotalSum)),
                         Status = ShipmentStatus.Shipped
                     };
 
@@ -272,7 +296,7 @@ namespace WarehouseApp.Forms
                                 IdShipment = newShipment.IdShipment,
                                 IdProducts = productDb.IdProducts,
                                 QuantityShipmentContents = item.Quantity,
-                                PriceShipmentContents = item.TotalSum
+                                PriceShipmentContents = Options.ConvertToBase(item.TotalSum)
                             };
 
                             db.ShipmentContents.Add(content);
@@ -310,7 +334,60 @@ namespace WarehouseApp.Forms
 
         private void buttonToBack_Click(object sender, EventArgs e)
         {
+            CloseShipmentForm();
+        }
+
+        private void CloseShipmentForm()
+        {
+            if (cartList.Count > 0)
+            {
+                logger.Warn("SHIPMENT_NOT_COMPLETED. Category: {Category}", "System", "Товар добавлен в список, но отгрузка не проведена");
+                MessageBox.Show(LanguageManager.CurrentLanguage == "ENG" ? "Warning! You added products to the list but did not process the shipment" : "Внимание! Вы добавили товар в список, но не провели отгрузку", Properties.Resources.WarningTitle, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             Close();
+        }
+
+        private async Task<string> GetWeatherRecommendationAsync()
+        {
+            if (cmbRegion.SelectedIndex < 0)
+            {
+                MessageBox.Show(LanguageManager.CurrentLanguage == "ENG" ? "Select recipient region" : "Выберите регион получателя");
+                cmbRegion.Focus();
+                return null;
+            }
+
+            var recommendation = await weatherService.GetRecommendationAsync(cmbRegion.SelectedItem.ToString());
+            if (recommendation == "Прогноз погоды временно недоступен" ||
+                recommendation == "Указанный регион не найден. Проверьте правильность названия")
+            {
+                MessageBox.Show(recommendation);
+                return "";
+            }
+
+            return recommendation;
+        }
+
+        private void btnCheckContractor_Click(object sender, EventArgs e)
+        {
+            var form = AppServices.Get<ContractorCheckForm>();
+            FormNavigationHelper.ShowDialog(this, form);
+            ApplyContractorCheckResult(form.LastResult);
+        }
+
+        private void ApplyContractorCheckResult(ContractorCheckResult result)
+        {
+            if (result == null)
+                return;
+
+            contractorOperationBlocked = result.ShouldBlockOperation;
+            buttonToHold.Enabled = !contractorOperationBlocked;
+
+            if (contractorOperationBlocked)
+            {
+                logger.Warn("SHIPMENT_BLOCKED_BY_CONTRACTOR_CHECK. Category: {Category}", "System");
+                MessageBox.Show("Контрагент имеет запрещающий статус. Проведение отгрузки заблокировано.");
+            }
         }
     }
 }
